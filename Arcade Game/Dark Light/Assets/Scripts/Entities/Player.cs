@@ -6,53 +6,37 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
-    //Mechanics 
+    //Mechanics:
     private int accel = 3; //default value for dash.
     private int health = 6; //default value got player health.
     private int damage = 1; //temp, may be moved to child class (sword/weapon).
-    private float xSpeed; //default value for movement on the x-axis.
+    private float xSpeed = 40f; //default value for movement on the x-axis.
     private float ySpeed; //default value for movement on the y-axis.
     private float gravity; //default value of gravity for player.
+    private float force; //default value of the force applied to the player.
+    private bool hasJumped = false; //default value for whether the player is on the ground or not.
     private bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     private bool dash = false; //activates and locks when dash hotkey is pressed.
     private bool attack = false; //activates and locks when attack hotkey is pressed.
     private bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
     private bool facing = true; //true = right, false = left. Changes depending on what face the player is changing.
-    //Counters
+
+    //Counters:
     private int iFCounter = 0; //counter for iFrame activation.
     private int aCounter = 0; //counter for attack activation.
     private int dCounter = 0; //counter for dash activation.
+
+    //Reference:
 
     public void Start() 
 	{
 	}
     public void FixedUpdate() //basic update cycle.
     {
-        Movement();
         Attack();
         Dash();
         IFrame();
         Health();
-    }
-    //[Header("Movement")]
-    public void Movement() //deals with input for movement.
-    {
-        if (Input.GetKeyDown("w"))
-        {
-
-        }
-        if (Input.GetKeyDown("a"))
-        {
-
-        }
-        if (Input.GetKeyDown("s"))
-        {
-
-        }
-        if (Input.GetKeyDown("d"))
-        {
-
-        }
     }
     //[Header("Attack")]
     public void Attack() //deals with attack activation sequence.

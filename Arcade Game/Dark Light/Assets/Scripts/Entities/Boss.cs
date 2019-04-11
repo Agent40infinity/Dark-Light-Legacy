@@ -99,8 +99,8 @@ namespace Boss
                 }
                 else
                 {
-                    Jump();
-                    print("Jump");
+                    //Jump();
+                    //print("Jump");
                 }
 			}
             if (attackReset == true)
@@ -153,14 +153,14 @@ namespace Boss
 			}
         }	
 
-		public void Jump()
-		{
-            aTimer = jumpV;
-			if (aTimer >= 0)
-			{
-				aTimer--;
-			}
-        }
+		//public void Jump()
+		//{
+        //    aTimer = jumpV;
+		//	if (aTimer >= 0)
+		//	{
+		//		aTimer--;
+		//	}
+        //}
 
 		public void Burst()
 		{
