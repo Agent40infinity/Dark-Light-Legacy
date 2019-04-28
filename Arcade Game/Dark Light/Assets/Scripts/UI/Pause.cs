@@ -10,12 +10,11 @@ namespace PauseMenu
     {
         #region Variables
         public static bool isPaused = false; //Checks whether or not the game is paused
-        public GameObject PauseMenuUI; //Creates reference for the pause menu
-        public bool quitTimer = false; //Checks whether or not the quit button has been pressed
-        public int qTimer = 0; //Timer for transition - quit
+        public GameObject pauseMenu, options, main, mainBackground; //Creates reference for the pause menu
+        public bool optionsTimer = false; //Checks whether or not the options button has been pressed
+        public int oTimer = 0; //Timer for transition - options
         public bool menuTimer = false; //Checks whether or not the menu button has been pressed
         public int mTimer = 0; //Timer for transition - menu
-        private int sceneID; //Creates personal reference to sceneID
         #endregion
 
         #region General
@@ -33,15 +32,14 @@ namespace PauseMenu
                 }
             }
 
-            if (quitTimer == true) //quit Game Transition
+            if (optionsTimer == true) //quit Game Transition
             {
-                qTimer++;
-                if (qTimer >= 120)
+                oTimer++;
+                if (oTimer >= 120)
                 {
-                    qTimer = 0;
-                    Application.Quit();
-                    //UnityEditor.EditorApplication.isPlaying = false;
-                    quitTimer = false;
+                    oTimer = 0;
+                    options.SetActive(true);
+                    optionsTimer = false;
                 }
             }
             if (menuTimer == true) //Menu Transition
@@ -51,7 +49,8 @@ namespace PauseMenu
                 {
                     mTimer = 0;
                     Time.timeScale = 1f;
-                    SceneManager.LoadScene(sceneID);
+                    main.SetActive(true);
+                    mainBackground.SetActive(true);
                     menuTimer = false;
                 }
             }
@@ -61,14 +60,14 @@ namespace PauseMenu
         #region Pause
         public void ResumeG() //Trigger for resuming game and resume button
         {
-            PauseMenuUI.SetActive(false);
+            pauseMenu.SetActive(false);
             Time.timeScale = 1f;
             isPaused = false;
         }
 
         public void PauseG() //Trigger for pausing game
         {
-            PauseMenuUI.SetActive(true);
+            pauseMenu.SetActive(true);
             Time.timeScale = 0f;
             isPaused = true;
         }
@@ -76,14 +75,14 @@ namespace PauseMenu
         public void Menu() //Trigger for menu button
         {
             menuTimer = true;
-            sceneID = 0;
         }
 
-        public void Quit() //Trigger for quit button
+        public void Options() //Trigger for Options button
         {
-            quitTimer = true;
+            optionsTimer = true;
         }
         #endregion
     }
 }
+
 

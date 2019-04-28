@@ -11,16 +11,16 @@ namespace MainMenu
     {
         #region Variables
         //General:
-        public GameObject menu, options; //Allows for reference to GameObjects Meny and Options
-        public bool toggle = false; //Toggle for switching between settings and main
-        public bool exitTimer = false; //Check whether or not the exit button has been pressed
-        public int eTimer = 0; //Timer for transition - exit
-        public bool loadTimer = false; //Checks whether or not the play button has been pressed
-        public int lTimer = 0; //Timer for transition - load game
-        private int sceneID; //Creates personal reference to the sceneID 
+        public GameObject main, mainBackground, Fade, options, general, video, audio, controls; //Allows for reference to GameObjects Meny and Options
+        //public bool toggle = false; //Toggle for switching between settings and main
+        //public int option = 0; //Changes between the 4 main screens in options.
+        public bool quitTimer = false; //Check whether or not the exit button has been pressed
+        public int qTimer = 0; //Timer for transition - exit
+        public bool startTimer = false; //Checks whether or not the play button has been pressed
+        public int sTimer = 0; //Timer for transition - load game
 
         //Settings:
-        public AudioMixer mainMixer; //Creates reference for the menu music
+        public AudioMixer masterMixer, musicMixer, effectsMixer; //Creates reference for the menu music
         Resolution[] resolutions; //Creates reference for all resolutions within Unity
         public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
         #endregion
@@ -52,66 +52,110 @@ namespace MainMenu
         public void Update()
         {
             //Debug.Log("Load: " + loadTimer + " - Exit: " + exitTimer);
-            if (Input.GetKey(KeyCode.M) == true) //Failsafe
+            //if (Input.GetKey(KeyCode.M) == true) //Failsafe
+            //{
+            //    toggle = false;
+            //}
+            if (quitTimer == true) //Exit Transition
             {
-                toggle = false;
-            }
-            if (exitTimer == true) //Exit Transition
-            {
-                eTimer++;
-                if (eTimer >= 120)
+                qTimer++;
+                if (qTimer >= 120)
                 {
-                    eTimer = 0;
+                    qTimer = 0;
                     Application.Quit();
-                    //UnityEditor.EditorApplication.isPlaying = false;
-                    exitTimer = false;
+                    UnityEditor.EditorApplication.isPlaying = false;
+                    quitTimer = false;
                 }
             }
-            if (loadTimer == true) //Play Transition
+            if (startTimer == true) //Play Transition
             {
-                lTimer++;
-                if (lTimer >= 120)
+                sTimer++;
+                if (sTimer >= 120)
                 {
-                    lTimer = 0;
-                    SceneManager.LoadScene(sceneID);
-                    loadTimer = false;
+                    sTimer = 0;
+                    main.SetActive(false);
+                    mainBackground.SetActive(false);
+                    startTimer = false;
+                    Fade.GetComponent<FadeController>().FadeIn();
                 }
             }
         }
         #endregion
 
         #region Main
-        public void LoadScene() //Trigger for Play Button
+        public void StartGame() //Trigger for Play Button
         {
-            loadTimer = true;
-            sceneID = 1;
+            startTimer = true;
+            Fade.GetComponent<FadeController>().FadeOut();
         }
 
-        public void Exit() //Trigger for Exit Button
+        public void Quit() //Trigger for Exit Button
         {
-            exitTimer = true;
+            quitTimer = true;
 
         }
 
-        public void ToggleOptions(bool toggle) //Trigger for Settings - sets active layer/pannel
+        public void Options(bool toggle) //Trigger for Settings - sets active layer/pannel
         {
             if (toggle == true)
             {
-                menu.SetActive(false);
+                main.SetActive(false);
                 options.SetActive(true);
             }
             else if (toggle == false)
             {
-                menu.SetActive(true);
+                main.SetActive(true);
                 options.SetActive(false);
             }
         }
         #endregion
 
         #region Settings
-        public void ChangeVolume(float volume) //Trigger for changing volume of game's music
+        public void ChangeBetween(int option) //Trigger for Settings - sets active layer/pannel
         {
-            mainMixer.SetFloat("volume", volume);
+            if (option == 0)
+            {
+                general.SetActive(true);
+                video.SetActive(false);
+                audio.SetActive(false);
+                controls.SetActive(false);
+            }
+            else if (option == 1)
+            {
+                general.SetActive(false);
+                video.SetActive(true);
+                audio.SetActive(false);
+                controls.SetActive(false);
+            }
+            else if (option == 2)
+            {
+                general.SetActive(false);
+                video.SetActive(false);
+                audio.SetActive(true);
+                controls.SetActive(false);
+            }
+            else if (option == 3)
+            {
+                general.SetActive(false);
+                video.SetActive(false);
+                audio.SetActive(false);
+                controls.SetActive(true);
+            }
+        }
+
+        public void MasterVolume(float volume) //Trigger for changing volume of game's master channel
+        {
+            masterMixer.SetFloat("volume", volume);
+        }
+
+        public void EffectsVolume(float volume) //Trigger for changing volume of game's sfx channel
+        {
+            effectsMixer.SetFloat("volume", volume);
+        }
+
+        public void MusicVolume(float volume) //Trigger for changing volume of game's music channel
+        {
+            musicMixer.SetFloat("volume", volume);
         }
 
         public void ChangeQuality(int qualityIndex) //Trigger for applying level of quality - detailing of objects

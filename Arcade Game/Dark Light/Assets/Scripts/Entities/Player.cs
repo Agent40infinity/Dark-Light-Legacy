@@ -8,11 +8,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //Mechanics:
-    private int accel = 3; //default value for dash.
-    private int health = 6; //default value got player health.
+    public static int curHealth; //Value for player's current health.
+    public static int maxHealth = 6; //default value for player's max health.
     private int damage = 1; //temp, may be moved to child class (sword/weapon).
     private bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
-    private bool dash = false; //activates and locks when dash hotkey is pressed.
     private bool attack = false; //activates and locks when attack hotkey is pressed.
     private bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
     private bool facing = true; //true = right, false = left. Changes depending on what face the player is changing.
@@ -33,11 +32,20 @@ public class Player : MonoBehaviour
 
     public void Start() 
 	{
+        curHealth = maxHealth;
 	}
+
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.P))
+        {
+            curHealth--;
+            Debug.Log("Health: " + curHealth);
+        }
+    }
     public void FixedUpdate() //basic update cycle.
     {
         Attack();
-        Dash();
         IFrame();
         Health();
     }
@@ -73,29 +81,13 @@ public class Player : MonoBehaviour
             
         }
     }
-    //[Header("Dash")]
-    public void Dash() //deals with the activation of dash.
-    {
-        if (Input.GetKeyDown("left shift"))
-        {
-            if (facing == true)
-            {
-                iFrame = true;
-                //vector2, required for movement, learn this. 
-            }
-            else
-            {
-                iFrame = true;
-                //vector2, required for movement, learn this. 
-            }
-        }
-    }
+
     public void IFrame() //deals with the activation of the iFrame after certain activations.
     {
         if (iFrame == true)
         {
             iFCounter++;
-            if (iFCounter <= 30*Time.deltaTime)
+            if (iFCounter <= 30)
             {
                 iFCounter = 0;
                 iFrame = false;
@@ -105,14 +97,15 @@ public class Player : MonoBehaviour
     //[Header("Health")]
     public void Health() //deals with health deduction and external UI changes.
     {
-        if (beenHit == true && iFrame == false && health >= 1)
+        if (beenHit == true && iFrame == false && curHealth >= 1)
         {
-            health--;
+            curHealth--;
             iFrame = true;
             beenHit = false;
         }
-        if (health == 0)
+        if (curHealth == 0)
         {
+            //Play death animation
             //UI.Gameover = true;
         }
     }
