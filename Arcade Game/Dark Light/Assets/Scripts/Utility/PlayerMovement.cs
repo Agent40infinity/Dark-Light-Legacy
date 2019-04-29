@@ -10,6 +10,7 @@ namespace Physics
         //Core:
         public float xSpeed = 12f; //default value for movement on the x-axis.
         public float ySpeed = 12f; //default value for movement on the y-axis.
+        public float yLimiter = 0.5f; //default value for the limiter placed on the y-axis.
         private float gravity; //default value of gravity for player.
         private float force; //default value of the force applied to the player.
         private bool isJumping; //Default value of whether the player is jumping.
@@ -19,6 +20,10 @@ namespace Physics
         public float accelSpeed = 4f; //default value for dash's speed.
         public bool dash = false;
         public bool lockMovement = false;
+        public bool lockYAxis = false;
+        public bool unlockYAxis = false;
+        public Vector2 tempGravity;
+        public Vector2 tempYVelocity;
 
         //Timers/Counters:
         private float aTTimer; //Air time timer.
@@ -27,6 +32,7 @@ namespace Physics
         public float dashTimeReset = 0.15f; //dash time reset
 
         //Reference:
+        public Object playerR;
         private Rigidbody2D rigid; //References the RigidBody2D for player.
         public Transform feetPos; //Used to reference the ground check for player.
         public LayerMask isWalkable; //Used to create reference to walkable objects.
@@ -38,10 +44,12 @@ namespace Physics
             rigid = GetComponent<Rigidbody2D>();
             dashTimer = dashTimeReset;
             isFacing = true; //Defaults the player to look right.
+            tempGravity = Physics2D.gravity;
         }
 
         public void Update()
         {
+            Debug.Log("Gravity before unlock: " + Physics2D.gravity);
             //Debug.Log("Facing Right? " + isFacing);
             //Debug.Log((int)Input.GetAxis("Horizontal"));
             if (lockMovement == false)
@@ -86,7 +94,7 @@ namespace Physics
             {
                 isJumping = true;
                 aTTimer = airTime;
-                rigid.velocity = Vector2.up * ySpeed;
+                rigid.velocity = Vector2.up * ySpeed * yLimiter;
             }
             if (Input.GetKey(KeyCode.Space) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
             {
@@ -114,8 +122,8 @@ namespace Physics
             {
                 if (dashTimer >= 0) //Checks if the dash timer is being counted.
                 {
-                    //Physics2D.gravity = Vector2.zero;
-                    //enable y axis lock here.
+                    //playerR.GetComponent<Player>().IFrame();
+                    lockYAxis = true;//enable y axis lock here.
                     dashTimer -= Time.deltaTime;
                     if (isFacing == true) //Checks what direction the dash is being activated from and acts accordingly.
                     {
@@ -130,11 +138,28 @@ namespace Physics
                 }
                 else //Disables Dash. 
                 {
-                    //Disable y axis lock here.
+                    unlockYAxis = true; //disable y axis lock here.
                     dashTimer = dashTimeReset;
                     dash = false;
                     lockMovement = false;
                 }
+            }
+
+            if (lockYAxis == true)
+            {
+                //tempGravity = Physics2D.gravity;
+                Physics2D.gravity = Vector2.zero;
+                //Debug.Log("Gravity: " + Physics2D.gravity);
+                tempYVelocity = rigid.velocity;
+                rigid.velocity = new Vector2(tempYVelocity.x, 0);
+                lockYAxis = false;
+            }
+            if (unlockYAxis == true)
+            {
+                //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
+                Physics2D.gravity = tempGravity;
+                rigid.velocity = tempYVelocity;
+                unlockYAxis = false; ;
             }
         }
         #endregion

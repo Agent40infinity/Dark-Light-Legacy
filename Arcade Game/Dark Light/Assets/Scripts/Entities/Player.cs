@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         if (iFrame == true)
         {
             iFCounter++;
-            if (iFCounter <= 30)
+            if (iFCounter <= 60)
             {
                 iFCounter = 0;
                 iFrame = false;
