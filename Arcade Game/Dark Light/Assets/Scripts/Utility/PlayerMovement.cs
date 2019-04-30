@@ -19,6 +19,9 @@ namespace Physics
         public float checkRadius; //Creates a radius to check for the ground.
         public float accelSpeed = 4f; //default value for dash's speed.
         public bool dash = false;
+		public bool canDash = true;
+		public bool dashReset = false;
+		public bool dashCooldown = false;
         public bool lockMovement = false;
         public bool lockYAxis = false;
         public bool unlockYAxis = false;
@@ -30,6 +33,8 @@ namespace Physics
         public float airTime = 0.1f; //Air time counter.
         public float dashTimer; //Dash time timer
         public float dashTimeReset = 0.15f; //dash time reset
+		public float dashCTime = 0.5f;
+		public float dCTimer = 0.5f; 
 
         //Reference:
         public Object playerR;
@@ -83,10 +88,30 @@ namespace Physics
             {
                 isFacing = true;
             }
+			if (dashCooldown == true)
+			{
+				if (dashCooldown >= 0)
+				{
+					dCTimer -= Time.deltaTime;
+				}
+				else 
+				{
+					dCTimer = dashCTime;
+					dashReset = true;
+					dashCooldown = false;
+				}
+			}
+			if (isGrounded == true && dashReset == true)
+			{
+				canDash = true;
+			}
             if (Input.GetKeyDown(KeyCode.LeftShift)) //Checks whether or not the player is attempting to dash.
             {
-                dash = true;
-                lockMovement = true;
+				if (canDash == true)
+				{
+					dash = true;
+					lockMovement = true;
+				}
             }
 
             isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, isWalkable); //Checks for if the player is grounded or not.
@@ -140,8 +165,9 @@ namespace Physics
                 {
                     unlockYAxis = true; //disable y axis lock here.
                     dashTimer = dashTimeReset;
+					lockMovement = false;
+					dashCooldown = true;
                     dash = false;
-                    lockMovement = false;
                 }
             }
 
@@ -173,3 +199,7 @@ namespace Physics
         #endregion
     }
 }
+
+
+
+
