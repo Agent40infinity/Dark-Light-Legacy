@@ -33,8 +33,8 @@ namespace Physics
         public float airTime = 0.1f; //Air time counter.
         public float dashTimer; //Dash time timer
         public float dashTimeReset = 0.15f; //dash time reset
-		public float dashCTime = 0.5f;
-		public float dCTimer = 0.5f; 
+		public float dashCTime = 1f;
+		public float dCTimer = 1f; 
 
         //Reference:
         public Object playerR;
@@ -90,7 +90,7 @@ namespace Physics
             }
 			if (dashCooldown == true)
 			{
-				if (dashCooldown >= 0)
+				if (dCTimer >= 0)
 				{
 					dCTimer -= Time.deltaTime;
 				}
@@ -149,6 +149,7 @@ namespace Physics
                 {
                     //playerR.GetComponent<Player>().IFrame();
                     lockYAxis = true;//enable y axis lock here.
+					canDash = false;
                     dashTimer -= Time.deltaTime;
                     if (isFacing == true) //Checks what direction the dash is being activated from and acts accordingly.
                     {
