@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
     private bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     private bool attack = false; //activates and locks when attack hotkey is pressed.
     private bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
-    private bool facing = true; //true = right, false = left. Changes depending on what face the player is changing.
 
     //Attacking:
     private float attackCooldown;
@@ -27,6 +26,7 @@ public class Player : MonoBehaviour
     private int dCounter = 0; //counter for dash activation.
 
     //Reference:
+    public GameObject player;
     public Transform attackPos;
     public LayerMask isEnemy;
 
@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
         Attack();
         IFrame();
         Health();
+        FaceCheck();
     }
 
     void OnDrawGizmosSelected()
@@ -55,7 +56,19 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
-    //[Header("Attack")]
+
+    public void FaceCheck()
+    {
+        if (player.GetComponent<PlayerMovement>().isFacing == true)
+        {
+            attackPos.position = new Vector2(player.transform.position.x + 1, player.transform.position.y);
+        }
+        else
+        {
+            attackPos.position = new Vector2(player.transform.position.x -1, player.transform.position.y);
+        }
+    }
+
     public void Attack() //deals with attack activation sequence.
     {
         if (attackCooldown <= 0)

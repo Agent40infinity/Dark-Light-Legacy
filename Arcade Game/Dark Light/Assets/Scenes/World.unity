@@ -130,7 +130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &14527477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1835,6 +1835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 1
+  player: {fileID: 681664074}
   attackPos: {fileID: 1408833669}
   isEnemy:
     serializedVersion: 2
@@ -1965,6 +1966,7 @@ MonoBehaviour:
   xSpeed: 12
   ySpeed: 12
   yLimiter: 0.5
+  isFacing: 0
   checkRadius: 0.3
   accelSpeed: 4
   dash: 0
@@ -1979,8 +1981,8 @@ MonoBehaviour:
   airTime: 0.1
   dashTimer: 0
   dashTimeReset: 0.15
-  dashCTime: 1
-  dCTimer: 1
+  dashCTime: 0.5
+  dCTimer: 0.5
   playerR: {fileID: 0}
   feetPos: {fileID: 918328630}
   isWalkable:

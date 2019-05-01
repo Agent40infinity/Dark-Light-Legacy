@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Physics
-{
     public class PlayerMovement : MonoBehaviour
     {
         #region Variables
@@ -14,7 +12,7 @@ namespace Physics
         private float gravity; //default value of gravity for player.
         private float force; //default value of the force applied to the player.
         private bool isJumping; //Default value of whether the player is jumping.
-        private bool isFacing; //What direction is the player facing? true = right, false = left.
+        public bool isFacing; //What direction is the player facing? true = right, false = left.
         private bool isGrounded; //default value for whether the player is on the ground or not.
         public float checkRadius; //Creates a radius to check for the ground.
         public float accelSpeed = 4f; //default value for dash's speed.
@@ -33,8 +31,8 @@ namespace Physics
         public float airTime = 0.1f; //Air time counter.
         public float dashTimer; //Dash time timer
         public float dashTimeReset = 0.15f; //dash time reset
-		public float dashCTime = 1f;
-		public float dCTimer = 1f; 
+		public float dashCTime = 0.5f;
+		public float dCTimer = 0.5f; 
 
         //Reference:
         public Object playerR;
@@ -83,6 +81,7 @@ namespace Physics
             if ((int)Input.GetAxisRaw("Horizontal") == -1) //Determines whether or not the player is Facing left.
             {
                 isFacing = false;
+
             }
             else if ((int)Input.GetAxisRaw("Horizontal") == 1) //Determines whether or not the player is Facing right.
             {
@@ -92,6 +91,7 @@ namespace Physics
 			{
 				if (dCTimer >= 0)
 				{
+                    Debug.Log(dCTimer);
 					dCTimer -= Time.deltaTime;
 				}
 				else 
@@ -104,6 +104,7 @@ namespace Physics
 			if (isGrounded == true && dashReset == true)
 			{
 				canDash = true;
+                dashReset = false;
 			}
             if (Input.GetKeyDown(KeyCode.LeftShift)) //Checks whether or not the player is attempting to dash.
             {
@@ -199,7 +200,6 @@ namespace Physics
         }
         #endregion
     }
-}
 
 
 
