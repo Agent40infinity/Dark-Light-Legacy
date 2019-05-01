@@ -1965,8 +1965,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSpeed: 12
   ySpeed: 12
-  yLimiter: 0.5
+  yLimiter: 0.1
   isFacing: 0
+  isGrounded: 0
   checkRadius: 0.3
   accelSpeed: 4
   dash: 0

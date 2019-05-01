@@ -59,13 +59,21 @@ public class Player : MonoBehaviour
 
     public void FaceCheck()
     {
-        if (player.GetComponent<PlayerMovement>().isFacing == true)
+        if ((int)Input.GetAxisRaw("Vertical") == 1)
+        {
+            attackPos.position = new Vector2(player.transform.position.x, player.transform.position.y + 1.5f);
+        }
+        else if ((int)Input.GetAxisRaw("Vertical") == -1 && player.GetComponent<PlayerMovement>().isGrounded == false)
+        {
+            attackPos.position = new Vector2(player.transform.position.x, player.transform.position.y - 1.5f);
+        }
+        else if (player.GetComponent<PlayerMovement>().isFacing == true)
         {
             attackPos.position = new Vector2(player.transform.position.x + 1, player.transform.position.y);
         }
         else
         {
-            attackPos.position = new Vector2(player.transform.position.x -1, player.transform.position.y);
+            attackPos.position = new Vector2(player.transform.position.x - 1, player.transform.position.y);
         }
     }
 
@@ -73,7 +81,7 @@ public class Player : MonoBehaviour
     {
         if (attackCooldown <= 0)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.E))
             {
                 Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackPos.position, attackRange, isEnemy);
                 for (int i = 0; i < enemiesInRange.Length; i++)

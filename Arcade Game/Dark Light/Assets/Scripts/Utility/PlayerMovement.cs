@@ -13,7 +13,7 @@ using UnityEngine;
         private float force; //default value of the force applied to the player.
         private bool isJumping; //Default value of whether the player is jumping.
         public bool isFacing; //What direction is the player facing? true = right, false = left.
-        private bool isGrounded; //default value for whether the player is on the ground or not.
+        public bool isGrounded; //default value for whether the player is on the ground or not.
         public float checkRadius; //Creates a radius to check for the ground.
         public float accelSpeed = 4f; //default value for dash's speed.
         public bool dash = false;
@@ -118,9 +118,9 @@ using UnityEngine;
             isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, isWalkable); //Checks for if the player is grounded or not.
             if (isGrounded == true && Input.GetKeyDown(KeyCode.Space)) //Checks if the player is grounded and space has been pressed - light jump.
             {
-                isJumping = true;
-                aTTimer = airTime;
                 rigid.velocity = Vector2.up * ySpeed * yLimiter;
+                aTTimer = airTime;
+                isJumping = true;
             }
             if (Input.GetKey(KeyCode.Space) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
             {
