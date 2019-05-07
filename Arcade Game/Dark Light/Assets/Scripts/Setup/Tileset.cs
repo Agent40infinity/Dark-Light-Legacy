@@ -107,7 +107,7 @@ namespace Tileset
                     switch (tileset_Layer1[y, x]) //Generation for Tileset Layer 1
                     {
                         case 0:
-                            Instantiate(tile_32, new Vector3(x, y, 0), transform.rotation);
+                            //Instantiate(tile_32, new Vector3(x, y, 0), transform.rotation);
                             break;
                         case 1:
                             Instantiate(dark, new Vector3(x, y, 0), transform.rotation);
@@ -131,7 +131,7 @@ namespace Tileset
                     switch (tileset_Layer2[y, x]) //Generation for Tileset Layer 2
                     {
                         case 0:
-                            Instantiate(tile_32, new Vector3(x, y, 2), transform.rotation);
+                            //Instantiate(tile_32, new Vector3(x, y, 2), transform.rotation);
                             break;
                         case 1:
                             Instantiate(dark, new Vector3(x, y, 2), transform.rotation);
@@ -155,7 +155,7 @@ namespace Tileset
                     switch (tileset_Layer3[y, x]) //Generation for Tileset Layer 3
                     {
                         case 0:
-                            Instantiate(tile_32, new Vector3(x, y, 4), transform.rotation);
+                            //Instantiate(tile_32, new Vector3(x, y, 4), transform.rotation);
                             break;
                         case 1:
                             Instantiate(dark, new Vector3(x, y, 4), transform.rotation);
