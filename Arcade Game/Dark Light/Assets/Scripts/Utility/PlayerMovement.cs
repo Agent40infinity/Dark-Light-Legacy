@@ -6,36 +6,35 @@ using UnityEngine;
     {
         #region Variables
         //Core:
-        public float xSpeed = 12f; //default value for movement on the x-axis.
-        public float ySpeed = 12f; //default value for movement on the y-axis.
-        public float yLimiter = 0.5f; //default value for the limiter placed on the y-axis.
-        private float gravity; //default value of gravity for player.
-        private float force; //default value of the force applied to the player.
+        public float xSpeed = 12f; //Default value for movement on the x-axis.
+        public float ySpeed = 12f; //Default value for movement on the y-axis.
+        public float yLimiter = 0.5f; //Default value for the limiter placed on the y-axis.
+        private float gravity; //Default value of gravity for player.
+        private float force; //Default value of the force applied to the player.
         private bool isJumping; //Default value of whether the player is jumping.
         public bool isFacing; //What direction is the player facing? true = right, false = left.
-        public bool isGrounded; //default value for whether the player is on the ground or not.
+        public bool isGrounded; //Default value for whether the player is on the ground or not.
         public float checkRadius; //Creates a radius to check for the ground.
-        public float accelSpeed = 4f; //default value for dash's speed.
-        public bool dash = false;
-		public bool canDash = true;
-		public bool dashReset = false;
-		public bool dashCooldown = false;
-        public bool lockMovement = false;
-        public bool lockYAxis = false;
-        public bool unlockYAxis = false;
-        public Vector2 tempGravity;
-        public Vector2 tempYVelocity;
+        public float accelSpeed = 4f; //Default value for dash's speed.
+        public bool dash = false; //Used to call upon the sub-routine (dash).
+		public bool canDash = true; //Used to check whether or not the player is able to dash.
+		public bool dashReset = false; //Used to see whether or not the dash can be reset.
+		public bool dashCooldown = false; //Used to see whether or not the dash is on cooldown.
+        public bool lockMovement = false; //Used to check whether or not all movment is required to be locked.
+        public bool lockYAxis = false; //Used to lock the Y Axis.
+        public bool unlockYAxis = false; //Used to Unlock the Y Axis.
+        public Vector2 tempGravity; //Used to temporarily store the value of gravity.
+        public Vector2 tempYVelocity; //Used to temporarily store the value of the Y velocity.
 
         //Timers/Counters:
         private float aTTimer; //Air time timer.
         public float airTime = 0.1f; //Air time counter.
-        public float dashTimer; //Dash time timer
-        public float dashTimeReset = 0.15f; //dash time reset
-		public float dashCTime = 0.5f;
-		public float dCTimer = 0.5f; 
+        public float dashTimer; //Dash time timer.
+        public float dashTimeReset = 0.15f; //Dash time reset.
+		public float dashCTime = 0.5f; //Dash cooldown reset.
+		public float dCTimer = 0.5f; //Dash cooldown timer
 
         //Reference:
-        public Object playerR;
         private Rigidbody2D rigid; //References the RigidBody2D for player.
         public Transform feetPos; //Used to reference the ground check for player.
         public LayerMask isWalkable; //Used to create reference to walkable objects.
@@ -87,7 +86,7 @@ using UnityEngine;
             {
                 isFacing = true;
             }
-			if (dashCooldown == true)
+			if (dashCooldown == true)  //Puts dash on cooldown.
 			{
 				if (dCTimer >= 0)
 				{
@@ -101,7 +100,7 @@ using UnityEngine;
 					dashCooldown = false;
 				}
 			}
-			if (isGrounded == true && dashReset == true)
+			if (isGrounded == true && dashReset == true) //Resets the Dash 
 			{
 				canDash = true;
                 dashReset = false;
@@ -148,7 +147,7 @@ using UnityEngine;
             {
                 if (dashTimer >= 0) //Checks if the dash timer is being counted.
                 {
-                    //playerR.GetComponent<Player>().IFrame();
+                    GetComponent<Player>().IFrame();
                     lockYAxis = true;//enable y axis lock here.
 					canDash = false;
                     dashTimer -= Time.deltaTime;
