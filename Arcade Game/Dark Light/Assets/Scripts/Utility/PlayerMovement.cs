@@ -202,7 +202,7 @@ using UnityEngine;
         #region Movement - Fixed
         public void MovementF() //Fixed Movement - Allows for horizontal input and movement.
         {
-            force = Input.GetAxisRaw("Horizontal");
+            force = Input.GetAxisRaw("Horizontal"); //nigga you gay
             rigid.velocity = new Vector2(force * xSpeed, rigid.velocity.y);
         }
         #endregion
