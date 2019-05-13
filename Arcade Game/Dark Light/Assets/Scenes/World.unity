@@ -1913,7 +1913,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: e56cf9fbb47252443ac9033f2e7a7edd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1965,7 +1965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSpeed: 12
   ySpeed: 12
-  yLimiter: 0.1
+  yLimiter: 1
   isFacing: 0
   isGrounded: 0
   checkRadius: 0.3
@@ -1980,6 +1980,8 @@ MonoBehaviour:
   tempGravity: {x: 0, y: 0}
   tempYVelocity: {x: 0, y: 0}
   airTime: 0.1
+  aHTimer: 0
+  airHTime: 0
   dashTimer: 0
   dashTimeReset: 0.15
   dashCTime: 0.5
@@ -5337,13 +5339,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_SortingOrder: 11
+  m_Sprite: {fileID: 21300000, guid: 987163fab5976a0448c27081437e17a9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0

@@ -29,6 +29,8 @@ using UnityEngine;
         //Timers/Counters:
         private float aTTimer; //Air time timer.
         public float airTime = 0.1f; //Air time counter.
+        public int aHTimer;
+        public int airHTime = 5;
         public float dashTimer; //Dash time timer.
         public float dashTimeReset = 0.15f; //Dash time reset.
 		public float dashCTime = 0.5f; //Dash cooldown reset.
@@ -135,7 +137,13 @@ using UnityEngine;
             }
             if (Input.GetKeyUp(KeyCode.Space)) //Makes sure jumping isn't active when space isn't pressed.
             {
-                isJumping = false;
+                Vector2 jX = rigid.velocity;
+                if (rigid.velocity.y >= yLimiter)
+                {
+                    rigid.velocity = new Vector2(jX.x, 0);
+                    isJumping = false;
+                }
+
             }
         }
         #endregion
