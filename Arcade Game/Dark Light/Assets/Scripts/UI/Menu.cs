@@ -21,7 +21,7 @@ namespace MainMenu
 
         //Settings:
         public AudioMixer masterMixer, musicMixer, effectsMixer; //Creates reference for the menu music
-        Resolution[] resolutions; //Creates reference for all resolutions within Unity
+        Resolution[] resolutions; //Creates reference   for all resolutions within Unity
         public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
         #endregion
 
