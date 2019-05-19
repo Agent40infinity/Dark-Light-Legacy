@@ -151,7 +151,7 @@ using UnityEngine;
         #region Dash - Update
         public void Dash() //Movement: Dash - Allows the player to dash forward.
         {
-            if (dash == true) //Double check that dash is activated.
+            if (dash == true) //Double check that dash is activated.S
             {
                 if (dashTimer >= 0) //Checks if the dash timer is being counted.
                 {
