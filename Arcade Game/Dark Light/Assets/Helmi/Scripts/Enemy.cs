@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Range Attributes")]
 
     public float range = 2f;
-    private bool playerInsideRange = false;
+    public bool playerInsideRange = false;
 
     [Header("Patrol Attributes")]
 
@@ -51,6 +51,8 @@ public class Enemy : MonoBehaviour
                 Patrol();
                 break;
         }
+
+        PlayerInsideRange();
     }
 
     void Patrol()
@@ -102,7 +104,14 @@ public class Enemy : MonoBehaviour
 
         if(playerShortestDistance <= range)
         {
+            currentState = State.Seek;
             Debug.Log("PLAYER IS INSIDE THE RANGE");
+            playerInsideRange = true;
+        }
+        else
+        {
+            currentState = State.Patrol;
+            playerInsideRange = false;
         }
     }
 
