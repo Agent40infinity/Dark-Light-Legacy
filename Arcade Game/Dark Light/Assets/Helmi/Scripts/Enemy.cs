@@ -11,8 +11,8 @@ public class Enemy : MonoBehaviour
 
     [Header("Enemy Range Attributes")]
 
-    public float range = 2f;
-    public bool playerInsideRange = false;
+    public float distanceDetector = 5f;
+    public Transform playerDetector;
 
     [Header("Patrol Attributes")]
 
@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     [Header("Chasing Player Attributes")]
 
     public Transform player;
+    public Transform ChaseDot;
 
     public enum State
     {
@@ -57,25 +58,39 @@ public class Enemy : MonoBehaviour
 
     void Patrol()
     {
-        transform.Translate(Vector2.right * speed * Time.deltaTime);
         BaseEnemyMovement();
     }
 
     void BaseEnemyMovement()
     {
+        // Ground dectetor detects ground collider
         RaycastHit2D groundHit = Physics2D.Raycast(groundDetector.position, Vector2.down, rayCastDistance);
 
-        if (groundHit.collider == false)
+        // When there is ground collider, the ground detector wil do this 
+        if (groundHit.collider == true)
         {
+            // Moves enemy to right
+            transform.Translate(Vector2.right * speed * Time.deltaTime);
+        }
+
+        // When there is no ground collider, the ground detector will do this
+        else
+        {
+            // When enemy moves right
             if (moveRight == true)
             {
+                // Rotates enemy 180 degrees
                 transform.eulerAngles = new Vector3(0, -180, 0);
+                // Now enemy moves left
                 moveRight = false;
             }
 
+            // When enemy moves left
             else
             {
+                // Rotates enemy back to original 
                 transform.eulerAngles = new Vector3(0, 0, 0);
+                // Now enemy moves right
                 moveRight = true;
             }
         }
@@ -83,41 +98,33 @@ public class Enemy : MonoBehaviour
 
     void SeekPlayer()
     {
-        transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, ChaseDot.position, (speed * Time.deltaTime) / speed);
         BaseEnemyMovement();
     }
 
     void PlayerInsideRange()
     {
-        // Setting this to infinity because the player is not within the enemy range 
-        float playerShortestDistance = Mathf.Infinity;
-        
-        // Distance between enemy and player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        
-        // If the distance between the enemy and tower is less than the shortestdistance (distance to enemy will always be less than the shortest distance since it's infinity).
-        if (distanceToPlayer < playerShortestDistance)
-        {
-            // Getting the shortest distance of the player (So within the range)
-            playerShortestDistance = distanceToPlayer;
-        }
+        RaycastHit2D playerHit = Physics2D.Raycast(playerDetector.position, Vector2.right, distanceDetector);
 
-        if(playerShortestDistance <= range)
+        if (playerHit.collider == true)
         {
             currentState = State.Seek;
-            Debug.Log("PLAYER IS INSIDE THE RANGE");
-            playerInsideRange = true;
         }
         else
         {
             currentState = State.Patrol;
-            playerInsideRange = false;
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+
+    // Don't how to draw a line so I'll use Sphere XD
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
+        Gizmos.DrawWireSphere(transform.position, distanceDetector);
     }
 }
