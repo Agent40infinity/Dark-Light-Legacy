@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovementNew : MonoBehaviour
     {
         #region Variables
         //Core:
         public float xSpeed = 12f; //Default value for movement on the x-axis.
-        public float ySpeed = 14f; //Default value for movement on the y-axis.
+        public float ySpeed = 0f; //Default value for movement on the y-axis.
         public float yLimiter = 0.5f; //Default value for the limiter placed on the y-axis.
-        private float gravity; //Default value of gravity for player.
+        public float gravity = -3; //Default value of gravity for player.
+        public float jumpForce;
         private float force; //Default value of the force applied to the player.
-        private bool isJumping; //Default value of whether the player is jumping.
         public bool isFacing; //What direction is the player facing? true = right, false = left.
         public bool isGrounded; //Default value for whether the player is on the ground or not.
+        public bool isJumping; //Default value of whether the player is jumping.
         public float checkRadius; //Creates a radius to check for the ground.
         public float accelSpeed = 4f; //Default value for dash's speed.
         public bool dash = false; //Used to call upon the sub-routine (dash).
@@ -71,6 +72,20 @@ using UnityEngine;
 
         public void FixedUpdate()
         {
+            
+        if (!isGrounded) {
+            gravity -= .15f;
+            ySpeed += gravity;
+        }
+        else
+        {
+            ySpeed = 0;
+            gravity = 0;
+            isJumping = false;
+        }
+
+        ySpeed = Mathf.Clamp(ySpeed, -40, 50);
+
         if (lockMovement == false)
             {
                 MovementF();
@@ -121,9 +136,11 @@ using UnityEngine;
             isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, isWalkable); //Checks for if the player is grounded or not.
             if (isGrounded == true && Input.GetKeyDown(KeyCode.Space)) //Checks if the player is grounded and space has been pressed - light jump.
             {
-                rigid.velocity = Vector2.up * ySpeed * yLimiter;
+            //rigid.velocity = Vector2.up * ySpeed * yLimiter;
+                ySpeed += jumpForce;
                 aTTimer = airTime;
-                isJumping = true;
+                //isJumping = true;
+                isGrounded = false;
             }
             if (Input.GetKey(KeyCode.Space) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
             {
@@ -137,12 +154,17 @@ using UnityEngine;
                     isJumping = false;
                 }
             }
+        //if (timer >= 12)
+        //{
+        //    Physics2D.gravity = new Vector2(0, 12.8f);
+        //}
             if (Input.GetKeyUp(KeyCode.Space)) //Makes sure jumping isn't active when space isn't pressed.
             {
                 Vector2 jX = rigid.velocity;
                 if (rigid.velocity.y >= yLimiter)
                 {
-                    rigid.velocity = new Vector2(jX.x, 0);
+                //rigid.velocity = new Vector2(jX.x, 0);
+                ySpeed = 0;
                     isJumping = false;
                 }
 
@@ -205,7 +227,7 @@ using UnityEngine;
         public void MovementF() //Fixed Movement - Allows for horizontal input and movement.
         {
             force = Input.GetAxisRaw("Horizontal"); 
-            rigid.velocity = new Vector2(force * xSpeed, rigid.velocity.y);
+            rigid.velocity = new Vector2(force * xSpeed, ySpeed);
         }
         #endregion
     }
