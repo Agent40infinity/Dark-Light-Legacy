@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovementSwitch : MonoBehaviour
     {
     #region Variables
     //Core:
@@ -160,6 +160,7 @@ using UnityEngine;
             {
                 GetComponent<Player>().IFrame();
                 lockYAxis = true;//enable y axis lock here.
+                                 //locks = YoloMotherFucker.yLocked;
                 canDash = false;
                 dashTimer -= Time.deltaTime;
                 if (isFacing == true) //Checks what direction the dash is being activated from and acts accordingly.
@@ -176,6 +177,8 @@ using UnityEngine;
             else //Disables Dash. 
             {
                 unlockYAxis = true; //disable y axis lock here.
+                //locks = YoloMotherFucker.xLocked;
+
                 dashTimer = dashTimeReset;
                 lockMovement = false;
                 dashCooldown = true;
@@ -199,6 +202,31 @@ using UnityEngine;
             rigid.velocity = tempYVelocity;
             unlockYAxis = false;
         }
+        //switch (locks)
+        //    {
+        //    case YoloMotherFucker.unlocked:
+
+        //    break;
+        //    case YoloMotherFucker.yLocked:
+        //        tempGravity = Physics2D.gravity;
+        //        Physics2D.gravity = Vector2.zero;
+        //        //Debug.Log("Gravity: " + Physics2D.gravity);
+        //        tempYVelocity = rigid.velocity;
+        //        rigid.velocity = new Vector2(tempYVelocity.x, 0);
+        //        lockYAxis = false;
+        //        break;
+        //    case YoloMotherFucker.xLocked:
+        //        Debug.Log("Gravity before unlock: " + Physics2D.gravity);
+        //        Physics2D.gravity = tempGravity;
+        //        rigid.velocity = tempYVelocity;
+        //        unlockYAxis = false;
+        //        break;
+        //    case YoloMotherFucker.locked:
+
+        //        break;
+
+        //}
+
     }
         #endregion
 
@@ -210,6 +238,13 @@ using UnityEngine;
         }
         #endregion
     }
+//public enum YoloMotherFucker
+//{
+//    unlocked,
+//    yLocked,
+//    xLocked,
+//    locked
+//}
 
 
 
