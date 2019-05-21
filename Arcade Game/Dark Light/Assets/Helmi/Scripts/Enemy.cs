@@ -4,73 +4,79 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    #region Variables
     [Header("Base Enemy Attributes")]
 
     public State currentState;
-    public float speed = 5f;
+    public float initialSpeed = 5f;
+    private float _speed;
 
-    [Header("Enemy Range Attributes")]
+    [Header("Patrol & Chasing Attributes")]
 
-    public float distanceDetector = 5f;
-    public Transform playerDetector;
-
-    [Header("Patrol Attributes")]
-
-    public float rayCastDistance = 2f;
+    public float groundDetectorDistance = 2f;
+    public float playerDetectorDistance = 5f;   
     private bool moveRight = true;
     public Transform groundDetector;
+    public Transform playerDetector;
 
-    [Header("Chasing Player Attributes")]
+    [Header("Enemy Hitbox Attributes")]
+
+    public float hitBoxRange = 1.5f;
+    public Transform hitDetector;
+
+    [Header("All Player Attributes")]
 
     public Transform player;
-    public Transform ChaseDot;
+    public Transform chaseDot;
+    #endregion
 
-    public enum State
-    {
-        Patrol,
-        Seek
-    }
-
+    #region Start
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
+        groundDetector = GameObject.Find("GroundDetector").transform;
+        playerDetector = GameObject.Find("PlayerDetector").transform;
+        hitDetector = GameObject.Find("HitDetector").transform;
+        chaseDot = GameObject.Find("ChaseDot").transform;
+        _speed = initialSpeed;
         currentState = State.Patrol;
     }
+    #endregion
 
+    #region Update
     // Update is called once per frame
     void Update()
     {
         switch (currentState)
         {
             case State.Patrol:
-                Patrol();
+                BaseEnemyMovement();
                 break;
             case State.Seek:
                 SeekPlayer();
                 break;
+            case State.hit:
+                break;
             default:
-                Patrol();
+                BaseEnemyMovement();
                 break;
         }
 
         PlayerInsideRange();
     }
+    #endregion
 
-    void Patrol()
-    {
-        BaseEnemyMovement();
-    }
-
+    #region Base Enemy Movement
     void BaseEnemyMovement()
     {
         // Ground dectetor detects ground collider
-        RaycastHit2D groundHit = Physics2D.Raycast(groundDetector.position, Vector2.down, rayCastDistance);
+        RaycastHit2D groundHit = Physics2D.Raycast(groundDetector.position, Vector2.down, groundDetectorDistance);
 
         // When there is ground collider, the ground detector wil do this 
         if (groundHit.collider == true)
         {
             // Moves enemy to right
-            transform.Translate(Vector2.right * speed * Time.deltaTime);
+            transform.Translate(Vector2.right * _speed * Time.deltaTime);
         }
 
         // When there is no ground collider, the ground detector will do this
@@ -95,16 +101,22 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region Seeking Player
     void SeekPlayer()
     {
-        transform.position = Vector2.MoveTowards(transform.position, ChaseDot.position, (speed * Time.deltaTime) / speed);
+        float speedSeek = (_speed / _speed) * Time.deltaTime;
+        transform.position = Vector2.MoveTowards(transform.position, chaseDot.position, speedSeek);
         BaseEnemyMovement();
     }
+    #endregion
 
+    #region When Player Inside any ranges
     void PlayerInsideRange()
     {
-        RaycastHit2D playerHit = Physics2D.Raycast(playerDetector.position, Vector2.right, distanceDetector);
+        #region Chase player or not
+        RaycastHit2D playerHit = Physics2D.Raycast(playerDetector.position, Vector2.right, playerDetectorDistance);
 
         if (playerHit.collider == true)
         {
@@ -114,17 +126,52 @@ public class Enemy : MonoBehaviour
         {
             currentState = State.Patrol;
         }
-    }
+        #endregion
 
-    private void OnCollisionEnter(Collision collision)
+        #region Enemy stops when close to player or not
+        // the distance between enemy and player
+        float distanceToPlayer = Vector2.Distance(hitDetector.position, player.position);
+
+        // If player inside the hit box range
+        if(distanceToPlayer <= hitBoxRange)
+        {
+            currentState = State.hit;
+            _speed = 0;
+            Damage();
+        }
+        // If it is not
+        else
+        {
+            currentState = State.Patrol;
+            _speed = initialSpeed;
+        }
+        #endregion
+    }
+    #endregion
+
+    #region Damage
+    void Damage()
     {
-        
-    }
 
+    }
+    #endregion
+
+    #region Bunch of Art stuff
     // Don't how to draw a line so I'll use Sphere XD
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, distanceDetector);
+        Gizmos.DrawWireSphere(transform.position, playerDetectorDistance);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(hitDetector.position, hitBoxRange);
+    }
+    #endregion
+
+    public enum State
+    {
+        Patrol,
+        Seek,
+        hit
     }
 }
