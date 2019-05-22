@@ -9,13 +9,14 @@ public class Enemy : MonoBehaviour
 
     public State currentState;
     public float initialSpeed = 5f;
-    private float _speed;
+    public float _speed;
 
     [Header("Patrol & Chasing Attributes")]
 
     public float groundDetectorDistance = 2f;
-    public float playerDetectorDistance = 5f;   
+    public float playerDetectorDistance = 3f;   
     private bool moveRight = true;
+    public bool hitPlayer = false;
     public Transform groundDetector;
     public Transform playerDetector;
 
@@ -27,7 +28,6 @@ public class Enemy : MonoBehaviour
     [Header("All Player Attributes")]
 
     public Transform player;
-    public Transform chaseDot;
     #endregion
 
     #region Start
@@ -37,7 +37,6 @@ public class Enemy : MonoBehaviour
         groundDetector = GameObject.Find("GroundDetector").transform;
         playerDetector = GameObject.Find("PlayerDetector").transform;
         hitDetector = GameObject.Find("HitDetector").transform;
-        chaseDot = GameObject.Find("ChaseDot").transform;
         _speed = initialSpeed;
         currentState = State.Patrol;
     }
@@ -50,15 +49,10 @@ public class Enemy : MonoBehaviour
         switch (currentState)
         {
             case State.Patrol:
-                BaseEnemyMovement();
                 break;
             case State.Seek:
-                SeekPlayer();
                 break;
             case State.hit:
-                break;
-            default:
-                BaseEnemyMovement();
                 break;
         }
 
@@ -106,44 +100,45 @@ public class Enemy : MonoBehaviour
     #region Seeking Player
     void SeekPlayer()
     {
-        float speedSeek = (_speed / _speed) * Time.deltaTime;
-        transform.position = Vector2.MoveTowards(transform.position, chaseDot.position, speedSeek);
-        BaseEnemyMovement();
+        hitPlayer = true;
+        transform.position = Vector2.MoveTowards(transform.position, player.position, _speed * Time.deltaTime);
     }
     #endregion
 
     #region When Player Inside any ranges
     void PlayerInsideRange()
     {
-        #region Chase player or not
-        RaycastHit2D playerHit = Physics2D.Raycast(playerDetector.position, Vector2.right, playerDetectorDistance);
 
-        if (playerHit.collider == true)
+        // the distance between enemy and player
+        float distanceToPlayer = Vector2.Distance(hitDetector.position, player.position);
+
+        #region Chase player or not
+        if (distanceToPlayer <= playerDetectorDistance)
         {
             currentState = State.Seek;
+            SeekPlayer();
         }
-        else
+        else if (distanceToPlayer > playerDetectorDistance)
         {
             currentState = State.Patrol;
+            BaseEnemyMovement();
+            hitPlayer = false;
         }
         #endregion
 
         #region Enemy stops when close to player or not
-        // the distance between enemy and player
-        float distanceToPlayer = Vector2.Distance(hitDetector.position, player.position);
-
         // If player inside the hit box range
         if(distanceToPlayer <= hitBoxRange)
         {
-            currentState = State.hit;
-            _speed = 0;
+           currentState = State.hit;
+           _speed = 0;
             Damage();
         }
         // If it is not
-        else
+        else if(distanceToPlayer > hitBoxRange)
         {
             currentState = State.Patrol;
-            _speed = initialSpeed;
+           _speed = initialSpeed;
         }
         #endregion
     }
