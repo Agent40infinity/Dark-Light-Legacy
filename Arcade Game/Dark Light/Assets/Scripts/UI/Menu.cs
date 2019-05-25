@@ -25,6 +25,12 @@ namespace MainMenu
         public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
         #endregion
 
+        //Controls:
+
+        private Dictionary<string, KeyCode> keybind = new Dictionary<string, KeyCode>();
+        public Text up, down, left, right, jump, attack, dash;
+        private GameObject currentKey;
+
         #region General
         public void Start() //Used to load resolutions and create list for the dropdown, collects both Width and Height seperately
         {
@@ -47,6 +53,16 @@ namespace MainMenu
             resolutionDropdown.AddOptions(options);
             resolutionDropdown.value = currentResolutionIndex;
             resolutionDropdown.RefreshShownValue();
+
+            keybind.Add("Up", KeyCode.W);
+            keybind.Add("Down", KeyCode.S);
+            keybind.Add("Left", KeyCode.A);
+            keybind.Add("Right", KeyCode.D);
+            keybind.Add("Jump", KeyCode.Space);
+            keybind.Add("Attack", KeyCode.E);
+            keybind.Add("Dash", KeyCode.LeftShift);
+
+            up.text = keybind["Up"].ToString();
         }
 
         public void Update()
@@ -172,6 +188,26 @@ namespace MainMenu
         {
             Resolution resolution = resolutions[resIndex];
             Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        }
+
+        public void onGUI()
+        {
+            if (currentKey != null)
+            {
+                Event keypress = Event.current;
+                if (keypress.isKey)
+                {
+                    keybind[currentKey.name] = keypress.keyCode;
+                    currentKey.transform.GetChild(0).GetComponent<Text>().text = keypress.keyCode.ToString();
+                    currentKey = null;
+                }
+            }
+        }
+
+        public void changeControls(GameObject clicked)
+        {
+            currentKey = clicked;
+
         }
         #endregion
     }
