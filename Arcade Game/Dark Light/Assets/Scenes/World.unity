@@ -130,7 +130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &14527477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19588,6 +19588,13 @@ MonoBehaviour:
   musicMixer: {fileID: 24100000, guid: 7d5464dc037d66149b41871cec65c457, type: 2}
   effectsMixer: {fileID: 24100000, guid: 59423a1b5ce75b04fad8379066f72d45, type: 2}
   resolutionDropdown: {fileID: 0}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  left: {fileID: 0}
+  right: {fileID: 0}
+  jump: {fileID: 0}
+  attack: {fileID: 0}
+  dash: {fileID: 0}
 --- !u!114 &1906339249
 MonoBehaviour:
   m_ObjectHideFlags: 0
