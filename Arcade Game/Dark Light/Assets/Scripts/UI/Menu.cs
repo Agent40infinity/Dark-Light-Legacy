@@ -10,7 +10,7 @@ namespace MainMenu
     public class Menu : MonoBehaviour
     {
         #region Variables
-        //General:
+        //General: 
         public GameObject main, mainBackground, Fade, options, general, video, audio, controls; //Allows for reference to GameObjects Meny and Options
         //public bool toggle = false; //Toggle for switching between settings and main
         //public int option = 0; //Changes between the 4 main screens in options.
@@ -23,13 +23,12 @@ namespace MainMenu
         public AudioMixer masterMixer, musicMixer, effectsMixer; //Creates reference for the menu music
         Resolution[] resolutions; //Creates reference   for all resolutions within Unity
         public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
-        #endregion
 
         //Controls:
-
         private Dictionary<string, KeyCode> keybind = new Dictionary<string, KeyCode>();
         public Text up, down, left, right, jump, attack, dash;
         private GameObject currentKey;
+        #endregion
 
         #region General
         public void Start() //Used to load resolutions and create list for the dropdown, collects both Width and Height seperately
@@ -63,6 +62,12 @@ namespace MainMenu
             keybind.Add("Dash", KeyCode.LeftShift);
 
             up.text = keybind["Up"].ToString();
+            down.text = keybind["Down"].ToString();
+            left.text = keybind["Left"].ToString();
+            right.text = keybind["Right"].ToString();
+            jump.text = keybind["Jump"].ToString();
+            attack.text = keybind["Attack"].ToString();
+            dash.text = keybind["Dash"].ToString();
         }
 
         public void Update()
@@ -192,19 +197,19 @@ namespace MainMenu
 
         public void onGUI()
         {
-            if (currentKey != null)
+            if (currentKey != null) //Checks whether or not there is a Keycode saved to 'currentKey'
             {
-                Event keypress = Event.current;
-                if (keypress.isKey)
+                Event keypress = Event.current; //Creates an event called keypress
+                if (keypress.isKey) //Checks whether or not the event "keypress" contains a keycode
                 {
-                    keybind[currentKey.name] = keypress.keyCode;
-                    currentKey.transform.GetChild(0).GetComponent<Text>().text = keypress.keyCode.ToString();
-                    currentKey = null;
+                    keybind[currentKey.name] = keypress.keyCode; //Saves the keycode from the event as the keycode attached to the keybind dictionary
+                    currentKey.transform.GetChild(0).GetComponent<Text>().text = keypress.keyCode.ToString(); //Changes the text to match that of the keycode replacing the previous one
+                    currentKey = null; //resets the currentKey putting it back to null
                 }
             }
         }
 
-        public void changeControls(GameObject clicked)
+        public void changeControls(GameObject clicked) //Trigger for changing any one of the keybinds
         {
             currentKey = clicked;
 
