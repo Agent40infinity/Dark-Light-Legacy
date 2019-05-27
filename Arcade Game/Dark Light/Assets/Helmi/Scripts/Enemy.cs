@@ -13,11 +13,10 @@ public class Enemy : MonoBehaviour
 
     [Header("Patrol & Chasing Attributes")]
 
-    public float groundDetectorDistance = 2f;
-    public float playerDetectorDistance = 3f;   
+    public float detectorDistance = 2f;
+    public float playerDetectorDistance = 2f;   
     private bool moveRight = true;
-    public bool hitPlayer = false;
-    public Transform groundDetector;
+    public Transform detector;
     public Transform playerDetector;
 
     [Header("Enemy Hitbox Attributes")]
@@ -34,7 +33,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
-        groundDetector = GameObject.Find("GroundDetector").transform;
+        detector = GameObject.Find("Detector").transform;
         playerDetector = GameObject.Find("PlayerDetector").transform;
         hitDetector = GameObject.Find("HitDetector").transform;
         _speed = initialSpeed;
@@ -60,11 +59,32 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
+    #region Set Direction
+    void SetDirection(Vector3 direction, bool isMovingRight)
+    {
+        // Rotates enemy back to original 
+        transform.eulerAngles = direction;
+        // Now enemy moves right
+        moveRight = isMovingRight;
+    }
+    #endregion
+
+    #region Cool Dude
+    /*
+    void RayDetector(RaycastHit2D detectorRay)
+    {
+        detectorRay = Physics2D.Raycast(detector.position, Vector2.down, detectorDistance);
+        Debug.DrawRay(detector.position, Vector2.down, Color.red);
+    }
+    */
+    #endregion
+
     #region Base Enemy Movement
     void BaseEnemyMovement()
     {
         // Ground dectetor detects ground collider
-        RaycastHit2D groundHit = Physics2D.Raycast(groundDetector.position, Vector2.down, groundDetectorDistance);
+        RaycastHit2D groundHit = Physics2D.Raycast (detector.position, Vector2.down, detectorDistance);
+        Debug.DrawRay(detector.position, Vector2.down, Color.red);
 
         // When there is ground collider, the ground detector wil do this 
         if (groundHit.collider == true)
@@ -79,19 +99,13 @@ public class Enemy : MonoBehaviour
             // When enemy moves right
             if (moveRight == true)
             {
-                // Rotates enemy 180 degrees
-                transform.eulerAngles = new Vector3(0, -180, 0);
-                // Now enemy moves left
-                moveRight = false;
+                SetDirection(new Vector3(0, -180, 0), false);
             }
 
             // When enemy moves left
             else
             {
-                // Rotates enemy back to original 
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                // Now enemy moves right
-                moveRight = true;
+                SetDirection(Vector3.zero,true);
             }
         }
     }
@@ -100,8 +114,19 @@ public class Enemy : MonoBehaviour
     #region Seeking Player
     void SeekPlayer()
     {
-        hitPlayer = true;
-        transform.position = Vector2.MoveTowards(transform.position, player.position, _speed * Time.deltaTime);
+        Vector2 seekPosition = player.position;
+        seekPosition.y = transform.position.y;
+
+        transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
+
+        if(player.position.x < transform.position.x)
+        {
+            SetDirection(new Vector3(0, -180, 0), false);
+        }
+        else
+        {
+            SetDirection(Vector3.zero, true);
+        }
     }
     #endregion
 
@@ -122,7 +147,6 @@ public class Enemy : MonoBehaviour
         {
             currentState = State.Patrol;
             BaseEnemyMovement();
-            hitPlayer = false;
         }
         #endregion
 
