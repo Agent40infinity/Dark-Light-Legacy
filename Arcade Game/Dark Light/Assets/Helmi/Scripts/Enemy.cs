@@ -69,17 +69,22 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
+    #region Cool Dude
+    /*
     void RayDetector(RaycastHit2D detectorRay)
     {
         detectorRay = Physics2D.Raycast(detector.position, Vector2.down, detectorDistance);
         Debug.DrawRay(detector.position, Vector2.down, Color.red);
     }
+    */
+    #endregion
 
     #region Base Enemy Movement
     void BaseEnemyMovement()
     {
         // Ground dectetor detects ground collider
         RaycastHit2D groundHit = Physics2D.Raycast (detector.position, Vector2.down, detectorDistance);
+        Debug.DrawRay(detector.position, Vector2.down, Color.red);
 
         // When there is ground collider, the ground detector wil do this 
         if (groundHit.collider == true)
