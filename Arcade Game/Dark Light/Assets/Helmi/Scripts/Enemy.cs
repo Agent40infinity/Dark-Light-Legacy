@@ -5,11 +5,17 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     #region Variables
-    [Header("Base Enemy Attributes")]
+    [Header("What type of enemy is this?")]
 
+    public bool groundEnemy;
+    public bool flyingEnemy;
+
+
+    [Header("Base Enemy Attributes")]
+    
     public State currentState;
     public float initialSpeed = 5f;
-    public float _speed;
+    private float _speed;
 
     [Header("Patrol & Chasing Attributes")]
 
@@ -82,32 +88,40 @@ public class Enemy : MonoBehaviour
     #region Base Enemy Movement
     void BaseEnemyMovement()
     {
-        // Ground dectetor detects ground collider
-        RaycastHit2D groundHit = Physics2D.Raycast (detector.position, Vector2.down, detectorDistance);
-        Debug.DrawRay(detector.position, Vector2.down, Color.red);
-
-        // When there is ground collider, the ground detector wil do this 
-        if (groundHit.collider == true)
+        if(groundEnemy == true)
         {
-            // Moves enemy to right
-            transform.Translate(Vector2.right * _speed * Time.deltaTime);
-        }
+            // Ground dectetor detects ground collider
+            RaycastHit2D groundHit = Physics2D.Raycast(detector.position, Vector2.down, detectorDistance);
+            Debug.DrawRay(detector.position, Vector2.down, Color.red);
 
-        // When there is no ground collider, the ground detector will do this
-        else
-        {
-            // When enemy moves right
-            if (moveRight == true)
+            // When there is ground collider, the ground detector wil do this 
+            if (groundHit.collider == true)
             {
-                SetDirection(new Vector3(0, -180, 0), false);
+                // Moves enemy to right
+                transform.Translate(Vector2.right * _speed * Time.deltaTime);
             }
 
-            // When enemy moves left
+            // When there is no ground collider, the ground detector will do this
             else
             {
-                SetDirection(Vector3.zero,true);
+                // When enemy moves right
+                if (moveRight == true)
+                {
+                    SetDirection(new Vector3(0, -180, 0), false);
+                }
+
+                // When enemy moves left
+                else
+                {
+                    SetDirection(Vector3.zero, true);
+                }
             }
         }
+
+        if(flyingEnemy == true)
+        {
+        }
+
     }
     #endregion
 
@@ -117,7 +131,15 @@ public class Enemy : MonoBehaviour
         Vector2 seekPosition = player.position;
         seekPosition.y = transform.position.y;
 
-        transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
+        if (groundEnemy == true)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
+        }
+        
+        if(flyingEnemy == true)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, player.position, _speed * Time.deltaTime);
+        }
 
         if(player.position.x < transform.position.x)
         {
@@ -138,11 +160,13 @@ public class Enemy : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(hitDetector.position, player.position);
 
         #region Chase player or not
+        // Player inside the red Circle Range
         if (distanceToPlayer <= playerDetectorDistance)
         {
             currentState = State.Seek;
             SeekPlayer();
         }
+        // Player outside the red Circle Range
         else if (distanceToPlayer > playerDetectorDistance)
         {
             currentState = State.Patrol;
@@ -151,18 +175,22 @@ public class Enemy : MonoBehaviour
         #endregion
 
         #region Enemy stops when close to player or not
-        // If player inside the hit box range
-        if(distanceToPlayer <= hitBoxRange)
+
+        if(groundEnemy == true)
         {
-           currentState = State.hit;
-           _speed = 0;
-            Damage();
-        }
-        // If it is not
-        else if(distanceToPlayer > hitBoxRange)
-        {
-            currentState = State.Patrol;
-           _speed = initialSpeed;
+            // If player inside the hit box range
+            if (distanceToPlayer <= hitBoxRange)
+            {
+                currentState = State.hit;
+                _speed = 0;
+                Damage();
+            }
+            // If it is not
+            else if (distanceToPlayer > hitBoxRange)
+            {
+                currentState = State.Patrol;
+                _speed = initialSpeed;
+            }
         }
         #endregion
     }
@@ -182,8 +210,11 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, playerDetectorDistance);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(hitDetector.position, hitBoxRange);
+        if(groundEnemy == true)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(hitDetector.position, hitBoxRange);
+        }
     }
     #endregion
 
