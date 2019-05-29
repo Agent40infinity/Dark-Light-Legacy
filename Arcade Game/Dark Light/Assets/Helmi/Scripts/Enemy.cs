@@ -16,14 +16,16 @@ public class Enemy : MonoBehaviour
     public State currentState;
     public float initialSpeed = 5f;
     private float _speed;
+    private SpriteRenderer rend;
 
     [Header("Patrol & Chasing Attributes")]
 
     public float detectorDistance = 2f;
     public float playerDetectorDistance = 2f;   
     private bool moveRight = true;
-    public Transform detector;
-    public Transform playerDetector;
+    public Transform groundDetector;
+    public Transform RWallDetector;
+    public Transform LWallDetector;
 
     [Header("Enemy Hitbox Attributes")]
 
@@ -39,9 +41,14 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
-        detector = GameObject.Find("Detector").transform;
-        playerDetector = GameObject.Find("PlayerDetector").transform;
-        hitDetector = GameObject.Find("HitDetector").transform;
+        rend = GetComponent<SpriteRenderer>();
+        if(groundEnemy == true)
+        {
+            groundDetector = GameObject.Find("GroundDetector").transform;
+            RWallDetector = GameObject.Find("RightWallDetector").transform;
+            LWallDetector = GameObject.Find("LeftWallDetector").transform;
+            hitDetector = GameObject.Find("HitDetector").transform;
+        }
         _speed = initialSpeed;
         currentState = State.Patrol;
     }
@@ -91,11 +98,29 @@ public class Enemy : MonoBehaviour
         if(groundEnemy == true)
         {
             // Ground dectetor detects ground collider
-            RaycastHit2D groundHit = Physics2D.Raycast(detector.position, Vector2.down, detectorDistance);
-            Debug.DrawRay(detector.position, Vector2.down, Color.red);
+            RaycastHit2D groundHit = Physics2D.Raycast(groundDetector.position, Vector2.down, detectorDistance);
+            Debug.DrawRay(groundDetector.position, Vector2.down, Color.red);
+
+            RaycastHit2D RWallHit = Physics2D.Raycast(RWallDetector.position, Vector2.right, detectorDistance);
+            Debug.DrawRay(RWallDetector.position, Vector2.right, Color.red);
+
+            RaycastHit2D LWallHit = Physics2D.Raycast(LWallDetector.position, Vector2.left, detectorDistance);
+            Debug.DrawRay(LWallDetector.position, Vector2.left, Color.red);
 
             // When there is ground collider, the ground detector wil do this 
-            if (groundHit.collider == true)
+            if (groundHit.collider == true )
+            {
+                // Moves enemy to right
+                transform.Translate(Vector2.right * _speed * Time.deltaTime);
+            }
+
+            else if(RWallHit.collider == true)
+            {
+                // Moves enemy to right
+                transform.Translate(Vector2.right * _speed * Time.deltaTime);
+            }
+
+            else if (LWallHit.collider == true)
             {
                 // Moves enemy to right
                 transform.Translate(Vector2.right * _speed * Time.deltaTime);
@@ -120,6 +145,7 @@ public class Enemy : MonoBehaviour
 
         if(flyingEnemy == true)
         {
+
         }
 
     }
