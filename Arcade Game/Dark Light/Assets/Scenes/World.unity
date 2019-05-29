@@ -1968,7 +1968,7 @@ MonoBehaviour:
   yLimiter: 1
   isFacing: 0
   isGrounded: 0
-  checkRadius: 0.3
+  checkRadius: 0.1
   accelSpeed: 4
   dash: 0
   canDash: 1
