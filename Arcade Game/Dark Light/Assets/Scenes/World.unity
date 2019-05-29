@@ -1966,8 +1966,11 @@ MonoBehaviour:
   xSpeed: 12
   ySpeed: 14
   yLimiter: 1
+  knockback: {x: 40, y: 8}
+  beenKnocked: 0
   isFacing: 0
   isGrounded: 0
+  knockbackDirection: 0
   checkRadius: 0.1
   accelSpeed: 4
   dash: 0
@@ -1986,6 +1989,8 @@ MonoBehaviour:
   dashTimeReset: 0.15
   dashCTime: 0.5
   dCTimer: 0.5
+  knockbackTime: 0.07
+  kBTimer: 0
   feetPos: {fileID: 918328630}
   isWalkable:
     serializedVersion: 2

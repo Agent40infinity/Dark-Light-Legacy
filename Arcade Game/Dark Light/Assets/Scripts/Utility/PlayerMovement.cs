@@ -11,9 +11,12 @@ public class PlayerMovement : MonoBehaviour
     public float yLimiter = 0.5f; //Default value for the limiter placed on the y-axis.
     private float gravity; //Default value of gravity for player.
     private float force; //Default value of the force applied to the player.
+    public Vector2 knockback = new Vector2(10, 5);
+    public bool beenKnocked = false;
     private bool isJumping; //Default value of whether the player is jumping.
     public bool isFacing; //What direction is the player facing? true = right, false = left.
     public bool isGrounded; //Default value for whether the player is on the ground or not.
+    public bool knockbackDirection; //true = left, false = right.
     public float checkRadius; //Creates a radius to check for the ground.
     public float accelSpeed = 4f; //Default value for dash's speed.
     public bool dash = false; //Used to call upon the sub-routine (dash).
@@ -35,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
     public float dashTimeReset = 0.15f; //Dash time reset.
     public float dashCTime = 0.5f; //Dash cooldown reset.
     public float dCTimer = 0.5f; //Dash cooldown timer
+    public float knockbackTime = 0.2f;
+    public float kBTimer;
 
     //Reference:
     private Rigidbody2D rigid; //References the RigidBody2D for player.
@@ -47,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         dashTimer = dashTimeReset;
+        kBTimer = knockbackTime;
         isFacing = true; //Defaults the player to look right.
         tempGravity = Physics2D.gravity;
     }
@@ -66,6 +72,16 @@ public class PlayerMovement : MonoBehaviour
         if (dash == true)
         {
             Dash();
+        }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            beenKnocked = true;
+        }
+
+        if (beenKnocked == true)
+        {
+            Knockback();
         }
     }
 
@@ -197,6 +213,31 @@ public class PlayerMovement : MonoBehaviour
             Physics2D.gravity = tempGravity;
             rigid.velocity = tempYVelocity;
             unlockYAxis = false;
+        }
+    }
+    #endregion
+
+    #region Knockback
+    public void Knockback()
+    {
+        if (kBTimer > 0)
+        {
+            kBTimer -= Time.deltaTime;
+            lockMovement = true;
+            if (knockbackDirection == true)
+            {
+                rigid.velocity = new Vector2(knockback.x, knockback.y);
+            }
+            else
+            {
+                rigid.velocity = new Vector2(-knockback.x, knockback.y);
+            }
+        }
+        else
+        {
+            lockMovement = false;
+            kBTimer = knockbackTime;
+            beenKnocked = false;
         }
     }
     #endregion
