@@ -312,13 +312,12 @@ MonoBehaviour:
   flyingEnemy: 0
   currentState: 0
   initialSpeed: 5
-  detectorDistance: 3
   playerDetectorDistance: 3
+  moveRight: 1
+  CloseToEnemyRange: 1.5
+  CloseToEnemyDetector: {fileID: 1739324710}
+  groundDetectorDistance: 1
   groundDetector: {fileID: 1977901028}
-  RWallDetector: {fileID: 255818505}
-  LWallDetector: {fileID: 983814230}
-  hitBoxRange: 1.5
-  hitDetector: {fileID: 1739324710}
   player: {fileID: 681664077}
 --- !u!50 &31441939
 Rigidbody2D:
@@ -908,8 +907,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 255818505}
+  - component: {fileID: 255818506}
+  - component: {fileID: 255818507}
   m_Layer: 11
-  m_Name: RightWallDetector
+  m_Name: WallDetector
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -923,12 +924,51 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 255818504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.36, y: -0.72, z: 0}
+  m_LocalPosition: {x: 1.21, y: -0.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1271010393}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &255818506
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255818504}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.00541234, y: 0.36797905}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 1.7359581}
+  m_EdgeRadius: 0
+--- !u!114 &255818507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255818504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ce7df6d8fdab24b816725857b6084d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 31441938}
 --- !u!1 &334226316
 GameObject:
   m_ObjectHideFlags: 0
@@ -4183,36 +4223,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 976914979}
   m_CullTransparentMesh: 0
---- !u!1 &983814229
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 983814230}
-  m_Layer: 11
-  m_Name: LeftWallDetector
-  m_TagString: Untagged
-  m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &983814230
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983814229}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.29, y: -0.72, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1271010393}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1016813245
 GameObject:
   m_ObjectHideFlags: 0
@@ -5207,7 +5217,6 @@ Transform:
   - {fileID: 1977901028}
   - {fileID: 1739324710}
   - {fileID: 255818505}
-  - {fileID: 983814230}
   m_Father: {fileID: 31441936}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7538,7 +7547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1739324710}
   m_Layer: 11
-  m_Name: HitDetector
+  m_Name: PlayerCloseDetector
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -8522,12 +8531,12 @@ GameObject:
   - component: {fileID: 1951656519}
   - component: {fileID: 1951656518}
   m_Layer: 11
-  m_Name: Dude (Enemy2)
+  m_Name: Justin (Enemy2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1951656517
 Transform:
   m_ObjectHideFlags: 0
@@ -8559,13 +8568,12 @@ MonoBehaviour:
   flyingEnemy: 1
   currentState: 0
   initialSpeed: 5
-  detectorDistance: 2
-  playerDetectorDistance: 7.33
+  playerDetectorDistance: 7
+  moveRight: 1
+  CloseToEnemyRange: 1.5
+  CloseToEnemyDetector: {fileID: 0}
+  groundDetectorDistance: 0
   groundDetector: {fileID: 0}
-  RWallDetector: {fileID: 0}
-  LWallDetector: {fileID: 0}
-  hitBoxRange: 1.3
-  hitDetector: {fileID: 635891592}
   player: {fileID: 681664077}
 --- !u!61 &1951656519
 BoxCollider2D:
@@ -8665,7 +8673,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977901027}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.38, y: 1.13, z: 0}
+  m_LocalPosition: {x: 1.205, y: -0.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1271010393}
