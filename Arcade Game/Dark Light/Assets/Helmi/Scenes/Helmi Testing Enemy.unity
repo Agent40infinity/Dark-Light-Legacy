@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 31441939}
   - component: {fileID: 31441940}
   - component: {fileID: 31441938}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bob (Enemy1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -908,7 +908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 255818505}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: RightWallDetector
   m_TagString: Untagged
   m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
@@ -1213,7 +1213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 394170505}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2161,7 +2161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 635891592}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HitDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4192,7 +4192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 983814230}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LeftWallDetector
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}
@@ -5026,7 +5026,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1181201677}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Detectors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5186,7 +5186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1271010393}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Detectors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7537,7 +7537,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1739324710}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: HitDetector
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -8488,7 +8488,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1940677310}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PlayerDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8521,13 +8521,13 @@ GameObject:
   - component: {fileID: 1951656520}
   - component: {fileID: 1951656519}
   - component: {fileID: 1951656518}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Dude (Enemy2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1951656517
 Transform:
   m_ObjectHideFlags: 0
@@ -8650,7 +8650,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1977901028}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GroundDetector
   m_TagString: Untagged
   m_Icon: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
