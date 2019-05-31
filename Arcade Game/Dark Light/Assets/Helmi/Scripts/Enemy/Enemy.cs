@@ -33,6 +33,10 @@ public class Enemy : MonoBehaviour
     public float groundDetectorDistance = 2f;
     public Transform groundDetector;
 
+    [Header("Flying Enemy Detector")]
+
+    public Transform originPlace;
+
     [Header("All Player Attributes")]
 
     public Transform player;
@@ -42,10 +46,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
-        if(groundEnemy == true)
-        {
-            groundDetector = GameObject.Find("GroundDetector").transform;
-        }
         _speed = initialSpeed;
         currentState = State.Patrol;
     }
@@ -117,7 +117,7 @@ public class Enemy : MonoBehaviour
         #region Flying Enemy
         if (flyingEnemy == true)
         {
-
+            transform.position = Vector2.MoveTowards(transform.position, originPlace.position, _speed * Time.deltaTime);
         }
         #endregion
     }
@@ -173,7 +173,7 @@ public class Enemy : MonoBehaviour
             SeekPlayer();
         }
         // Player outside the red Circle Range
-        else if (distanceToPlayer > playerDetectorDistance)
+        else
         {
             currentState = State.Patrol;
             BaseEnemyMovement();
@@ -190,14 +190,33 @@ public class Enemy : MonoBehaviour
             {
                 currentState = State.hit;
                 _speed = 0;
-                // Damage
-                Damage();
+                // Damage to player
+                DamagePlayer();
             }
             // If it is not
-            else if (distanceToPlayer > CloseToEnemyRange)
+            else
             {
                 currentState = State.Patrol;
                 _speed = initialSpeed;
+            }
+        }
+        #endregion
+
+        #region Flying Enemy
+        if (flyingEnemy == true)
+        {
+            // If player inside the hit box range
+            if(distanceToPlayer <= CloseToEnemyRange)
+            {
+                currentState = State.hit;
+                _speed *= 2f;
+                // Damage to player
+                DamagePlayer();
+            }
+            // If it is not
+            else
+            {
+                currentState = State.Patrol;
             }
         }
         #endregion
@@ -206,10 +225,17 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-    #region Damage
-    void Damage()
+    #region Damage To Player
+    void DamagePlayer()
     {
+        if(groundEnemy == true)
+        {
 
+        }
+        if(flyingEnemy == true)
+        {
+
+        }
     }
     #endregion
 
@@ -221,6 +247,11 @@ public class Enemy : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, playerDetectorDistance);
 
         if(groundEnemy == true)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(CloseToEnemyDetector.position, CloseToEnemyRange);
+        }
+        if(flyingEnemy == true)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(CloseToEnemyDetector.position, CloseToEnemyRange);
