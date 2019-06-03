@@ -186,7 +186,7 @@ public class Enemy : MonoBehaviour
                 { }
                 else if (distanceToPlayer <= retreatDistance)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, player.position, -_speed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
                 }
                 else
                 {
