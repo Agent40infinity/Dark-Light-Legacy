@@ -312,7 +312,9 @@ MonoBehaviour:
   flyingEnemy: 0
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 5
+  playerDetectorDistance: 15
+  stoppingDistance: 7
+  retreatDistance: 5
   moveRight: 1
   CloseToEnemyRange: 1.5
   CloseToEnemyDetector: {fileID: 1739324710}
@@ -8542,7 +8544,9 @@ MonoBehaviour:
   flyingEnemy: 1
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 7
+  playerDetectorDistance: 15
+  stoppingDistance: 7
+  retreatDistance: 6
   moveRight: 1
   CloseToEnemyRange: 4
   CloseToEnemyDetector: {fileID: 1940677310}

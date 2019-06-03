@@ -19,7 +19,9 @@ public class Enemy : MonoBehaviour
 
     [Header("Patrol & Chasing Attributes")]
 
-    public float playerDetectorDistance = 2f;  
+    public float playerDetectorDistance = 15f;
+    public float stoppingDistance = 9f;
+    public float retreatDistance = 8f;
     [HideInInspector]
     public bool moveRight = true;
 
@@ -158,10 +160,10 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-    #region When Player Inside any ranges
+    #region When Player Inside any circle radius
     void PlayerInsideRange()
     {
-
+        
         // the distance between enemy and player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -169,8 +171,30 @@ public class Enemy : MonoBehaviour
         // Player inside the red Circle Range
         if (distanceToPlayer <= playerDetectorDistance)
         {
-            currentState = State.Seek;
-            SeekPlayer();
+            #region Ground Enemy
+            if (groundEnemy == true)
+            {
+                currentState = State.Seek;
+                SeekPlayer();
+            }
+            #endregion
+
+            #region Flying Enemy
+            if (flyingEnemy == true)
+            {
+                if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
+                { }
+                else if (distanceToPlayer <= retreatDistance)
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, player.position, -_speed * Time.deltaTime);
+                }
+                else
+                {
+                    currentState = State.Seek;
+                    SeekPlayer();
+                }
+            }
+            #endregion
         }
         // Player outside the red Circle Range
         else
@@ -198,25 +222,6 @@ public class Enemy : MonoBehaviour
             {
                 currentState = State.Patrol;
                 _speed = initialSpeed;
-            }
-        }
-        #endregion
-
-        #region Flying Enemy
-        if (flyingEnemy == true)
-        {
-            // If player inside the hit box range
-            if(distanceToPlayer <= CloseToEnemyRange)
-            {
-                currentState = State.hit;
-                _speed *= 2f;
-                // Damage to player
-                DamagePlayer();
-            }
-            // If it is not
-            else
-            {
-                currentState = State.Patrol;
             }
         }
         #endregion
@@ -253,8 +258,11 @@ public class Enemy : MonoBehaviour
         }
         if(flyingEnemy == true)
         {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(CloseToEnemyDetector.position, CloseToEnemyRange);
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, stoppingDistance);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, retreatDistance);
         }
     }
     #endregion
