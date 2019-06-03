@@ -118,13 +118,19 @@ public class Player : MonoBehaviour
     //[Header("Health")]
     public void Health() //deals with health deduction and external UI changes.
     {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            beenHit = true;
+        }
+
         if (beenHit == true && iFrame == false && curHealth >= 1)
         {
             curHealth--;
             iFrame = true;
+            player.GetComponent<PlayerMovement>().beenKnocked = true;
             beenHit = false;
         }
-        if (curHealth == 0)
+        if (curHealth <= 0)
         {
             //Play death animation
             //UI.Gameover = true;

@@ -74,11 +74,6 @@ public class PlayerMovement : MonoBehaviour
             Dash();
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            beenKnocked = true;
-        }
-
         if (beenKnocked == true)
         {
             Knockback();
