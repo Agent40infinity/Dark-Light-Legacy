@@ -20,7 +20,7 @@ namespace MainMenu
         public int sTimer = 0; //Timer for transition - load game
 
         //Settings:
-        public AudioMixer masterMixer, musicMixer, effectsMixer, AmbienceMixer; //Creates reference for the menu music
+        public AudioMixer masterMixer; //Creates reference for the menu music
         Resolution[] resolutions; //Creates reference   for all resolutions within Unity
         public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
 
@@ -171,17 +171,17 @@ namespace MainMenu
 
         public void EffectsVolume(float volume) //Trigger for changing volume of game's sfx channel
         {
-            effectsMixer.SetFloat("volume", volume);
+            masterMixer.SetFloat("Effects", volume);
         }
 
         public void MusicVolume(float volume) //Trigger for changing volume of game's music channel
         {
-            musicMixer.SetFloat("volume", volume);
+            masterMixer.SetFloat("Music", volume);
         }
 
         public void AmbienceVolume(float volume) //Trigger for changing volume of game's music channel
         {
-            musicMixer.SetFloat("volume", volume);
+            masterMixer.SetFloat("Ambience", volume);
         }
 
         public void ChangeQuality(int qualityIndex) //Trigger for applying level of quality - detailing of objects
