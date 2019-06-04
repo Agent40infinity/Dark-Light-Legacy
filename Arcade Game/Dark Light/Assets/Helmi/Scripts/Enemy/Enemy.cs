@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿//==========================================
+// Title:  Dark Light
+// Author: Helmi Amsani
+// Date:   14 May 2019
+//==========================================
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,48 +12,49 @@ public class Enemy : MonoBehaviour
 {
     #region Variables
     [Header("What type of enemy is this?")]
-
     public bool groundEnemy;
     public bool flyingEnemy;
 
+    [Header("Damage Stuff")]
+    public int damage;
+    public float attackDelay;
+    private float lastAttackTime;
 
-    [Header("Base Enemy Attributes")]
-    
+    [Header("Base Enemy Attributes")]    
     public State currentState;
     public float initialSpeed = 5f;
     private float _speed;
 
     [Header("Patrol & Chasing Attributes")]
-
     public float playerDetectorDistance = 15f;
-    public float stoppingDistance = 9f;
-    public float retreatDistance = 8f;
     [HideInInspector]
     public bool moveRight = true;
 
     [Header("Player close to enemy")]
-
     public float CloseToEnemyRange = 1.5f;
     public Transform CloseToEnemyDetector;
 
     [Header("Ground Enemy Detector")]
-
     public float groundDetectorDistance = 2f;
     public Transform groundDetector;
 
     [Header("Flying Enemy Detector")]
-
     public Transform originPlace;
+    public float stoppingDistance = 9f;
+    public float retreatDistance = 8f;
 
     [Header("All Player Attributes")]
+    public GameObject player;
 
-    public Transform player;
+    //Reference
+    private Player playerScrpt;
     #endregion
 
     #region Start
     void Start()
     {
-        player = GameObject.FindWithTag("Player").transform;
+        player = GameObject.FindWithTag("Player");
+        playerScrpt = player.GetComponent<Player>();
         _speed = initialSpeed;
         currentState = State.Patrol;
     }
@@ -88,6 +95,8 @@ public class Enemy : MonoBehaviour
         // When it is a ground enemy
         if (groundEnemy == true)
         {
+            //========================
+            // Referenced from this website: https://www.youtube.com/watch?v=aRxuKoJH9Y0
             // Ground dectetor detects ground collider
             RaycastHit2D groundHit = Physics2D.Raycast(groundDetector.position, Vector2.down, groundDetectorDistance);
             Debug.DrawRay(groundDetector.position, Vector2.down, Color.red);
@@ -97,6 +106,7 @@ public class Enemy : MonoBehaviour
                 // Moves enemy to right
                 transform.Translate(Vector2.right * _speed * Time.deltaTime);
             }
+            //=========================
 
             // When there is no ground collider, the ground detector will do this
             else
@@ -128,12 +138,11 @@ public class Enemy : MonoBehaviour
     #region Seeking Player
     void SeekPlayer()
     {
-        Vector2 seekPosition = player.position;
-        seekPosition.y = transform.position.y;
-
         #region Ground Enemy
         if (groundEnemy == true)
         {
+            Vector2 seekPosition = player.transform.position;
+            seekPosition.y = transform.position.y;
             transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
         }
         #endregion
@@ -141,12 +150,12 @@ public class Enemy : MonoBehaviour
         #region Flying Enemy
         if (flyingEnemy == true)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.position, _speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, _speed * Time.deltaTime);
         }
         #endregion
 
         // Player is on the left side of Enemy
-        if (player.position.x < transform.position.x)
+        if (player.transform.position.x < transform.position.x)
         {
             // Flip the enemy to left
             SetDirection(new Vector3(0, -180, 0), false);
@@ -162,10 +171,9 @@ public class Enemy : MonoBehaviour
 
     #region When Player Inside any circle radius
     void PlayerInsideRange()
-    {
-        
+    {        
         // the distance between enemy and player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
         #region Chase player or not
         // Player inside the red Circle Range
@@ -186,7 +194,7 @@ public class Enemy : MonoBehaviour
                 { }
                 else if (distanceToPlayer <= retreatDistance)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, player.transform.position, -(_speed * 0.75f) * Time.deltaTime);
                 }
                 else
                 {
@@ -226,6 +234,13 @@ public class Enemy : MonoBehaviour
         }
         #endregion
 
+        #region Flying Enemy
+        if(flyingEnemy == true)
+        {
+
+        }
+        #endregion
+
         #endregion
     }
     #endregion
@@ -233,14 +248,31 @@ public class Enemy : MonoBehaviour
     #region Damage To Player
     void DamagePlayer()
     {
+        #region Ground Enemy
         if(groundEnemy == true)
         {
-
+            //==============
+            // Referenced from this website: https://www.youtube.com/watch?v=LqCJowEQFBc
+            if (Time.time > lastAttackTime + attackDelay)
+            {
+            }
+            //==============
+            Debug.Log("Hit YOU BITCH!!!!");    
         }
-        if(flyingEnemy == true)
+        #endregion
+
+        #region Flying Enemy
+        if (flyingEnemy == true)
         {
 
         }
+        #endregion
+    }
+    #endregion
+
+    #region Take Damage
+    void TakeDamage()
+    {
     }
     #endregion
 

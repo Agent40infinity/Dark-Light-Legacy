@@ -310,18 +310,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundEnemy: 1
   flyingEnemy: 0
+  damage: 0
+  attackDelay: 0
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 7
-  stoppingDistance: 7
-  retreatDistance: 5
+  playerDetectorDistance: 4
   moveRight: 1
-  CloseToEnemyRange: 1.5
+  CloseToEnemyRange: 2
   CloseToEnemyDetector: {fileID: 1739324710}
   groundDetectorDistance: 1
   groundDetector: {fileID: 1977901028}
   originPlace: {fileID: 0}
-  player: {fileID: 681664077}
+  stoppingDistance: 7
+  retreatDistance: 5
+  player: {fileID: 681664074}
 --- !u!50 &31441939
 Rigidbody2D:
   serializedVersion: 4
@@ -2075,7 +2077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &610576115
 Transform:
   m_ObjectHideFlags: 0
@@ -4990,7 +4992,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1181201677
 Transform:
   m_ObjectHideFlags: 0
@@ -7537,7 +7539,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739324709}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.8, y: 0.07999998, z: 0}
+  m_LocalPosition: {x: 1.59, y: 0.07999998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1271010393}
@@ -8523,7 +8525,7 @@ Transform:
   m_GameObject: {fileID: 1951656516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 22.54, y: 8.84, z: 0}
-  m_LocalScale: {x: 1.3821999, y: 1.8648487, z: 1.0292443}
+  m_LocalScale: {x: 0.38529995, y: 0.39526835, z: 0.30201116}
   m_Children:
   - {fileID: 1181201677}
   m_Father: {fileID: 1972316752}
@@ -8543,17 +8545,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundEnemy: 0
   flyingEnemy: 1
+  damage: 0
+  attackDelay: 0
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 15
-  stoppingDistance: 7
-  retreatDistance: 6
+  playerDetectorDistance: 10
   moveRight: 1
   CloseToEnemyRange: 4
-  CloseToEnemyDetector: {fileID: 1940677310}
+  CloseToEnemyDetector: {fileID: 0}
   groundDetectorDistance: 0
   groundDetector: {fileID: 0}
   originPlace: {fileID: 1512750216}
+  stoppingDistance: 5
+  retreatDistance: 4
   player: {fileID: 681664077}
 --- !u!61 &1951656519
 BoxCollider2D:
@@ -8572,7 +8576,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.59, y: 2.27}
+    oldSize: {x: 5.3333335, y: 4}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -8618,7 +8622,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5c8906a3366635c4381ddd72d4577b95, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f41f305814d2ad347aca3334587fb251, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
