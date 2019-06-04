@@ -312,7 +312,7 @@ MonoBehaviour:
   flyingEnemy: 0
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 15
+  playerDetectorDistance: 7
   stoppingDistance: 7
   retreatDistance: 5
   moveRight: 1
@@ -5831,7 +5831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1461867699
 Transform:
   m_ObjectHideFlags: 0
@@ -6269,7 +6269,7 @@ GameObject:
   m_Layer: 11
   m_Name: OriginPlace
   m_TagString: Untagged
-  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8277,6 +8277,7 @@ MonoBehaviour:
   masterMixer: {fileID: 24100000, guid: 7680df674b4acee468cb4a0071db5dc8, type: 2}
   musicMixer: {fileID: 24100000, guid: 7d5464dc037d66149b41871cec65c457, type: 2}
   effectsMixer: {fileID: 24100000, guid: 59423a1b5ce75b04fad8379066f72d45, type: 2}
+  AmbienceMixer: {fileID: 0}
   resolutionDropdown: {fileID: 0}
   up: {fileID: 0}
   down: {fileID: 0}
@@ -8476,7 +8477,7 @@ GameObject:
   m_Layer: 11
   m_Name: CloseToEnemyDetector
   m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
