@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*---------------------------------/
+ * Script created by Aiden Nathan.
+ *---------------------------------*/
+
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables

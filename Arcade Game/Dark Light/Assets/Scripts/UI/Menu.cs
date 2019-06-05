@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
+/*---------------------------------/
+ * Script created by Aiden Nathan.
+ *---------------------------------*/
+
 namespace MainMenu
 {
     public class Menu : MonoBehaviour
@@ -166,7 +170,7 @@ namespace MainMenu
 
         public void MasterVolume(float volume) //Trigger for changing volume of game's master channel
         {
-            masterMixer.SetFloat("volume", volume);
+            masterMixer.SetFloat("Master", volume);
         }
 
         public void EffectsVolume(float volume) //Trigger for changing volume of game's sfx channel

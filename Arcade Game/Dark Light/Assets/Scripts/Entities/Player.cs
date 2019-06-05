@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*---------------------------------/
+ * Script created by Aiden Nathan.
+ *---------------------------------*/
+
 [AddComponentMenu("Player Script")]
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
