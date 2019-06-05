@@ -9,7 +9,7 @@ public class WallDetector : MonoBehaviour
     #endregion
 
     #region When This Collider Hit any collider but Player
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag != "Player")
         {

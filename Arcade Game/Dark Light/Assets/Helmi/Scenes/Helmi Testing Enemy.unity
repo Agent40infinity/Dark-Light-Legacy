@@ -233,7 +233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &31441936
 Transform:
   m_ObjectHideFlags: 0
@@ -324,6 +324,7 @@ MonoBehaviour:
   stoppingDistance: 7
   retreatDistance: 5
   player: {fileID: 681664074}
+  wallDetector: {fileID: 255818504}
   anim: {fileID: 31441941}
 --- !u!50 &31441939
 Rigidbody2D:
@@ -7548,7 +7549,7 @@ GameObject:
   m_Layer: 11
   m_Name: AttackDetector
   m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8576,6 +8577,7 @@ MonoBehaviour:
   stoppingDistance: 9
   retreatDistance: 8
   player: {fileID: 681664077}
+  wallDetector: {fileID: 0}
   anim: {fileID: 0}
 --- !u!61 &1951656519
 BoxCollider2D:
@@ -8666,7 +8668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1972316752
 Transform:
   m_ObjectHideFlags: 0
@@ -8695,7 +8697,7 @@ GameObject:
   m_Layer: 11
   m_Name: GroundDetector
   m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

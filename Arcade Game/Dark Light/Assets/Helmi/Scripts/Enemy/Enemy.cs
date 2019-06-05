@@ -40,8 +40,9 @@ public class Enemy : MonoBehaviour
     public float stoppingDistance = 9f;
     public float retreatDistance = 8f;
 
-    [Header("All Player Attributes")]
+    [Header("Reference")]
     public GameObject player;
+    public GameObject wallDetector;
 
     //Reference
     private Player playerScrpt;
@@ -142,9 +143,9 @@ public class Enemy : MonoBehaviour
         #region Ground Enemy
         if (groundEnemy == true)
         {
-            Vector2 seekPosition = player.transform.position;
-            seekPosition.y = transform.position.y;
-            transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
+              Vector2 seekPosition = player.transform.position;
+              seekPosition.y = transform.position.y;
+              transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
         }
         #endregion
 
