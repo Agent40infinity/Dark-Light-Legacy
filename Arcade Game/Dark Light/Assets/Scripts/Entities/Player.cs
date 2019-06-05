@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 {
     //Mechanics:
     public static int curHealth; //Value for player's current health.
-    public static int maxHealth = 6; //default value for player's max health.
+    public static int maxHealth = 5; //default value for player's max health.
     private int damage = 1; //temp, may be moved to child class (sword/weapon).
     private bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     private bool attack = false; //activates and locks when attack hotkey is pressed.

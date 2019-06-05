@@ -12,7 +12,7 @@ namespace HealthManagement
     public class HealthManager : MonoBehaviour
     {
         #region Variables
-        public Image[] heartSlots = new Image[6]; //Array used to reference the individual heart locations.
+        public Image[] heartSlots = new Image[5]; //Array used to reference the individual heart locations.
         public Sprite[] hearts = new Sprite[2]; //Array used to reference the images used per heart.
         private float imagesPerHeart; //Defines how many Images there are per heart slot.
         #endregion
@@ -28,7 +28,7 @@ namespace HealthManagement
             int i = 0;
             foreach (Image slot in heartSlots)
             {
-                if (Player.curHealth >= (imagesPerHeart * 2) + (imagesPerHeart * 1) * i)
+                if (Player.curHealth >= (imagesPerHeart * 2.5f) + (imagesPerHeart * 1) * i)
                 {
                     heartSlots[i].sprite = hearts[0];
                 }
@@ -43,7 +43,7 @@ namespace HealthManagement
         #region CheckForHealth
         public void CheckForHealth() //Calculates the health per slot.
         {
-            imagesPerHeart = Player.maxHealth / (heartSlots.Length * 2); 
+            imagesPerHeart = Player.maxHealth / (heartSlots.Length * 2.5f); 
         }
         #endregion
     }
