@@ -25,10 +25,9 @@ namespace HealthManagement
 
         public void Update() //Changes the image depending on how much health the player has.
         {
-            int i = 0;
-            foreach (Image slot in heartSlots)
+            for (int i = 0; i < heartSlots.Length; i++)
             {
-                if (Player.curHealth >= (imagesPerHeart * 2.5f) + (imagesPerHeart * 1) * i)
+                if (Player.curHealth >= (imagesPerHeart * 2) * (i + 1)) 
                 {
                     heartSlots[i].sprite = hearts[0];
                 }
@@ -36,14 +35,13 @@ namespace HealthManagement
                 {   
                     heartSlots[i].sprite = hearts[1];
                 }
-                i++;
             }   
         }
         #endregion
         #region CheckForHealth
         public void CheckForHealth() //Calculates the health per slot.
         {
-            imagesPerHeart = Player.maxHealth / (heartSlots.Length * 2.5f); 
+            imagesPerHeart = (float)Player.maxHealth / (float)(heartSlots.Length * 2.5f); //0.5
         }
         #endregion
     }
