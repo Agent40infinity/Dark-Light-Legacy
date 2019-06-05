@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 31441939}
   - component: {fileID: 31441940}
   - component: {fileID: 31441938}
+  - component: {fileID: 31441941}
   m_Layer: 11
   m_Name: Bob (Enemy1)
   m_TagString: Untagged
@@ -241,7 +242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31441935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.61, y: 2.75, z: 0}
+  m_LocalPosition: {x: 23.61, y: 2.335, z: 0}
   m_LocalScale: {x: 1.0292443, y: 1.0292443, z: 1.0292443}
   m_Children:
   - {fileID: 1271010393}
@@ -285,9 +286,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5c8906a3366635c4381ddd72d4577b95, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d2b766fb25474642a85b7b1f7f4c475, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -310,20 +311,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundEnemy: 1
   flyingEnemy: 0
-  damage: 0
-  attackDelay: 0
+  attackDelay: 1
+  attackRange: 2
+  attackDetector: {fileID: 1739324710}
   currentState: 0
   initialSpeed: 5
   playerDetectorDistance: 4
   moveRight: 1
-  CloseToEnemyRange: 2
-  CloseToEnemyDetector: {fileID: 1739324710}
   groundDetectorDistance: 1
   groundDetector: {fileID: 1977901028}
   originPlace: {fileID: 0}
   stoppingDistance: 7
   retreatDistance: 5
   player: {fileID: 681664074}
+  anim: {fileID: 31441941}
 --- !u!50 &31441939
 Rigidbody2D:
   serializedVersion: 4
@@ -358,19 +359,38 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.007406026}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.59, y: 2.27}
+    oldSize: {x: 6.25, y: 6.25}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 2, y: 1.2958388}
   m_EdgeRadius: 0
+--- !u!95 &31441941
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31441935}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 25cc8dd1d864ade469758a9d3e8f2b65, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &89555204
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,7 +949,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 255818504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.21, y: -0.19, z: 0}
+  m_LocalPosition: {x: 1.21, y: 0.127, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1271010393}
@@ -2200,6 +2220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07fec48faf6171e478495cd40b4ce94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beenHit: 0
   attackRange: 1
   player: {fileID: 681664074}
   attackPos: {fileID: 1408833669}
@@ -2330,14 +2351,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xSpeed: 12
-  ySpeed: 12
+  ySpeed: 14
   yLimiter: 1
-  knockback: {x: 10, y: 5}
+  knockback: {x: 40, y: 8}
   beenKnocked: 0
   isFacing: 0
   isGrounded: 0
   knockbackDirection: 0
-  checkRadius: 0.3
+  checkRadius: 0.1
   accelSpeed: 4
   dash: 0
   canDash: 1
@@ -2355,7 +2376,7 @@ MonoBehaviour:
   dashTimeReset: 0.15
   dashCTime: 0.5
   dCTimer: 0.5
-  knockbackTime: 0.2
+  knockbackTime: 0.07
   kBTimer: 0
   feetPos: {fileID: 918328630}
   isWalkable:
@@ -7525,9 +7546,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1739324710}
   m_Layer: 11
-  m_Name: CloseToEnemyDetector
+  m_Name: AttackDetector
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -7539,7 +7560,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1739324709}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.59, y: 0.07999998, z: 0}
+  m_LocalPosition: {x: 1.45, y: 0.07999998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1271010393}
@@ -8542,20 +8563,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundEnemy: 0
   flyingEnemy: 1
-  damage: 0
   attackDelay: 0
+  attackRange: 1.5
+  attackDetector: {fileID: 0}
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 10
+  playerDetectorDistance: 15
   moveRight: 1
-  CloseToEnemyRange: 4
-  CloseToEnemyDetector: {fileID: 0}
   groundDetectorDistance: 0
   groundDetector: {fileID: 0}
   originPlace: {fileID: 1512750216}
-  stoppingDistance: 5
-  retreatDistance: 4
+  stoppingDistance: 9
+  retreatDistance: 8
   player: {fileID: 681664077}
+  anim: {fileID: 0}
 --- !u!61 &1951656519
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8674,7 +8695,7 @@ GameObject:
   m_Layer: 11
   m_Name: GroundDetector
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -8686,7 +8707,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977901027}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.205, y: -0.79, z: 0}
+  m_LocalPosition: {x: 1.205, y: -0.502, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1271010393}
