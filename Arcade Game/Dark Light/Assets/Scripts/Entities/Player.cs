@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
     //Reference:
     public GameObject player;
+    public GameObject darkLight;
+    public GameObject fade;
     public Transform attackPos;
     public LayerMask isEnemy;
 
@@ -136,8 +138,11 @@ public class Player : MonoBehaviour
         }
         if (curHealth <= 0)
         {
-            //Play death animation
-            //UI.Gameover = true;
+            fade.GetComponent<FadeController>().FadeOut();
+            Instantiate(darkLight, transform.position, transform.rotation);
+            curHealth = maxHealth;
+            transform.position = new Vector3(-8, 6, 0);
+            fade.GetComponent<FadeController>().FadeIn();
         }
     }
 }

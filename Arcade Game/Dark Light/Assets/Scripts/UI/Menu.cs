@@ -15,7 +15,7 @@ namespace MainMenu
     {
         #region Variables
         //General: 
-        public GameObject main, mainBackground, Fade, options, general, video, audio, controls; //Allows for reference to GameObjects Meny and Options
+        public GameObject main, mainBackground, fade, options, general, video, audio, controls; //Allows for reference to GameObjects Meny and Options
         //public bool toggle = false; //Toggle for switching between settings and main
         //public int option = 0; //Changes between the 4 main screens in options.
         public bool quitTimer = false; //Check whether or not the exit button has been pressed
@@ -101,7 +101,7 @@ namespace MainMenu
                     main.SetActive(false);
                     mainBackground.SetActive(false);
                     startTimer = false;
-                    Fade.GetComponent<FadeController>().FadeIn();
+                    fade.GetComponent<FadeController>().FadeIn();
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace MainMenu
         public void StartGame() //Trigger for Play Button
         {
             startTimer = true;
-            Fade.GetComponent<FadeController>().FadeOut();
+            fade.GetComponent<FadeController>().FadeOut();
         }
 
         public void Quit() //Trigger for Exit Button
