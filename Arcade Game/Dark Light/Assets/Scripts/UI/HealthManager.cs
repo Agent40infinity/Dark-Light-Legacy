@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//Allow us to interact with UI elements
 
-//this script can be found in the Component section under the option Intro PRG/Player/Health
+/*---------------------------------/
+ * Script created by Aiden Nathan.
+ *---------------------------------*/
+
 namespace HealthManagement
 {
     public class HealthManager : MonoBehaviour
