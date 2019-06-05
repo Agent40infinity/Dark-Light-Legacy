@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             curHealth--;
             Debug.Log("Health: " + curHealth);
