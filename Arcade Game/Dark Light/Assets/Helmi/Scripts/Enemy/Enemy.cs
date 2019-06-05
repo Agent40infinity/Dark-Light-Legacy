@@ -15,10 +15,11 @@ public class Enemy : MonoBehaviour
     public bool groundEnemy;
     public bool flyingEnemy;
 
-    [Header("Damage Stuff")]
-    public int damage;
+    [Header("Attack Stuff")]
     public float attackDelay;
     private float lastAttackTime;
+    public float attackRange = 1.5f;
+    public Transform attackDetector;
 
     [Header("Base Enemy Attributes")]    
     public State currentState;
@@ -29,10 +30,6 @@ public class Enemy : MonoBehaviour
     public float playerDetectorDistance = 15f;
     [HideInInspector]
     public bool moveRight = true;
-
-    [Header("Player close to enemy")]
-    public float CloseToEnemyRange = 1.5f;
-    public Transform CloseToEnemyDetector;
 
     [Header("Ground Enemy Detector")]
     public float groundDetectorDistance = 2f;
@@ -48,6 +45,10 @@ public class Enemy : MonoBehaviour
 
     //Reference
     private Player playerScrpt;
+
+    // Testing
+    [Header("Animation Testing")]
+    public Animator anim;
     #endregion
 
     #region Start
@@ -218,7 +219,7 @@ public class Enemy : MonoBehaviour
         if (groundEnemy == true)
         {
             // If player inside the hit box range
-            if (distanceToPlayer <= CloseToEnemyRange)
+            if (distanceToPlayer <= attackRange)
             {
                 currentState = State.hit;
                 _speed = 0;
@@ -230,6 +231,7 @@ public class Enemy : MonoBehaviour
             {
                 currentState = State.Patrol;
                 _speed = initialSpeed;
+                anim.SetBool("IsAttack", false);
             }
         }
         #endregion
@@ -255,9 +257,11 @@ public class Enemy : MonoBehaviour
             // Referenced from this website: https://www.youtube.com/watch?v=LqCJowEQFBc
             if (Time.time > lastAttackTime + attackDelay)
             {
+                playerScrpt.beenHit = true;
+                anim.SetBool("IsAttack", true);
+                lastAttackTime = Time.time;
             }
-            //==============
-            Debug.Log("Hit YOU BITCH!!!!");    
+            //============== 
         }
         #endregion
 
@@ -267,12 +271,6 @@ public class Enemy : MonoBehaviour
 
         }
         #endregion
-    }
-    #endregion
-
-    #region Take Damage
-    void TakeDamage()
-    {
     }
     #endregion
 
@@ -286,7 +284,7 @@ public class Enemy : MonoBehaviour
         if(groundEnemy == true)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(CloseToEnemyDetector.position, CloseToEnemyRange);
+            Gizmos.DrawWireSphere(attackDetector.position, attackRange);
         }
         if(flyingEnemy == true)
         {

@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private int damage = 1; //temp, may be moved to child class (sword/weapon).
     private bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     private bool attack = false; //activates and locks when attack hotkey is pressed.
-    private bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
+    public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
 
     //Attacking:
     private float attackCooldown;
