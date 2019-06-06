@@ -4,6 +4,10 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+/*---------------------------------/
+ * Script by Aiden Nathan.
+ *---------------------------------*/
+
 public static class SystemSave
 {
     public static void SavePlayer(Player player) //Creates reference to player and allows the player to save their data to a save file.

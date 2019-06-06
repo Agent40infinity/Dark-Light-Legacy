@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*---------------------------------/
+ * Script by Aiden Nathan.
+ *---------------------------------*/
+
 [System.Serializable]
 public class PlayerData
 {

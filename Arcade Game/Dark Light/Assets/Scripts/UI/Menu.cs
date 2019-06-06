@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 
 /*---------------------------------/
- * Script created by Aiden Nathan.
+ * Script by Aiden Nathan.
  *---------------------------------*/
 
 namespace MainMenu

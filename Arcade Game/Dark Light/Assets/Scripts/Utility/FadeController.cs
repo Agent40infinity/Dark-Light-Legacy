@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*---------------------------------/
+ * Script by Aiden Nathan.
+ *---------------------------------*/
+
 public class FadeController : MonoBehaviour
 {
     public Animator Fade; //Creates a reference for the Animator: Fade.

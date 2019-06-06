@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*---------------------------------/
- * Script created by Aiden Nathan.
+ * Script by Aiden Nathan.
  *---------------------------------*/
 
 public class DarkLight : MonoBehaviour
