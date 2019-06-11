@@ -166,7 +166,10 @@ public class Player : MonoBehaviour
         {
             curHealth--;
             iFrame = true;
-            player.GetComponent<PlayerMovement>().beenKnocked = true;
+            if (curHealth != 0)
+            {
+                player.GetComponent<PlayerMovement>().beenKnocked = true;
+            }
             beenHit = false;
         }
         if (curHealth <= 0)
