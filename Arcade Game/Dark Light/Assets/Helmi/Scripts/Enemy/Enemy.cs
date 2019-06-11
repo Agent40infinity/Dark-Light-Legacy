@@ -37,6 +37,10 @@ public class Enemy : MonoBehaviour
 
     [Header("Flying Enemy Detector")]
     public Transform originPlace;
+    public GameObject spawnAttackPos;
+    private GameObject cloneAttackPos;
+    private bool _spawnAttackIsCreated = false;
+    private bool _isPositionUpdated = false;
     public float stoppingDistance = 9f;
     public float retreatDistance = 8f;
 
@@ -197,11 +201,31 @@ public class Enemy : MonoBehaviour
                 else if (distanceToPlayer <= retreatDistance)
                 {
                     transform.position = Vector2.MoveTowards(transform.position, player.transform.position, -(_speed * 0.75f) * Time.deltaTime);
+
+
+                    #region Flying Enemy Sword Attack
+                    Vector3 spawnPos = player.transform.position * 1.05f;
+
+                    #region Spawn a Transform Position in front of enemy
+                    if (!_spawnAttackIsCreated)
+                    {
+                        cloneAttackPos = Instantiate(spawnAttackPos, spawnPos, Quaternion.identity);
+                        _spawnAttackIsCreated = true;
+                    }
+
+                    transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 4) * Time.deltaTime);
+
+                    #endregion
+
+                    #endregion
                 }
+
                 else
                 {
                     currentState = State.Seek;
                     SeekPlayer();
+                    _spawnAttackIsCreated = false;
+                    Destroy(cloneAttackPos);
                 }
             }
             #endregion
@@ -294,6 +318,7 @@ public class Enemy : MonoBehaviour
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, retreatDistance);
+
         }
     }
     #endregion
