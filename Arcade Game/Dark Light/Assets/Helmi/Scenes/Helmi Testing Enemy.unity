@@ -321,6 +321,7 @@ MonoBehaviour:
   groundDetectorDistance: 1
   groundDetector: {fileID: 1977901028}
   originPlace: {fileID: 0}
+  spawnAttackPos: {fileID: 0}
   stoppingDistance: 7
   retreatDistance: 5
   player: {fileID: 681664074}
@@ -2224,6 +2225,8 @@ MonoBehaviour:
   beenHit: 0
   attackRange: 1
   player: {fileID: 681664074}
+  darkLight: {fileID: 0}
+  fade: {fileID: 0}
   attackPos: {fileID: 1408833669}
   isEnemy:
     serializedVersion: 2
@@ -5014,7 +5017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1181201677
 Transform:
   m_ObjectHideFlags: 0
@@ -8288,7 +8291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   main: {fileID: 1602054381}
   mainBackground: {fileID: 334226316}
-  Fade: {fileID: 109552051}
+  fade: {fileID: 0}
   options: {fileID: 2058848803}
   general: {fileID: 861030804}
   video: {fileID: 2028184363}
@@ -8569,14 +8572,16 @@ MonoBehaviour:
   attackDetector: {fileID: 0}
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 15
+  playerDetectorDistance: 10
   moveRight: 1
   groundDetectorDistance: 0
   groundDetector: {fileID: 0}
   originPlace: {fileID: 1512750216}
-  stoppingDistance: 9
-  retreatDistance: 8
-  player: {fileID: 681664077}
+  spawnAttackPos: {fileID: 5399612241422426277, guid: 33336bd28d1cb9b429ff34a1bc3515ab,
+    type: 3}
+  stoppingDistance: 6
+  retreatDistance: 7
+  player: {fileID: 681664074}
   wallDetector: {fileID: 0}
   anim: {fileID: 0}
 --- !u!61 &1951656519
@@ -8668,7 +8673,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1972316752
 Transform:
   m_ObjectHideFlags: 0
