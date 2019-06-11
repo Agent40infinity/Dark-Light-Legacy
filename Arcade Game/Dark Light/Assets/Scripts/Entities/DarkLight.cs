@@ -12,7 +12,8 @@ public class DarkLight : MonoBehaviour
     {
         if (other.name == "Player")
         {
-
+            Player.isDead = false;
+            Player.curWisps = Player.maxWisps;
             Destroy(this.gameObject);
         }
     }

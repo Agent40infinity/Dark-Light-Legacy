@@ -14,10 +14,13 @@ public class Player : MonoBehaviour
     //Mechanics:
     public static int curHealth; //Value for player's current health.
     public static int maxHealth = 5; //default value for player's max health.
+    public static int maxWisps = 3; //Max value of how many Wisps the player can have.
+    public static int curWisps; //Max value of how many Wisps the player can have.
     private int damage = 1; //temp, may be moved to child class (sword/weapon).
     private bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     private bool attack = false; //activates and locks when attack hotkey is pressed.
     public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
+    public static bool isDead = true;
 
     //Attacking:
     private float attackCooldown;
@@ -39,6 +42,7 @@ public class Player : MonoBehaviour
     public void Start() 
 	{
         curHealth = maxHealth;
+        curWisps = maxWisps;
 	}
 
     public void Update()
@@ -140,9 +144,18 @@ public class Player : MonoBehaviour
         {
             fade.GetComponent<FadeController>().FadeOut();
             Instantiate(darkLight, transform.position, transform.rotation);
+            isDead = true;
             curHealth = maxHealth;
             transform.position = new Vector3(-8, 6, 0);
             fade.GetComponent<FadeController>().FadeIn();
+        }
+        if (isDead == true)
+        {
+            maxWisps = 0;
+        }
+        else
+        {
+            maxWisps = 3;
         }
     }
 }
