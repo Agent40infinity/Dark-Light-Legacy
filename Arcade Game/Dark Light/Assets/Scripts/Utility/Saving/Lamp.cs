@@ -9,14 +9,21 @@ using UnityEngine;
 public class Lamp : MonoBehaviour
 {
     public GameObject lamps;
-    public Vector3 lParent;
-    public Vector3[] lPos = new Vector3[3];
+    public static int lastSaved;
+    public static Transform[] lPos;
 
     public void Start()
     {
+        lastSaved = 1;
         lamps = GameObject.Find("Lamps");
-        lParent = lamps.transform.position;
-        //lPos = lamps.GetComponentInChildren<Transform>().position;
+        lPos = lamps.GetComponentsInChildren<Transform>();
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.name == "Player")
+        {
+            
+        }
+    }
 }

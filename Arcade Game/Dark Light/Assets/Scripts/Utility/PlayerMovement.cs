@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
 
-        Debug.Log("Gravity before unlock: " + Physics2D.gravity);
+       // Debug.Log("Gravity before unlock: " + Physics2D.gravity);
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         if (lockMovement == false)

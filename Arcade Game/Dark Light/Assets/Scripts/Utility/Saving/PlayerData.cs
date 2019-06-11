@@ -17,9 +17,9 @@ public class PlayerData
     {
         //level = player.level;
         health = Player.curHealth;
-        position[0] = player.transform.position.x;
-        position[1] = player.transform.position.y;
-        position[2] = player.transform.position.z;
+        position[0] = Lamp.lPos[Lamp.lastSaved].position.x;
+        position[1] = Lamp.lPos[Lamp.lastSaved].position.y;
+        position[2] = Lamp.lPos[Lamp.lastSaved].position.z;
 
     }
 }

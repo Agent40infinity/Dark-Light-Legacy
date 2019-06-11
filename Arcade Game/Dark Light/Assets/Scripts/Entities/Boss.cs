@@ -76,12 +76,12 @@ namespace Boss
                     if (aRange == 1)
                     {
                         Basic();
-                        print("Basic");
+                      //  print("Basic");
                     }
                     else if (aRange == 2)
                     {
                         Charge();
-                        print("Charge");
+                   //     print("Charge");
                     }
                     else if (aRange == 3)
                     {
