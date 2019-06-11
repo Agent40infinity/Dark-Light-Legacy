@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 /*---------------------------------/
@@ -36,6 +37,19 @@ public class Player : MonoBehaviour
     public Transform attackPos;
     public LayerMask isEnemy;
 
+    int GetNumberFromString(string word)
+    {
+        string number = Regex.Match(word, @"\d+").Value;
+
+        int result;
+        if (int.TryParse(number, out result))
+        {
+            return result;
+        }
+
+        return -1;
+    }
+
     public void Start() 
 	{
         curHealth = maxHealth;
@@ -61,6 +75,21 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
+    }
+
+    
+    void OnTriggerStay2D(Collider2D other)
+    {
+        Debug.Log(other);
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            int pos = GetNumberFromString(other.name);
+            if (pos > 0 && pos < Lamp.lPos.Length)
+            {
+                Lamp.lastSaved = pos;
+            }
+            Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
+        }
     }
 
     public void FaceCheck()
@@ -141,7 +170,7 @@ public class Player : MonoBehaviour
             fade.GetComponent<FadeController>().FadeOut();
             Instantiate(darkLight, transform.position, transform.rotation);
             curHealth = maxHealth;
-            transform.position = new Vector3(-8, 6, 0);
+            transform.position = Lamp.lPos[Lamp.lastSaved].position;
             fade.GetComponent<FadeController>().FadeIn();
         }
     }
