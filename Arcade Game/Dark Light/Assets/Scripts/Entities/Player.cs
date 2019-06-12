@@ -203,9 +203,9 @@ public class Player : MonoBehaviour
             if (curHealth != 0)
             {
                 //hCounter++;
-                fade.GetComponent<FadeController>().FadeOut();
                 player.GetComponent<PlayerMovement>().beenKnocked = true;
-                //if (hCounter > 6)
+                fade.GetComponent<FadeController>().FadeOut();
+                //if (hCounter >= 6)
                 //{
                     hCounter = 0;
                     transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
