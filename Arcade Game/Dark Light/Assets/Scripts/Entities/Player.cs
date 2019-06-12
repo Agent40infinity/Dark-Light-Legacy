@@ -192,32 +192,41 @@ public class Player : MonoBehaviour
             if (curHealth != 0)
             {
                 player.GetComponent<PlayerMovement>().beenKnocked = true;
-                iFrame = true;
+                iFrame = true; 
             }
             beenHit = false;
         }
+
+        if (hitHostile == true)
+        {
+            curHealth--;
+            if (curHealth != 0)
+            {
+                //hCounter++;
+                fade.GetComponent<FadeController>().FadeOut();
+                player.GetComponent<PlayerMovement>().beenKnocked = true;
+                //if (hCounter > 6)
+                //{
+                    hCounter = 0;
+                    transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
+                    fade.GetComponent<FadeController>().FadeIn();
+                    hitHostile = false;
+                //}
+            }
+            else
+            {
+                hitHostile = false;
+            }
+        }
+
         if (curHealth <= 0)
         {
             fade.GetComponent<FadeController>().FadeOut();
             Instantiate(darkLight, transform.position, transform.rotation);
             isDead = true;
-            curHealth = maxHealth;
             transform.position = Lamp.lPos[Lamp.lastSaved].position;
+            curHealth = maxHealth;
             fade.GetComponent<FadeController>().FadeIn();
-        }
-
-        if (hitHostile == true)
-        {
-            //hCounter++;
-            fade.GetComponent<FadeController>().FadeOut();
-            curHealth--;
-            player.GetComponent<PlayerMovement>().beenKnocked = true;
-            //if (hCounter < 6)
-            //{
-                transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
-                fade.GetComponent<FadeController>().FadeIn();
-                hitHostile = false;
-            //}
         }
 
         if (isDead == true)
