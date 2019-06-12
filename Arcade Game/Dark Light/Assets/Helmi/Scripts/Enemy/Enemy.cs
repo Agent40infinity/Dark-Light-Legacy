@@ -31,24 +31,36 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public bool moveRight = true;
 
-    [Header("Ground Enemy Detector")]
+    [Header("Ground Enemy Attributes")]
     public float groundDetectorDistance = 2f;
     public Transform groundDetector;
 
-    [Header("Flying Enemy Detector")]
-    public Transform originPlace;
+    [Header("Flying Enemy Attributes")]
     public GameObject spawnAttackPos;
     private GameObject cloneAttackPos;
-    private bool _spawnAttackIsCreated = false;
-    private bool _isPositionUpdated = false;
     public float stoppingDistance = 9f;
     public float retreatDistance = 8f;
+    private bool _spawnAttackIsCreated = false;
+    private Vector2 originPlace;
+
+    [Header("Shooting Flying Enemy Attributes")]
+    public GameObject bulletPrefab;
+    private Bullets bullet;
+
+    // >>>TIMER<<<
+    private float _startingTimer = 0;
+    private float _timer;
+
+    // >>>ATTACK<<<
+    private bool _swordAttack = false;
+    private bool _bulletAttack = false;
+
+    // >>>CHANCES<<<
+    private int chance;
 
     [Header("Reference")]
-    public GameObject player;
+    public Transform player;
     public GameObject wallDetector;
-
-    //Reference
     private Player playerScrpt;
 
     // Testing
@@ -59,10 +71,15 @@ public class Enemy : MonoBehaviour
     #region Start
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
+        player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        if (flyingEnemy == true)
+        {
+            originPlace = new Vector2(transform.position.x, transform.position.y);
+        }
         playerScrpt = player.GetComponent<Player>();
         _speed = initialSpeed;
         currentState = State.Patrol;
+        _timer = _startingTimer;
     }
     #endregion
 
@@ -135,7 +152,7 @@ public class Enemy : MonoBehaviour
         #region Flying Enemy
         if (flyingEnemy == true)
         {
-            transform.position = Vector2.MoveTowards(transform.position, originPlace.position, _speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, originPlace, _speed * Time.deltaTime);
         }
         #endregion
     }
@@ -179,7 +196,7 @@ public class Enemy : MonoBehaviour
     void PlayerInsideRange()
     {        
         // the distance between enemy and player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         #region Chase player or not
         // Player inside the red Circle Range
@@ -196,28 +213,81 @@ public class Enemy : MonoBehaviour
             #region Flying Enemy
             if (flyingEnemy == true)
             {
+                // Green Range
                 if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
                 { }
+
+                // Yellow Range
                 else if (distanceToPlayer <= retreatDistance)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, player.transform.position, -(_speed * 0.75f) * Time.deltaTime);
+                    // Enemy backing from player
+                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
 
-
-                    #region Flying Enemy Sword Attack
-                    Vector3 spawnPos = player.transform.position * 1.05f;
-
-                    #region Spawn a Transform Position in front of enemy
-                    if (!_spawnAttackIsCreated)
+                    // Starting The time
+                    if (_timer >= 0)
                     {
-                        cloneAttackPos = Instantiate(spawnAttackPos, spawnPos, Quaternion.identity);
-                        _spawnAttackIsCreated = true;
+                        // Start timer
+                        _timer += Time.deltaTime;
+
+                        Debug.Log("TIME:" + _timer);
                     }
 
-                    transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 4) * Time.deltaTime);
+                    // If time more than or equal to 3 seconds
+                    if (_timer >= 0.5)
+                    {
+                        // Start chance generator
+                        chance = Random.Range(0, 100);
+                        Debug.Log("CHANCE:" + chance);
 
-                    #endregion
+                        if (chance <= 50)
+                        {
+                            #region Flying Enemy Sword Attack
+                            Vector3 spawnPos = player.transform.position * 1.2f;
 
-                    #endregion
+                            #region Spawn a Transform Position in front of enemy 
+                            if (!_spawnAttackIsCreated)
+                            {
+                                cloneAttackPos = Instantiate(spawnAttackPos, spawnPos, Quaternion.identity);
+                                _spawnAttackIsCreated = true;
+                            }
+                            #endregion
+
+                            transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 4) * Time.deltaTime);
+                            
+                            #endregion
+                            chance = 0;
+                            Debug.Log("SWORDD ATTACKK");
+                            }
+
+                            /*
+                            if (chance > 50)
+                            {
+                                _swordAttack = false;
+                                _bulletAttack = true;
+
+                                if(_bulletAttack == true)
+                                {
+                                    #region Fire Bullets 
+                                    GameObject projectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                                    bullet = projectile.GetComponent<Bullets>();
+                                    bullet.Fire(player.position);
+                                    #endregion
+
+                                    chance = 0;
+                                    Debug.Log("FIRE BULLETTSS!!!!");
+                                }
+                            }
+                            */
+
+                        // If it is in 6 seconds
+                        if (_timer >= 2)
+                        {
+                            // Reset timer and Chance
+                            _timer = 0;
+                            _bulletAttack = false;
+                        }
+                    }                    
+
                 }
 
                 else
@@ -226,6 +296,8 @@ public class Enemy : MonoBehaviour
                     SeekPlayer();
                     _spawnAttackIsCreated = false;
                     Destroy(cloneAttackPos);
+                    Destroy(bullet);
+                    chance = 0;
                 }
             }
             #endregion
@@ -258,13 +330,6 @@ public class Enemy : MonoBehaviour
                 _speed = initialSpeed;
                 anim.SetBool("IsAttack", false);
             }
-        }
-        #endregion
-
-        #region Flying Enemy
-        if(flyingEnemy == true)
-        {
-
         }
         #endregion
 
