@@ -18,9 +18,10 @@ public class Player : MonoBehaviour
     public static int maxWisps = 3; //Max value of how many Wisps the player can have.
     public static int curWisps; //Max value of how many Wisps the player can have.
     private int damage = 1; //temp, may be moved to child class (sword/weapon).
-    private bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
+    public bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     private bool attack = false; //activates and locks when attack hotkey is pressed.
     public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
+    public bool hitHostile = false;
     public static bool isDead = true;
 
     //Attacking:
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
     private int iFCounter = 0; //counter for iFrame activation.
     private int aCounter = 0; //counter for attack activation.
     private int dCounter = 0; //counter for dash activation.
+    private int hCounter = 0;
 
     //Reference:
     public GameObject player;
@@ -61,6 +63,7 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
+        Health();
         if (Input.GetKeyDown(KeyCode.P))
         {
             curHealth--;
@@ -71,7 +74,6 @@ public class Player : MonoBehaviour
     {
         Attack();
         IFrame();
-        Health();
         FaceCheck();
     }
 
@@ -81,18 +83,38 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
 
-    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(other);
+        if (other.tag == "Checkpoint")
+        {
+            int pos = GetNumberFromString(other.name);
+            if (pos > 0 && pos < FallCheckpoint.cPos.Length)
+            {
+                FallCheckpoint.lastPassed = pos;
+            }
+            Debug.Log("Updated lastPassed: " + FallCheckpoint.lastPassed);
+        }
+    }
+
     void OnTriggerStay2D(Collider2D other)
     {
         Debug.Log(other);
-        if (Input.GetKeyDown(KeyCode.F))
+        if (other.tag == "Save")
         {
-            int pos = GetNumberFromString(other.name);
-            if (pos > 0 && pos < Lamp.lPos.Length)
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                Lamp.lastSaved = pos;
+                int pos = GetNumberFromString(other.name);
+                if (pos > 0 && pos < Lamp.lPos.Length)
+                {
+                    Lamp.lastSaved = pos;
+                }
+                Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
             }
-            Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
+        }
+        if (other.tag == "HostileEnvironment")
+        {
+            hitHostile = true;            
         }
     }
 
@@ -147,10 +169,12 @@ public class Player : MonoBehaviour
         if (iFrame == true)
         {
             iFCounter++;
-            if (iFCounter <= 60)
+            Debug.Log("iFCounter: " + iFCounter);
+            if (iFCounter >= 60)
             {
                 iFCounter = 0;
                 iFrame = false;
+                Debug.Log("Read iFrame: " + iFrame);
             }
         }
     }
@@ -165,10 +189,10 @@ public class Player : MonoBehaviour
         if (beenHit == true && iFrame == false && curHealth >= 1)
         {
             curHealth--;
-            iFrame = true;
             if (curHealth != 0)
             {
                 player.GetComponent<PlayerMovement>().beenKnocked = true;
+                iFrame = true;
             }
             beenHit = false;
         }
@@ -181,6 +205,21 @@ public class Player : MonoBehaviour
             transform.position = Lamp.lPos[Lamp.lastSaved].position;
             fade.GetComponent<FadeController>().FadeIn();
         }
+
+        if (hitHostile == true)
+        {
+            //hCounter++;
+            fade.GetComponent<FadeController>().FadeOut();
+            curHealth--;
+            player.GetComponent<PlayerMovement>().beenKnocked = true;
+            //if (hCounter < 6)
+            //{
+                transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
+                fade.GetComponent<FadeController>().FadeIn();
+                hitHostile = false;
+            //}
+        }
+
         if (isDead == true)
         {
             maxWisps = 0;

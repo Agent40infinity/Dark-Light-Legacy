@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigid; //References the RigidBody2D for player.
     public Transform feetPos; //Used to reference the ground check for player.
     public LayerMask isWalkable; //Used to create reference to walkable objects.
+    public GameObject player;
     #endregion
 
     #region General
@@ -63,9 +64,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
-
-
-       // Debug.Log("Gravity before unlock: " + Physics2D.gravity);
+        Debug.Log("iFrame from PlayerMovement: " + player.GetComponent<Player>().iFrame);
+        //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         if (lockMovement == false)
@@ -92,6 +92,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     #endregion
+
+    //void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(attackPos.position, attackRange);
+    //}
 
     #region Movement - Update
     public void Movement() //Normal Movement - used for vertical input and movement.
