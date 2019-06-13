@@ -65,13 +65,13 @@ namespace MainMenu
             keybind.Add("Attack", KeyCode.E);
             keybind.Add("Dash", KeyCode.LeftShift);
 
-            up.text = keybind["Up"].ToString();
-            down.text = keybind["Down"].ToString();
-            left.text = keybind["Left"].ToString();
-            right.text = keybind["Right"].ToString();
-            jump.text = keybind["Jump"].ToString();
-            attack.text = keybind["Attack"].ToString();
-            dash.text = keybind["Dash"].ToString();
+            //up.text = keybind["Up"].ToString();
+            //down.text = keybind["Down"].ToString();
+            //left.text = keybind["Left"].ToString();
+            //right.text = keybind["Right"].ToString();
+            //jump.text = keybind["Jump"].ToString();
+            //attack.text = keybind["Attack"].ToString();
+            //dash.text = keybind["Dash"].ToString();
         }
 
         public void Update()
@@ -88,7 +88,7 @@ namespace MainMenu
                 {
                     qTimer = 0;
                     Application.Quit();
-                    UnityEditor.EditorApplication.isPlaying = false;
+                    //UnityEditor.EditorApplication.isPlaying = false;
                     quitTimer = false;
                 }
             }
