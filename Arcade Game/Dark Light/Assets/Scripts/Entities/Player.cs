@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     public GameObject fade;
     public Transform attackPos;
     public LayerMask isEnemy;
+    public Animator anim;
 
     int GetNumberFromString(string word)
     {

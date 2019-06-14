@@ -182,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
                 lockYAxis = true;//enable y axis lock here.
                 canDash = false;
                 dashTimer -= Time.deltaTime;
+                GetComponent<Player>().anim.SetTrigger("Dash");
                 if (isFacing == true) //Checks what direction the dash is being activated from and acts accordingly.
                 {
                     force = 1f;
