@@ -3101,6 +3101,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   anim: {fileID: 681664081}
+  rend: {fileID: 681664078}
 --- !u!50 &681664076
 Rigidbody2D:
   serializedVersion: 4

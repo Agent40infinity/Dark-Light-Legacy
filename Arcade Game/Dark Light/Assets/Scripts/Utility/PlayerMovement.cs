@@ -105,11 +105,14 @@ public class PlayerMovement : MonoBehaviour
         if ((int)Input.GetAxisRaw("Horizontal") == -1) //Determines whether or not the player is Facing left.
         {
             isFacing = false;
-
         }
         else if ((int)Input.GetAxisRaw("Horizontal") == 1) //Determines whether or not the player is Facing right.
         {
             isFacing = true;
+        }
+        if ((int)Input.GetAxisRaw("Horizontal") != 0)
+        {
+            GetComponent<Player>().rend.flipX = (int)Input.GetAxisRaw("Horizontal") < 0;
         }
         if (dashCooldown == true)  //Puts dash on cooldown.
         {

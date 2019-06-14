@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
     public Transform attackPos;
     public LayerMask isEnemy;
     public Animator anim;
+    public SpriteRenderer rend;
 
     int GetNumberFromString(string word)
     {
