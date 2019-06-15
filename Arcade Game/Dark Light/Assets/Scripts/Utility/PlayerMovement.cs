@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     public float dCTimer = 0.5f; //Dash cooldown timer
     public float knockbackTime = 0.2f;
     public float kBTimer;
+    public float fallTime;
 
     //Reference:
     private Rigidbody2D rigid; //References the RigidBody2D for player.
@@ -64,10 +65,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log("iFrame from PlayerMovement: " + player.GetComponent<Player>().iFrame);
+        //Debug.Log("iFrame from PlayerMovement: " + player.GetComponent<Player>().iFrame);
+        Debug.Log("fallTime:" + fallTime);
         //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
+        //Debug.Log("forceY: " + GetComponent<Player>().anim.GetFloat("forceY") + "   velocity: " + rigid.velocity.y);
+        GetComponent<Player>().anim.SetBool("isGrounded", isGrounded);
+        GetComponent<Player>().anim.SetFloat("forceY", rigid.velocity.y);
+        GetComponent<Player>().anim.SetBool("Dash", dash);
+        GetComponent<Player>().anim.SetBool("isWalking", rigid.velocity.x != 0 && isGrounded);
+        
+
         if (lockMovement == false)
         {
             Movement();
@@ -171,6 +180,25 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+        if (isGrounded == false)
+        {
+            fallTime += Time.deltaTime;
+        }
+        else if (isGrounded == true && fallTime >= 2f)
+        {
+            float i = 0;
+            i += Time.deltaTime;
+            GetComponent<Player>().anim.SetBool("tooHigh", true);
+            if (i >= 0.40)
+            {
+                GetComponent<Player>().anim.SetBool("tooHigh", false);
+                fallTime = 0;
+            }  
+        }
+        else
+        {
+            fallTime = 0;
+        }
     }
     #endregion
 
@@ -185,7 +213,6 @@ public class PlayerMovement : MonoBehaviour
                 lockYAxis = true;//enable y axis lock here.
                 canDash = false;
                 dashTimer -= Time.deltaTime;
-                GetComponent<Player>().anim.SetTrigger("Dash");
                 if (isFacing == true) //Checks what direction the dash is being activated from and acts accordingly.
                 {
                     force = 1f;
