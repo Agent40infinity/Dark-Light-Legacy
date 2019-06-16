@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     public float knockbackTime = 0.2f;
     public float kBTimer;
     public float fallTime;
+    public int landTime;
 
     //Reference:
     private Rigidbody2D rigid; //References the RigidBody2D for player.
@@ -186,12 +187,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (isGrounded == true && fallTime >= 2f)
         {
-            float i = 0;
-            i += Time.deltaTime;
+            landTime++;
+            Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
-            if (i >= 0.40)
+            if (landTime >= 40)
             {
                 GetComponent<Player>().anim.SetBool("tooHigh", false);
+                //i = 0;    
                 fallTime = 0;
             }  
         }

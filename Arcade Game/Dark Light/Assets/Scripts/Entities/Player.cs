@@ -25,8 +25,8 @@ public class Player : MonoBehaviour
     public static bool isDead = true;
 
     //Attacking:
-    private float attackCooldown;
-    private float startACooldown;
+    private int attackCooldown;
+    private int startACooldown = 15;
     public float attackRange;
 
     //Counters:
@@ -142,30 +142,28 @@ public class Player : MonoBehaviour
 
     public void Attack() //deals with attack activation sequence.
     {
+        Debug.Log("AttackCooldown" + attackCooldown);
         if (attackCooldown <= 0)
         {
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetButtonDown("Attack"))
             {
+                anim.SetBool("Attack_Down", true);
                 Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackPos.position, attackRange, isEnemy);
                 for (int i = 0; i < enemiesInRange.Length; i++)
                 {
-                    //enemiesInRange[i].GetComponent<Enemy>.TakeDamage(damage);     
-                    //boss.Heath = Boss.Health - Damage; (boss doesn't exist currently)
+                    //enemiesInRange[i].GetComponent<EnemyHealth>.TakeDamage(damage);     
+                    //boss.Heath = Boss.Health - Damage; //(boss doesn't exist currently)
                 }
-            }
-            attackCooldown = startACooldown;
+                attackCooldown = startACooldown;
+            }   
         }
         else
         {
-            attackCooldown -= Time.deltaTime;
-        }
-
-        if (Input.GetKeyDown("e"))
-        {
-            
+            anim.SetBool("Attack_Down", false);
+            attackCooldown--;
         }
     }
-
+        
     public void IFrame() //deals with the activation of the iFrame after certain activations.
     {
         if (iFrame == true)
