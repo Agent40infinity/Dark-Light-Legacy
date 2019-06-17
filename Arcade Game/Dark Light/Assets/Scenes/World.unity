@@ -3307,10 +3307,11 @@ MonoBehaviour:
   yLimiter: 1
   knockback: {x: 40, y: 8}
   beenKnocked: 0
+  isJumping: 0
   isFacing: 0
   isGrounded: 0
   knockbackDirection: 0
-  checkRadius: 0.1
+  checkRadius: {x: 0.9, y: 0.1}
   accelSpeed: 2
   dash: 0
   canDash: 1

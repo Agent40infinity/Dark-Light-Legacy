@@ -10,7 +10,7 @@ public class DarkLight : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "Player")
+        if (other.name == "Player") //Checks whether or not the player has collected the DarkLight and acts accordingly.
         {
             Player.isDead = false;
             Player.curWisps = Player.maxWisps;

@@ -15,22 +15,22 @@ public class PlayerMovement : MonoBehaviour
     public float yLimiter = 0.5f; //Default value for the limiter placed on the y-axis.
     private float gravity; //Default value of gravity for player.
     private float force; //Default value of the force applied to the player.
-    public Vector2 knockback = new Vector2(10, 5);
-    public bool beenKnocked = false;
-    private bool isJumping; //Default value of whether the player is jumping.
+    public Vector2 knockback = new Vector2(10, 5); //Stores the values for the amount of knockback the player will take.
+    public bool beenKnocked = false; //Checks whether or not the player needs to take knockback.
+    public bool isJumping; //Default value of whether the player is jumping.
     public bool isFacing; //What direction is the player facing? true = right, false = left.
     public bool isGrounded; //Default value for whether the player is on the ground or not.
     public bool knockbackDirection; //true = left, false = right.
-    public Vector2 checkRadius = new Vector2(1, 0.1f); //Creates a radius to check for the ground.
+    public Vector2 checkRadius = new Vector2(0.9f, 0.1f); //Stores the values for the range isGrounded will be calculated with.
     public float accelSpeed = 4f; //Default value for dash's speed.
     public bool dash = false; //Used to call upon the sub-routine (dash).
     public bool canDash = true; //Used to check whether or not the player is able to dash.
     public bool dashReset = false; //Used to see whether or not the dash can be reset.
     public bool dashCooldown = false; //Used to see whether or not the dash is on cooldown.
-    public bool lockMovement = false; //Used to check whether or not all movment is required to be locked.
-    public bool lockAll = false;
-    public bool unlockAll = false;
-    public bool lockAbilities = false;
+    public bool lockMovement = false; //Used to lock all Movement inputs.
+    public bool lockAll = false; //Used to lock all movement, actions, and abilities.
+    public bool unlockAll = false; //Used to unlock all movement, actions, and abilities.
+    public bool lockAbilities = false; //Used to lock Abilities.
     public bool lockYAxis = false; //Used to lock the Y Axis.
     public bool unlockYAxis = false; //Used to Unlock the Y Axis.
     public Vector2 tempGravity; //Used to temporarily store the value of gravity.
@@ -39,26 +39,26 @@ public class PlayerMovement : MonoBehaviour
     //Timers/Counters:
     private float aTTimer; //Air time timer.
     public float airTime = 0.1f; //Air time counter.
-    public int aHTimer;
-    public int airHTime = 5;
+    //public int aHTimer; //This was for something, can't remember what.
+    //public int airHTime = 5; //same with this.
     public float dashTimer; //Dash time timer.
     public float dashTimeReset = 0.15f; //Dash time reset.
     public float dashCTime = 0.5f; //Dash cooldown reset.
-    public float dCTimer = 0.5f; //Dash cooldown timer
-    public float knockbackTime = 0.2f;
-    public float kBTimer;
-    public float fallTime;
-    public int landTime;
+    public float dCTimer = 0.5f; //Dash cooldown timer.
+    public float knockbackTime = 0.2f; //Knockback time reset.
+    public float kBTimer; //Knockback timer.
+    public float fallTime; //Fall time counter.
+    public int landTime; //Land time counter.
 
     //Reference:
     public Rigidbody2D rigid; //References the RigidBody2D for player.
     public Transform feetPos; //Used to reference the ground check for player.
     public LayerMask isWalkable; //Used to create reference to walkable objects.
-    public GameObject player;
+    public GameObject player; //References the player itself.
     #endregion
 
     #region General
-    public void Start()
+    public void Start() //Defaults values not already set via soft-coding or within the constructor.
     {
         rigid = GetComponent<Rigidbody2D>();
         dashTimer = dashTimeReset;
@@ -69,12 +69,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void Update()
     {
+        #region Debug Logs
         //Debug.Log("iFrame from PlayerMovement: " + player.GetComponent<Player>().iFrame);
         Debug.Log("fallTime:" + fallTime);
         //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         //Debug.Log("forceY: " + GetComponent<Player>().anim.GetFloat("forceY") + "   velocity: " + rigid.velocity.y);
+        #endregion
+
+        //Animation controls:
         GetComponent<Player>().anim.SetBool("isGrounded", isGrounded);
         GetComponent<Player>().anim.SetFloat("forceY", rigid.velocity.y);
         GetComponent<Player>().anim.SetBool("Dash", dash);
@@ -108,15 +112,10 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    void OnDrawGizmosSelected()
-    {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawCube(isGrounded, isGrounded);
-    }
-
     #region Movement - Update
     public void Movement() //Normal Movement - used for vertical input and movement.
     {
+        #region Facing
         if ((int)Input.GetAxisRaw("Horizontal") == -1) //Determines whether or not the player is Facing left.
         {
             isFacing = false;
@@ -125,18 +124,21 @@ public class PlayerMovement : MonoBehaviour
         {
             isFacing = true;
         }
-        if ((int)Input.GetAxisRaw("Horizontal") != 0)
+        if ((int)Input.GetAxisRaw("Horizontal") != 0) //Esed to flip all sprites used in the sprite renderer.
         {
             GetComponent<Player>().rend.flipX = (int)Input.GetAxisRaw("Horizontal") < 0;
         }
+        #endregion
+
+        #region Dash - Movement
         if (dashCooldown == true)  //Puts dash on cooldown.
         {
-            if (dCTimer >= 0)
+            if (dCTimer >= 0) //Counts down the cooldown.
             {
                 Debug.Log(dCTimer);
                 dCTimer -= Time.deltaTime;
             }
-            else
+            else //Takes dash off cooldown.
             {
                 dCTimer = dashCTime;
                 dashReset = true;
@@ -156,8 +158,10 @@ public class PlayerMovement : MonoBehaviour
                 lockMovement = true;
             }
         }
+        #endregion
 
-        isGrounded = Physics2D.OverlapBox(feetPos.position, checkRadius, 0, isWalkable); //Checks for if the player is grounded or not.
+        #region Jump
+        isGrounded = Physics2D.OverlapBox(feetPos.position, checkRadius, 0, isWalkable); //Checks for if the player is grounded or not based on a small overlap box's collider.
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space)) //Checks if the player is grounded and space has been pressed - light jump.
         {
             rigid.velocity = Vector2.up * ySpeed * yLimiter;
@@ -179,57 +183,63 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space)) //Makes sure jumping isn't active when space isn't pressed.
         {
             Vector2 jX = rigid.velocity;
-            if (rigid.velocity.y >= yLimiter)
+            if (rigid.velocity.y >= yLimiter) //Checks if the velocity is creater than the lowest value for the jump.
             {
                 rigid.velocity = new Vector2(jX.x, 0);
                 isJumping = false;
             }
 
         }
+        #endregion
 
     }
     #endregion
+
+    #region Locks
     void Locks()
     {
-        if (lockAll == true)
+        if (lockAll == true) //Used to lock all functions.
         {
             lockMovement = true;
             lockAbilities = true;
             rigid.velocity = new Vector3(0, rigid.velocity.y);
             lockAll = false;
         }
-        else if (unlockAll == true)
+        else if (unlockAll == true) //Used to unlock all functions.
         {
             lockMovement = false;
             lockAbilities = false;
             unlockAll = false;
         }
 
-        if (isGrounded == false)
+        #region Fall time
+        if (isGrounded == false) //Used to count fall distance as time.
         {
             fallTime += Time.deltaTime;
         }
-        else if (isGrounded == true && fallTime >= 1.5f)
+        else if (isGrounded == true && fallTime >= 1.5f) //Checks whether or not the player is grounded once again and that the fall time was greater than 1.5 seconds; Locks the player into place if so and plays an animation.
         {
             lockMovement = true;
             rigid.velocity = new Vector3(0, rigid.velocity.y);
             landTime++;
             Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
-            if (landTime >= 40)
+            if (landTime >= 40) //Unlocks the player's movement and ends the animation.
             {
-                GetComponent<Player>().anim.SetBool("tooHigh", false);
+                GetComponent<Player>().anim.SetBool("tooHigh", false);                                      //Gonna be real, don't know why this is under Locks. Might move it later.
                 lockMovement = false;
                 Debug.Log("locked: " + lockMovement);
                 fallTime = 0;
                 landTime = 0;
             }
         }
-        else
+        else //Resets the fall time back to 0.
         {
             fallTime = 0;
         }
+        #endregion
     }
+    #endregion
 
     #region Dash - Update
     public void Dash() //Movement: Dash - Allows the player to dash forward.
@@ -264,7 +274,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (lockYAxis == true)
+        if (lockYAxis == true) //Used to lock the YAxis while the player is dashing.
         {
             //tempGravity = Physics2D.gravity;
             Physics2D.gravity = Vector2.zero;
@@ -273,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
             rigid.velocity = new Vector2(tempYVelocity.x, 0);
             lockYAxis = false;
         }
-        if (unlockYAxis == true)
+        if (unlockYAxis == true) //Used to restore the values lost when locking the YAxis (Yes, it unlocks the YAxis).
         {
             //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
             Physics2D.gravity = tempGravity;
@@ -286,11 +296,11 @@ public class PlayerMovement : MonoBehaviour
     #region Knockback
     public void Knockback()
     {
-        if (kBTimer > 0)
+        if (kBTimer > 0) //Checks if the knockback timer has been reset.
         {
             kBTimer -= Time.deltaTime;
             lockMovement = true;
-            if (knockbackDirection == true)
+            if (knockbackDirection == true) //Applies knockback based on the direction the player was hit from.
             {
                 rigid.velocity = new Vector2(knockback.x, knockback.y);
             }
@@ -299,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
                 rigid.velocity = new Vector2(-knockback.x, knockback.y);
             }
         }
-        else
+        else //Resets the ability to take knockback.
         {
             lockMovement = false;
             kBTimer = knockbackTime;
