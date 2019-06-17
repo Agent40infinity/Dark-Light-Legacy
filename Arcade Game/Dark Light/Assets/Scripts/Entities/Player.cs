@@ -22,7 +22,8 @@ public class Player : MonoBehaviour
     private bool attack = false; //activates and locks when attack hotkey is pressed.
     public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
     public bool hitHostile = false;
-    public static bool isDead = true;
+    public static bool isDead = false;
+    bool isFadingFromDeath = false;
 
     //Attacking:
     private int attackCooldown;
@@ -34,8 +35,12 @@ public class Player : MonoBehaviour
     private int aCounter = 0; //counter for attack activation.
     private int dCounter = 0; //counter for dash activation.
     private int hCounter = 0;
+    private float dthCounter = 0;
+    private float fICounter = 0;
+    private float fOCounter = 0;
 
     //Reference:
+    public GameObject death;
     public GameObject player;
     public GameObject darkLight;
     public GameObject fade;
@@ -181,6 +186,7 @@ public class Player : MonoBehaviour
     //[Header("Health")]
     public void Health() //deals with health deduction and external UI changes.
     {
+        anim.SetBool("Death", isDead);
         if (Input.GetKeyDown(KeyCode.O))
         {
             beenHit = true;
@@ -205,11 +211,14 @@ public class Player : MonoBehaviour
                 //hCounter++;
                 player.GetComponent<PlayerMovement>().beenKnocked = true;
                 fade.GetComponent<FadeController>().FadeOut();
+                print("fadeOut");
                 //if (hCounter >= 6)
                 //{
                     hCounter = 0;
                     transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
-                    fade.GetComponent<FadeController>().FadeIn();
+                print("fadeIn");
+
+                fade.GetComponent<FadeController>().FadeIn();
                     hitHostile = false;
                 //}
             }
@@ -219,14 +228,43 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (curHealth <= 0)
+
+        if (curHealth <= 0 && !isFadingFromDeath)
         {
-            fade.GetComponent<FadeController>().FadeOut();
-            Instantiate(darkLight, transform.position, transform.rotation);
+            StartCoroutine("_Die");
+            /*
+            beenHit = false;
             isDead = true;
-            transform.position = Lamp.lPos[Lamp.lastSaved].position;
-            curHealth = maxHealth;
-            fade.GetComponent<FadeController>().FadeIn();
+            dthCounter += Time.deltaTime;
+            //Debug.Log("Death Counter: " + dthCounter);
+            if (dthCounter >= 2.50f)
+            {
+                fICounter += Time.deltaTime;
+                fade.GetComponent<FadeController>().FadeOut();
+                print("fadeOut");
+
+                Debug.Log("!KillMe");
+                if (fICounter >= 1f)
+                {
+                    fOCounter += Time.deltaTime;
+                    death.SetActive(true);
+                    isDead = false;
+                    if (fOCounter >= 5f)
+                    {
+                        fade.GetComponent<FadeController>().FadeIn();
+                        print("fadeIn");
+
+                        death.SetActive(false);
+                        Instantiate(darkLight, transform.position, transform.rotation);
+                        transform.position = Lamp.lPos[Lamp.lastSaved].position;
+                        curHealth = maxHealth;
+                        dthCounter = 0;
+                        fICounter = 0;
+                        fOCounter = 0;
+                    }
+                }
+            }
+            */
         }
 
         if (isDead == true)
@@ -237,5 +275,30 @@ public class Player : MonoBehaviour
         {
             maxWisps = 3;
         }
+    }
+    IEnumerator _Die()
+    {
+        isFadingFromDeath = true;
+        player.GetComponent<PlayerMovement>().lockMovement = true;
+        beenHit = false;
+        isDead = true;
+
+        yield return new WaitForSeconds(2.5f);
+        fade.GetComponent<FadeController>().FadeOut();
+
+        yield return new WaitForSeconds(1f);
+        death.SetActive(true);
+        Instantiate(darkLight, transform.position, transform.rotation);
+        transform.position = Lamp.lPos[Lamp.lastSaved].position;
+        curHealth = maxHealth;
+        isDead = false;
+
+        yield return new WaitForSeconds(5f);
+        death.SetActive(false);
+        fade.GetComponent<FadeController>().FadeIn();
+        isFadingFromDeath = false;
+
+        yield return new WaitForSeconds(2f);
+        player.GetComponent<PlayerMovement>().lockMovement = false;
     }
 }

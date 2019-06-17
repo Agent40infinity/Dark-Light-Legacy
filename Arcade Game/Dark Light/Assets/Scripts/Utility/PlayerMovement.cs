@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     public void Update()
     {
         //Debug.Log("iFrame from PlayerMovement: " + player.GetComponent<Player>().iFrame);
-        Debug.Log("fallTime:" + fallTime);
+        //Debug.Log("fallTime:" + fallTime);
         //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
@@ -187,13 +187,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (isGrounded == true && fallTime >= 2f)
         {
+            lockMovement = true;
             landTime++;
             Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
             if (landTime >= 40)
             {
                 GetComponent<Player>().anim.SetBool("tooHigh", false);
-                //i = 0;    
+                lockMovement = false;
                 fallTime = 0;
             }  
         }
