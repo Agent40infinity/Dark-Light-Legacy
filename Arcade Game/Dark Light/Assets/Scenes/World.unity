@@ -3317,6 +3317,9 @@ MonoBehaviour:
   dashReset: 0
   dashCooldown: 0
   lockMovement: 0
+  lockAll: 0
+  unlockAll: 0
+  lockAbilities: 0
   lockYAxis: 0
   unlockYAxis: 0
   tempGravity: {x: 0, y: 0}
@@ -3332,6 +3335,7 @@ MonoBehaviour:
   kBTimer: 0
   fallTime: 0
   landTime: 0
+  rigid: {fileID: 0}
   feetPos: {fileID: 918328630}
   isWalkable:
     serializedVersion: 2

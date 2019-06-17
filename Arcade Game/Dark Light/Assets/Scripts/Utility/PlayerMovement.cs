@@ -21,13 +21,16 @@ public class PlayerMovement : MonoBehaviour
     public bool isFacing; //What direction is the player facing? true = right, false = left.
     public bool isGrounded; //Default value for whether the player is on the ground or not.
     public bool knockbackDirection; //true = left, false = right.
-    public float checkRadius; //Creates a radius to check for the ground.
+    public Vector2 checkRadius = new Vector2(1, 0.1f); //Creates a radius to check for the ground.
     public float accelSpeed = 4f; //Default value for dash's speed.
     public bool dash = false; //Used to call upon the sub-routine (dash).
     public bool canDash = true; //Used to check whether or not the player is able to dash.
     public bool dashReset = false; //Used to see whether or not the dash can be reset.
     public bool dashCooldown = false; //Used to see whether or not the dash is on cooldown.
     public bool lockMovement = false; //Used to check whether or not all movment is required to be locked.
+    public bool lockAll = false;
+    public bool unlockAll = false;
+    public bool lockAbilities = false;
     public bool lockYAxis = false; //Used to lock the Y Axis.
     public bool unlockYAxis = false; //Used to Unlock the Y Axis.
     public Vector2 tempGravity; //Used to temporarily store the value of gravity.
@@ -48,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public int landTime;
 
     //Reference:
-    private Rigidbody2D rigid; //References the RigidBody2D for player.
+    public Rigidbody2D rigid; //References the RigidBody2D for player.
     public Transform feetPos; //Used to reference the ground check for player.
     public LayerMask isWalkable; //Used to create reference to walkable objects.
     public GameObject player;
@@ -67,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     public void Update()
     {
         //Debug.Log("iFrame from PlayerMovement: " + player.GetComponent<Player>().iFrame);
-        //Debug.Log("fallTime:" + fallTime);
+        Debug.Log("fallTime:" + fallTime);
         //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
@@ -76,14 +79,14 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Player>().anim.SetFloat("forceY", rigid.velocity.y);
         GetComponent<Player>().anim.SetBool("Dash", dash);
         GetComponent<Player>().anim.SetBool("isWalking", rigid.velocity.x != 0 && isGrounded);
-        
+
 
         if (lockMovement == false)
         {
             Movement();
         }
 
-        if (dash == true)
+        if (dash == true && lockAbilities == false)
         {
             Dash();
         }
@@ -92,10 +95,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Knockback();
         }
+        
     }
 
     public void FixedUpdate()
     {
+        Locks();
         if (lockMovement == false)
         {
             MovementF();
@@ -103,11 +108,11 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    //void OnDrawGizmosSelected()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(attackPos.position, attackRange);
-    //}
+    void OnDrawGizmosSelected()
+    {
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawCube(isGrounded, isGrounded);
+    }
 
     #region Movement - Update
     public void Movement() //Normal Movement - used for vertical input and movement.
@@ -152,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, isWalkable); //Checks for if the player is grounded or not.
+        isGrounded = Physics2D.OverlapBox(feetPos.position, checkRadius, 0, isWalkable); //Checks for if the player is grounded or not.
         if (isGrounded == true && Input.GetKeyDown(KeyCode.Space)) //Checks if the player is grounded and space has been pressed - light jump.
         {
             rigid.velocity = Vector2.up * ySpeed * yLimiter;
@@ -181,13 +186,33 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+
+    }
+    #endregion
+    void Locks()
+    {
+        if (lockAll == true)
+        {
+            lockMovement = true;
+            lockAbilities = true;
+            rigid.velocity = new Vector3(0, rigid.velocity.y);
+            lockAll = false;
+        }
+        else if (unlockAll == true)
+        {
+            lockMovement = false;
+            lockAbilities = false;
+            unlockAll = false;
+        }
+
         if (isGrounded == false)
         {
             fallTime += Time.deltaTime;
         }
-        else if (isGrounded == true && fallTime >= 2f)
+        else if (isGrounded == true && fallTime >= 1.5f)
         {
             lockMovement = true;
+            rigid.velocity = new Vector3(0, rigid.velocity.y);
             landTime++;
             Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
@@ -195,15 +220,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 GetComponent<Player>().anim.SetBool("tooHigh", false);
                 lockMovement = false;
+                Debug.Log("locked: " + lockMovement);
                 fallTime = 0;
-            }  
+                landTime = 0;
+            }
         }
         else
         {
             fallTime = 0;
         }
     }
-    #endregion
 
     #region Dash - Update
     public void Dash() //Movement: Dash - Allows the player to dash forward.
@@ -230,6 +256,7 @@ public class PlayerMovement : MonoBehaviour
             else //Disables Dash. 
             {
                 unlockYAxis = true; //disable y axis lock here.
+                fallTime = 0;
                 dashTimer = dashTimeReset;
                 lockMovement = false;
                 dashCooldown = true;

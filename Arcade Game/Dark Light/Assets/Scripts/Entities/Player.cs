@@ -79,7 +79,10 @@ public class Player : MonoBehaviour
     }
     public void FixedUpdate() //basic update cycle.
     {
-        Attack();
+        if (player.GetComponent<PlayerMovement>().lockAbilities == false)
+        {
+            Attack();
+        }
         IFrame();
         FaceCheck();
     }
@@ -189,7 +192,7 @@ public class Player : MonoBehaviour
         anim.SetBool("Death", isDead);
         if (Input.GetKeyDown(KeyCode.O))
         {
-            beenHit = true;
+            curHealth = 0;
         }
 
         if (beenHit == true && iFrame == false && curHealth >= 1)
@@ -231,6 +234,7 @@ public class Player : MonoBehaviour
 
         if (curHealth <= 0 && !isFadingFromDeath)
         {
+            player.GetComponent<PlayerMovement>().lockAll = true;
             StartCoroutine("_Die");
             /*
             beenHit = false;
@@ -279,7 +283,6 @@ public class Player : MonoBehaviour
     IEnumerator _Die()
     {
         isFadingFromDeath = true;
-        player.GetComponent<PlayerMovement>().lockMovement = true;
         beenHit = false;
         isDead = true;
 
@@ -299,6 +302,6 @@ public class Player : MonoBehaviour
         isFadingFromDeath = false;
 
         yield return new WaitForSeconds(2f);
-        player.GetComponent<PlayerMovement>().lockMovement = false;
+        player.GetComponent<PlayerMovement>().unlockAll = true;
     }
 }
