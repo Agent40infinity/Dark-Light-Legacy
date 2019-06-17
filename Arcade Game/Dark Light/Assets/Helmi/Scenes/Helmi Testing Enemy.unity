@@ -3371,7 +3371,7 @@ MonoBehaviour:
   aTimer: 1000
   distanceFP: 0
   aRange: 0
-  Player: {fileID: 0}
+  Player: {fileID: 1204109430}
 --- !u!4 &863161325
 Transform:
   m_ObjectHideFlags: 0
@@ -4973,6 +4973,7 @@ MonoBehaviour:
   beenHit: 0
   hitHostile: 0
   attackRange: 1
+  death: {fileID: 0}
   player: {fileID: 1204109429}
   darkLight: {fileID: 8305289630323460300, guid: 5aa8101b61f20bb49a295115748131e5,
     type: 3}
@@ -8572,7 +8573,7 @@ MonoBehaviour:
   attackDetector: {fileID: 0}
   currentState: 0
   initialSpeed: 5
-  playerDetectorDistance: 10
+  playerDetectorDistance: 20
   moveRight: 1
   groundDetectorDistance: 0
   groundDetector: {fileID: 0}
@@ -8586,7 +8587,7 @@ MonoBehaviour:
   bulletsParent: {fileID: 38185427}
   _timer: 0
   chance: 0
-  player: {fileID: 0}
+  player: {fileID: 1204109430}
   wallDetector: {fileID: 0}
   anim: {fileID: 0}
 --- !u!61 &1951656519

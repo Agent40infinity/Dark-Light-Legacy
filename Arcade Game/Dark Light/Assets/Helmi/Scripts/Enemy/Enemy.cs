@@ -22,13 +22,13 @@ public class Enemy : MonoBehaviour
     public float bulletSpeed = 20f;
     public Transform attackDetector;
 
-    [Header("Base Enemy Attributes")]    
+    [Header("Base Enemy Attributes")]
     public State currentState;
     public float initialSpeed = 5f;
     private float _speed;
 
     [Header("Patrol & Chasing Attributes")]
-    public float playerDetectorDistance = 15f;
+    public float playerDetectorDistance = 20f;
     [HideInInspector]
     public bool moveRight = true;
 
@@ -40,8 +40,8 @@ public class Enemy : MonoBehaviour
     public Transform spawnAttackParent;
     private GameObject cloneAttackPos;
     public GameObject spawnAttackPosObject;
-    public float stoppingDistance = 9f;
-    public float retreatDistance = 8f;
+    public float stoppingDistance = 7f;
+    public float retreatDistance = 6f;
     private bool _spawnAttackIsCreated = false;
     private bool enemyBackingUp = true;
     private Vector2 originPlace;
@@ -65,9 +65,9 @@ public class Enemy : MonoBehaviour
 
     [Header("Reference")]
     public Transform player;
+    private Vector2 playerDir;
     public GameObject wallDetector;
     private Player playerScrpt;
-    private Vector2 lastPlayerPosition;
 
     // Testing
     [Header("Animation Testing")]
@@ -78,6 +78,8 @@ public class Enemy : MonoBehaviour
     #region Start
     void Start()
     {
+        _chanceIsOn = true;
+
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         if (flyingEnemy == true)
         {
@@ -131,7 +133,7 @@ public class Enemy : MonoBehaviour
             RaycastHit2D groundHit = Physics2D.Raycast(groundDetector.position, Vector2.down, groundDetectorDistance);
             Debug.DrawRay(groundDetector.position, Vector2.down, Color.red);
 
-            if (groundHit.collider == true )
+            if (groundHit.collider == true)
             {
                 // Moves enemy to right
                 transform.Translate(Vector2.right * _speed * Time.deltaTime);
@@ -171,9 +173,9 @@ public class Enemy : MonoBehaviour
         #region Ground Enemy
         if (groundEnemy == true)
         {
-              Vector2 seekPosition = player.transform.position;
-              seekPosition.y = transform.position.y;
-              transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
+            Vector2 seekPosition = player.transform.position;
+            seekPosition.y = transform.position.y;
+            transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
         }
         #endregion
 
@@ -201,7 +203,7 @@ public class Enemy : MonoBehaviour
 
     #region When Player Inside any circle radius
     void PlayerInsideRange()
-    {        
+    {
         // the distance between enemy and player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
@@ -222,85 +224,56 @@ public class Enemy : MonoBehaviour
             {
                 // Green Range
                 if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
-                {
-                    lastPlayerPosition = new Vector2(player.position.x, player.position.y);
-                }
+                { }
 
                 // Yellow Range
                 else if (distanceToPlayer <= retreatDistance)
                 {
-                    if(enemyBackingUp == true)
+                    // Enemy backing from player 
+                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
+                }
+
+                if (distanceToPlayer <= retreatDistance + 2)
+                { 
+                    // If time more than or equal to 3 seconds
+                    _timer += Time.deltaTime;
+
+                    if (_chanceIsOn == true)
                     {
-                        // Enemy backing from player 
-                        transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
-                        enemyBackingUp = false;
+                        chance = Random.Range(0, 2);
+
+                        #region when it is 0
+                        if (chance == 0)
+                        {
+                            //SwordAttack();
+                            Debug.Log("Sword Attack");
+                        }
+                        #endregion
+
+                        #region When it is 1
+                        if (chance == 1)
+                        {
+                            Shoot();
+                            Debug.Log("Shoot");
+                        }
+                        #endregion
+
+                        _chanceIsOn = false;
+
                     }
 
-                    // If time more than or equal to 3 seconds
-                    if (_timer >= 0)
+                    // If it is in 6 seconds 
+                    if (_timer >= 4)
                     {
+                        // Reset timer and Chance 
+                        _timer = 0;
+                        chance = 0;
                         _chanceIsOn = true;
-                        
-                        _timer += Time.deltaTime;
+                        _spawnAttackIsCreated = false;
+                        Destroy(cloneAttackPos);
+                        Destroy(bullet);
+                    }
 
-                        if(_chanceIsOn == true)
-                        {
-                            // Start chance generator
-                            chance = Random.Range(0, 50);
-
-                            _chanceIsOn = false;
-                        }
-
-                        #region Less than and equal to 25
-                        if (chance <= 25 && _chanceIsOn == false)
-                        {
-                            if (enemyBackingUp == false)
-                            {
-                                #region Sword Attack
-                                
-                                Vector3 spawnPos = player.transform.position * 1f;
-
-                                #region Spawn a Transform Position in front of enemy 
-                                if (_spawnAttackIsCreated == false)
-                                {
-                                    cloneAttackPos = Instantiate(spawnAttackPosObject, spawnPos, Quaternion.identity,spawnAttackParent);
-                                    _spawnAttackIsCreated = true;
-                                }
-                                #endregion
-
-                                transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2) * Time.deltaTime);
-
-                                Debug.Log("SWORDD ATTACKK");
-                                #endregion
-
-                                enemyBackingUp = true;
-                            }
-                        }
-                        #endregion
-
-                        #region Greater than 25
-                        if (chance > 25 && _chanceIsOn)
-                        {
-                            if(enemyBackingUp == false)
-                            {
-                                #region Shoot
-                                Shoot();
-                                #endregion
-
-                                chance = 0;
-                                enemyBackingUp = true;
-                            }
-                        }
-                        #endregion
-
-                        // If it is in 6 seconds 
-                        if (_timer >= 6)
-                        {
-                            // Reset timer and Chance 
-                            _timer = 0;
-                            chance = 0;
-                        }
-                    }                    
 
                 }
 
@@ -308,9 +281,6 @@ public class Enemy : MonoBehaviour
                 {
                     currentState = State.Seek;
                     SeekPlayer();
-                    _spawnAttackIsCreated = false;
-                    Destroy(cloneAttackPos);
-                    Destroy(bullet);
                     chance = 0;
                     _timer = 0;
                 }
@@ -356,7 +326,7 @@ public class Enemy : MonoBehaviour
     void DamagePlayer()
     {
         #region Ground Enemy
-        if(groundEnemy == true)
+        if (groundEnemy == true)
         {
             //==============
             // Referenced from this website: https://www.youtube.com/watch?v=LqCJowEQFBc
@@ -386,12 +356,12 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, playerDetectorDistance);
 
-        if(groundEnemy == true)
+        if (groundEnemy == true)
         {
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(attackDetector.position, attackRange);
         }
-        if(flyingEnemy == true)
+        if (flyingEnemy == true)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(transform.position, stoppingDistance);
@@ -408,15 +378,40 @@ public class Enemy : MonoBehaviour
     {
         GameObject projectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity, bulletsParent);
         bullet = projectile.GetComponent<Bullets>();
-        bullet.Fire(player.position);
+        bullet.Fire((Vector2)player.position);
     }
     #endregion
 
     #region Sword Attack
     void SwordAttack()
     {
+        Vector3 spawnPos = player.transform.position * 1f;
 
+        #region Spawn a Transform Position in front of enemy 
+        if (_spawnAttackIsCreated == false)
+        {
+            cloneAttackPos = Instantiate(spawnAttackPosObject, spawnPos, Quaternion.identity, spawnAttackParent);
+            _spawnAttackIsCreated = true;
+        }
+        #endregion
+
+        transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2) * Time.deltaTime);
     }
+    #endregion
+
+    #region Trash
+
+    #region Sword Attack      
+    /*
+    
+    */
+
+    #endregion
+
+    #region Shoot
+
+    #endregion
+
     #endregion
 
     public enum State
