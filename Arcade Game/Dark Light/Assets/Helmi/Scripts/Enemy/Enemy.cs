@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     public float attackDelay;
     private float lastAttackTime;
     public float attackRange = 1.5f;
+    public float bulletSpeed = 20f;
     public Transform attackDetector;
 
     [Header("Base Enemy Attributes")]    
@@ -36,36 +37,42 @@ public class Enemy : MonoBehaviour
     public Transform groundDetector;
 
     [Header("Flying Enemy Attributes")]
-    public GameObject spawnAttackPos;
+    public Transform spawnAttackParent;
     private GameObject cloneAttackPos;
+    public GameObject spawnAttackPosObject;
     public float stoppingDistance = 9f;
     public float retreatDistance = 8f;
     private bool _spawnAttackIsCreated = false;
+    private bool enemyBackingUp = true;
     private Vector2 originPlace;
 
     [Header("Shooting Flying Enemy Attributes")]
     public GameObject bulletPrefab;
+    public Transform bulletsParent;
     private Bullets bullet;
 
     // >>>TIMER<<<
     private float _startingTimer = 0;
-    private float _timer;
+    public float _timer;
 
     // >>>ATTACK<<<
     private bool _swordAttack = false;
     private bool _bulletAttack = false;
 
     // >>>CHANCES<<<
-    private int chance;
+    public int chance;
+    private bool _chanceIsOn = false;
 
     [Header("Reference")]
     public Transform player;
     public GameObject wallDetector;
     private Player playerScrpt;
+    private Vector2 lastPlayerPosition;
 
     // Testing
     [Header("Animation Testing")]
     public Animator anim;
+
     #endregion
 
     #region Start
@@ -215,76 +222,83 @@ public class Enemy : MonoBehaviour
             {
                 // Green Range
                 if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
-                { }
+                {
+                    lastPlayerPosition = new Vector2(player.position.x, player.position.y);
+                }
 
                 // Yellow Range
                 else if (distanceToPlayer <= retreatDistance)
                 {
-                    // Enemy backing from player
-                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
-
-                    // Starting The time
-                    if (_timer >= 0)
+                    if(enemyBackingUp == true)
                     {
-                        // Start timer
-                        _timer += Time.deltaTime;
-
-                        Debug.Log("TIME:" + _timer);
+                        // Enemy backing from player 
+                        transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
+                        enemyBackingUp = false;
                     }
 
                     // If time more than or equal to 3 seconds
-                    if (_timer >= 0.5)
+                    if (_timer >= 0)
                     {
-                        // Start chance generator
-                        chance = Random.Range(0, 100);
-                        Debug.Log("CHANCE:" + chance);
+                        _chanceIsOn = true;
+                        
+                        _timer += Time.deltaTime;
 
-                        if (chance <= 50)
+                        if(_chanceIsOn == true)
                         {
-                            #region Flying Enemy Sword Attack
-                            Vector3 spawnPos = player.transform.position * 1.2f;
+                            // Start chance generator
+                            chance = Random.Range(0, 50);
 
-                            #region Spawn a Transform Position in front of enemy 
-                            if (!_spawnAttackIsCreated)
+                            _chanceIsOn = false;
+                        }
+
+                        #region Less than and equal to 25
+                        if (chance <= 25 && _chanceIsOn == false)
+                        {
+                            if (enemyBackingUp == false)
                             {
-                                cloneAttackPos = Instantiate(spawnAttackPos, spawnPos, Quaternion.identity);
-                                _spawnAttackIsCreated = true;
-                            }
-                            #endregion
+                                #region Sword Attack
+                                
+                                Vector3 spawnPos = player.transform.position * 1f;
 
-                            transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 4) * Time.deltaTime);
-                            
-                            #endregion
-                            chance = 0;
-                            Debug.Log("SWORDD ATTACKK");
-                            }
-
-                            /*
-                            if (chance > 50)
-                            {
-                                _swordAttack = false;
-                                _bulletAttack = true;
-
-                                if(_bulletAttack == true)
+                                #region Spawn a Transform Position in front of enemy 
+                                if (_spawnAttackIsCreated == false)
                                 {
-                                    #region Fire Bullets 
-                                    GameObject projectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-                                    bullet = projectile.GetComponent<Bullets>();
-                                    bullet.Fire(player.position);
-                                    #endregion
-
-                                    chance = 0;
-                                    Debug.Log("FIRE BULLETTSS!!!!");
+                                    cloneAttackPos = Instantiate(spawnAttackPosObject, spawnPos, Quaternion.identity,spawnAttackParent);
+                                    _spawnAttackIsCreated = true;
                                 }
-                            }
-                            */
+                                #endregion
 
-                        // If it is in 6 seconds
-                        if (_timer >= 2)
+                                transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2) * Time.deltaTime);
+
+                                Debug.Log("SWORDD ATTACKK");
+                                #endregion
+
+                                enemyBackingUp = true;
+                            }
+                        }
+                        #endregion
+
+                        #region Greater than 25
+                        if (chance > 25 && _chanceIsOn)
                         {
-                            // Reset timer and Chance
+                            if(enemyBackingUp == false)
+                            {
+                                #region Shoot
+                                Shoot();
+                                #endregion
+
+                                chance = 0;
+                                enemyBackingUp = true;
+                            }
+                        }
+                        #endregion
+
+                        // If it is in 6 seconds 
+                        if (_timer >= 6)
+                        {
+                            // Reset timer and Chance 
                             _timer = 0;
-                            _bulletAttack = false;
+                            chance = 0;
                         }
                     }                    
 
@@ -298,6 +312,7 @@ public class Enemy : MonoBehaviour
                     Destroy(cloneAttackPos);
                     Destroy(bullet);
                     chance = 0;
+                    _timer = 0;
                 }
             }
             #endregion
@@ -385,6 +400,22 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, retreatDistance);
 
         }
+    }
+    #endregion
+
+    #region Shoot
+    void Shoot()
+    {
+        GameObject projectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity, bulletsParent);
+        bullet = projectile.GetComponent<Bullets>();
+        bullet.Fire(player.position);
+    }
+    #endregion
+
+    #region Sword Attack
+    void SwordAttack()
+    {
+
     }
     #endregion
 
