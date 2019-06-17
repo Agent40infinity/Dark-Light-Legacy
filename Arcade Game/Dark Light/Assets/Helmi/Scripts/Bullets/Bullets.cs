@@ -7,12 +7,12 @@ public class Bullets : MonoBehaviour
     public float speed = 20f;
     private Rigidbody2D rigid;
 
-    void Awake()
+    void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
     }
 
-    public void Fire(Vector3 direction)
+    public void Fire(Vector2 direction)
     {
         rigid.AddForce(direction * speed * Time.deltaTime, ForceMode2D.Impulse);
     }
