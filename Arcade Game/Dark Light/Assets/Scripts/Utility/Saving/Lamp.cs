@@ -21,13 +21,5 @@ public class Lamp : MonoBehaviour
         lamps = GameObject.Find("Lamps");
         lPos = lamps.GetComponentsInChildren<Transform>();
     }
-
-    void OnTriggerEnter2D(Collider2D other) //Used to display onGUI elements when the player comes within the range of the savepoint.
-    {
-        if (other.name == "Player")
-        {
-            
-        }
-    }
     #endregion
 }
