@@ -329,8 +329,9 @@ MonoBehaviour:
   bulletsParent: {fileID: 0}
   _timer: 0
   chance: 0
-  player: {fileID: 0}
+  player: {fileID: 1204109430}
   wallDetector: {fileID: 255818504}
+  lastPlayerPosition: {x: 0, y: 0}
   anim: {fileID: 31441941}
 --- !u!50 &31441939
 Rigidbody2D:
@@ -2175,6 +2176,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619645620}
   m_CullTransparentMesh: 0
+--- !u!1001 &628090864
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5296262863754479933, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_Name
+      value: Bullet Black
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406870681696088035, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743991745354888972, guid: bd8db4c9bd10e68468432dc6ad834096,
+        type: 3}
+      propertyPath: speed
+      value: 40
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bd8db4c9bd10e68468432dc6ad834096, type: 3}
 --- !u!1 &682651014
 GameObject:
   m_ObjectHideFlags: 0
@@ -4927,23 +5002,25 @@ MonoBehaviour:
   yLimiter: 1
   knockback: {x: 40, y: 8}
   beenKnocked: 0
+  isJumping: 0
   isFacing: 0
   isGrounded: 0
   knockbackDirection: 0
-  checkRadius: 0.1
+  checkRadius: {x: 0.9, y: 0.1}
   accelSpeed: 4
   dash: 0
   canDash: 1
   dashReset: 0
   dashCooldown: 0
   lockMovement: 0
+  lockAll: 0
+  unlockAll: 0
+  lockAbilities: 0
   lockYAxis: 0
   unlockYAxis: 0
   tempGravity: {x: 0, y: 0}
   tempYVelocity: {x: 0, y: 0}
   airTime: 0.1
-  aHTimer: 0
-  airHTime: 0
   dashTimer: 0
   dashTimeReset: 0.15
   dashCTime: 0.5
@@ -4952,6 +5029,7 @@ MonoBehaviour:
   kBTimer: 0
   fallTime: 0
   landTime: 0
+  rigid: {fileID: 0}
   feetPos: {fileID: 1781438319}
   isWalkable:
     serializedVersion: 2
@@ -8589,6 +8667,7 @@ MonoBehaviour:
   chance: 0
   player: {fileID: 1204109430}
   wallDetector: {fileID: 0}
+  lastPlayerPosition: {x: 0, y: 0}
   anim: {fileID: 0}
 --- !u!61 &1951656519
 BoxCollider2D:
