@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public bool dash = false; //Used to call upon the sub-routine (dash).
     public bool canDash = true; //Used to check whether or not the player is able to dash.
     public bool dashReset = false; //Used to see whether or not the dash can be reset.
+    public int dashAvaliable = 1;
     public bool dashCooldown = false; //Used to see whether or not the dash is on cooldown.
     public bool lockMovement = false; //Used to lock all Movement inputs.
     public bool lockAll = false; //Used to lock all movement, actions, and abilities.
@@ -145,7 +146,11 @@ public class PlayerMovement : MonoBehaviour
                 dashCooldown = false;
             }
         }
-        if (isGrounded == true && dashReset == true) //Resets the Dash 
+        if (isGrounded == true && dashAvaliable <= 0)
+        {
+            dashAvaliable = 1;
+        }
+        if (dashAvaliable == 1 && dashReset == true) //Resets the Dash 
         {
             canDash = true;
             dashReset = false;
@@ -219,15 +224,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (isGrounded == true && fallTime >= 1.5f) //Checks whether or not the player is grounded once again and that the fall time was greater than 1.5 seconds; Locks the player into place if so and plays an animation.
         {
-            lockMovement = true;
-            rigid.velocity = new Vector3(0, rigid.velocity.y);
+            lockAll = true;
             landTime++;
             Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
             if (landTime >= 40) //Unlocks the player's movement and ends the animation.
             {
                 GetComponent<Player>().anim.SetBool("tooHigh", false);                                      //Gonna be real, don't know why this is under Locks. Might move it later.
-                lockMovement = false;
+                unlockAll = true;
                 Debug.Log("locked: " + lockMovement);
                 fallTime = 0;
                 landTime = 0;

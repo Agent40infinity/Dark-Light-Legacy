@@ -16,6 +16,15 @@ public class FallCheckpoint : MonoBehaviour
     public void Start()
     {
         checkpoints = GameObject.Find("Checkpoints");
-        cPos = checkpoints.GetComponentsInChildren<Transform>();
+        cPos = GetComponentsInChildren<Transform>();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        foreach (var point in cPos)
+        {
+            Gizmos.DrawWireSphere(point.position, 1.0f);
+        }
     }
 }
