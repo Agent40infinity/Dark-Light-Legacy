@@ -324,7 +324,9 @@ MonoBehaviour:
   spawnAttackParent: {fileID: 0}
   spawnAttackPosObject: {fileID: 0}
   stoppingDistance: 7
-  retreatDistance: 5
+  bigRetreatDistance: 6
+  smallRetreatDistance: 3
+  timeBetweenBullets: 0
   bulletPrefab: {fileID: 0}
   bulletsParent: {fileID: 0}
   _timer: 0
@@ -4937,6 +4939,7 @@ MonoBehaviour:
   dash: 0
   canDash: 1
   dashReset: 0
+  dashAvaliable: 1
   dashCooldown: 0
   lockMovement: 0
   lockAll: 0
@@ -4976,6 +4979,7 @@ MonoBehaviour:
   iFrame: 0
   beenHit: 0
   hitHostile: 0
+  takenHealth: 0
   attackRange: 1
   death: {fileID: 0}
   player: {fileID: 1204109429}
@@ -8585,7 +8589,9 @@ MonoBehaviour:
   spawnAttackPosObject: {fileID: 5399612241422426277, guid: 33336bd28d1cb9b429ff34a1bc3515ab,
     type: 3}
   stoppingDistance: 7
-  retreatDistance: 6
+  bigRetreatDistance: 6
+  smallRetreatDistance: 3
+  timeBetweenBullets: 0.1
   bulletPrefab: {fileID: 5296262863754479933, guid: bd8db4c9bd10e68468432dc6ad834096,
     type: 3}
   bulletsParent: {fileID: 38185427}

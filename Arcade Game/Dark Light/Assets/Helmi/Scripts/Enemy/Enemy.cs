@@ -12,21 +12,28 @@ public class Enemy : MonoBehaviour
 {
     // Not all variables are automatically connecting to components
     #region Variables
+
+    #region Type of Enemy
     [Header("What type of enemy is this?")]
     public bool groundEnemy;
     public bool flyingEnemy;
+    #endregion
 
+    #region General Attack Attributes
     [Header("Attack Stuff")]
-    public float attackDelay;
-    private float lastAttackTime;
+    public float attackDelay; // Ground Enemy Attack Delay is 1 and Flying Enemy Attack Delay is 0
     public float attackRange = 1.5f;
     public float bulletSpeed = 20f;
+    private float lastAttackTime;
     public Transform attackDetector;
+    #endregion
 
-    [Header("Base Enemy Attributes")]
+    #region All Enemy Attributes
+    [Header("All Enemy Attributes")]
     public State currentState;
     public float initialSpeed = 5f;
     private float _speed;
+    #endregion
 
     [Header("Patrol & Chasing Attributes")]
     public float playerDetectorDistance = 20f;
@@ -42,19 +49,22 @@ public class Enemy : MonoBehaviour
     private GameObject cloneAttackPos;
     public GameObject spawnAttackPosObject;
     public float stoppingDistance = 7f;
-    public float retreatDistance = 6f;
+    public float bigRetreatDistance = 6f;
+    public float smallRetreatDistance = 3f;
     private bool _spawnAttackIsCreated = false;
     private bool enemyBackingUp = true;
     private Vector2 originPlace;
 
-    [Header("Shooting Flying Enemy Attributes")]
+    [Header("Bullets Attributes")]
+    public float timeBetweenBullets;
+    private float _countdown = 0f;
     public GameObject bulletPrefab;
     public Transform bulletsParent;
     private Bullets bullet;
 
     // >>>TIMER<<<
-    private float _startingTimer = 0;
-    public float _timer;
+    [Header("Timer Attributes")]
+    public float _timer = 0f;
 
     // >>>ATTACK<<<
     private float _attackTimer = 0f;
@@ -94,7 +104,6 @@ public class Enemy : MonoBehaviour
         playerScrpt = player.GetComponent<Player>();
         _speed = initialSpeed;
         currentState = State.Patrol;
-        _timer = _startingTimer;
     }
     #endregion
 
@@ -207,7 +216,7 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-    #region When Player Inside any circle radius
+    #region When Player Inside Red circle radius
     void PlayerInsideRange()
     {
         // the distance between enemy and player
@@ -228,27 +237,27 @@ public class Enemy : MonoBehaviour
             #region Flying Enemy
             if (flyingEnemy == true)
             {
-                // Green Range
-                if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
+                _speed = initialSpeed;
+                // Between green (7 float) and yellow ranges (6 float)
+                if (distanceToPlayer <= stoppingDistance && bigRetreatDistance <= distanceToPlayer)
                 {
+                    // Stop enemy
+                    _speed = 0;
                 }
-                // Yellow Range
-                if (distanceToPlayer <= retreatDistance)
+                // Between Yellow Range (6 float) and blue ranges (3 float)
+                if (distanceToPlayer <= bigRetreatDistance && distanceToPlayer > smallRetreatDistance)
                 {
-                    // Enemy backing from player 
-                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
+                    Retreat();
                 }
-                // Just Outside Yellow Range
-                if (distanceToPlayer <= retreatDistance + 2)
+
+                if(distanceToPlayer <= smallRetreatDistance)
                 {
-                    // Count up Timer
-                    _attackTimer += Time.deltaTime;
-                    // If the timer reaches the delay
-                    if (_attackTimer >= attackDelay)
-                    {
-                        SeekPlayer(50);
-                        _attackTimer = 0f;
-                    }
+                    Retreat();
+                }
+
+                // Just Outside Green Range (8 float)
+                if (distanceToPlayer <= stoppingDistance + 1)
+                {
                     // If time more than or equal to 3 seconds
                     _timer += Time.deltaTime;
 
@@ -258,15 +267,20 @@ public class Enemy : MonoBehaviour
                         #region when it is 0
                         if (chance == 0)
                         {
-                           // SwordAttack();
-                            Debug.Log("Sword Attack");
+                            if (_countdown <= 0)
+                            {
+                                Shoot();
+                                _countdown = timeBetweenBullets;
+                            }
+                            _countdown -= Time.deltaTime;
+                        //SwordAttack();
+                        Debug.Log("Sword Attack");
                         }
                         #endregion
                         #region When it is 1
                         if (chance == 1)
-                        {
-                           // SwordAttack();
-                            //Shoot();
+                        {                            
+                            Shoot();
                         }
                         #endregion
                         _chanceIsOn = false;
@@ -372,6 +386,17 @@ public class Enemy : MonoBehaviour
     #region Sword Attack
     void SwordAttack()
     {
+        // Count up Timer
+        _attackTimer += Time.deltaTime;
+        // If the timer reaches the delay
+        if (_attackTimer >= attackDelay)
+        {
+            SeekPlayer(50);
+            _attackTimer = 0f;
+        }
+
+
+        /*
         Vector3 spawnPos = player.transform.position;
 
         #region Spawn a Transform Position in front of enemy 
@@ -383,22 +408,16 @@ public class Enemy : MonoBehaviour
         #endregion
 
         transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2) * Time.deltaTime);
+        */
     }
     #endregion
 
-    #region Trash
-
-    #region Sword Attack      
-    /*
-    
-    */
-
-    #endregion
-
-    #region Shoot
-
-    #endregion
-
+    #region Retreat
+    void Retreat()
+    {
+        // Enemy backing from player 
+        transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
+    }
     #endregion
 
     #region Bunch of Art stuff
@@ -419,16 +438,20 @@ public class Enemy : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, stoppingDistance);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, retreatDistance);
+            Gizmos.DrawWireSphere(transform.position, bigRetreatDistance);
 
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, smallRetreatDistance);
         }
     }
     #endregion
 
+    #region Enum
     public enum State
     {
         Patrol,
         Seek,
         hit
     }
+    #endregion
 }
