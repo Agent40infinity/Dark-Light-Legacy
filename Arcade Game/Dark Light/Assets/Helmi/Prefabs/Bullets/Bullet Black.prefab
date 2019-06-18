@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9013218406938720477}
   - component: {fileID: 8743991745354888972}
   - component: {fileID: 8420023447075633850}
+  - component: {fileID: 1546801989763064931}
   m_Layer: 0
   m_Name: Bullet Black
   m_TagString: Untagged
@@ -93,7 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4920cacd30ddbf49b18a93c69d93573, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 40
+  targetShoot: {x: 0, y: 0}
 --- !u!50 &8420023447075633850
 Rigidbody2D:
   serializedVersion: 4
@@ -115,3 +117,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &1546801989763064931
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296262863754479933}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5.9999995

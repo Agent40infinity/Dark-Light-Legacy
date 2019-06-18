@@ -4,16 +4,35 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public float speed = 20f;
-    private Rigidbody2D rigid;
+    public float speed = 40f;
+
+    private Transform player;
+    private Player playerScrpt;
+    public Vector2 targetShoot;
 
     void Start()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        player = GameObject.FindWithTag("Player").transform;
+        playerScrpt = player.GetComponent<Player>();
+        targetShoot = new Vector2(player.position.x, player.position.y);
     }
 
-    public void Fire(Vector2 direction)
+    void Update()
     {
-        rigid.AddForce(direction * speed * Time.deltaTime, ForceMode2D.Impulse);
+        if (player)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, targetShoot, speed * Time.deltaTime);
+
+            if(transform.position.x == targetShoot.x && transform.position.y == targetShoot.y)
+            {
+                Destroy(gameObject);
+            }
+
+            if (transform.position.x == player.transform.position.x && transform.position.y == player.transform.position.y)
+            {
+                playerScrpt.beenHit = true;
+            }
+        }
     }
+
 }

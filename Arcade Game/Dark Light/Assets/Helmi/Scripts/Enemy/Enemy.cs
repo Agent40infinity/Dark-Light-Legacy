@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    // Not all variables are automatically connecting to components
     #region Variables
     [Header("What type of enemy is this?")]
     public bool groundEnemy;
@@ -59,6 +60,8 @@ public class Enemy : MonoBehaviour
     private bool _swordAttack = false;
     private bool _bulletAttack = false;
 
+    //>>>CHASING<<<
+
     // >>>CHANCES<<<
     public int chance;
     private bool _chanceIsOn = false;
@@ -68,6 +71,8 @@ public class Enemy : MonoBehaviour
     private Vector2 playerDir;
     public GameObject wallDetector;
     private Player playerScrpt;
+    [HideInInspector]
+    public Vector2 lastPlayerPosition;
 
     // Testing
     [Header("Animation Testing")]
@@ -79,8 +84,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _chanceIsOn = true;
-
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        
         if (flyingEnemy == true)
         {
             originPlace = new Vector2(transform.position.x, transform.position.y);
@@ -223,16 +228,17 @@ public class Enemy : MonoBehaviour
             if (flyingEnemy == true)
             {
                 // Green Range
-                if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
-                { }
+                //if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
+                //{ }
 
                 // Yellow Range
-                else if (distanceToPlayer <= retreatDistance)
-                {
+               // if (distanceToPlayer <= retreatDistance)
+                //{
                     // Enemy backing from player 
-                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
-                }
+                    //transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
+                //}
 
+                // Just Outside Yellow Range
                 if (distanceToPlayer <= retreatDistance + 2)
                 { 
                     // If time more than or equal to 3 seconds
@@ -245,7 +251,7 @@ public class Enemy : MonoBehaviour
                         #region when it is 0
                         if (chance == 0)
                         {
-                            //SwordAttack();
+                            SwordAttack();
                             Debug.Log("Sword Attack");
                         }
                         #endregion
@@ -253,8 +259,8 @@ public class Enemy : MonoBehaviour
                         #region When it is 1
                         if (chance == 1)
                         {
-                            Shoot();
-                            Debug.Log("Shoot");
+                            SwordAttack();
+                            //Shoot();
                         }
                         #endregion
 
@@ -265,13 +271,8 @@ public class Enemy : MonoBehaviour
                     // If it is in 6 seconds 
                     if (_timer >= 4)
                     {
-                        // Reset timer and Chance 
-                        _timer = 0;
-                        chance = 0;
-                        _chanceIsOn = true;
-                        _spawnAttackIsCreated = false;
-                        Destroy(cloneAttackPos);
-                        Destroy(bullet);
+                        // Reset timer and Chance
+                        ResetTimerNStuff();
                     }
 
 
@@ -281,12 +282,12 @@ public class Enemy : MonoBehaviour
                 {
                     currentState = State.Seek;
                     SeekPlayer();
-                    chance = 0;
-                    _timer = 0;
+                    ResetTimerNStuff();
                 }
             }
             #endregion
         }
+
         // Player outside the red Circle Range
         else
         {
@@ -295,7 +296,7 @@ public class Enemy : MonoBehaviour
         }
         #endregion
 
-        #region Enemy stops when close to player or not
+        #region Enemy stops when close to player or not (Just The Ground Enemy)
 
         #region Ground Enemy
         if (groundEnemy == true)
@@ -322,6 +323,15 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
+    void ResetTimerNStuff()
+    {
+        _timer = 0;
+        chance = 0;
+        _chanceIsOn = true;
+        _spawnAttackIsCreated = false;
+        Destroy(cloneAttackPos);
+    }
+
     #region Damage To Player
     void DamagePlayer()
     {
@@ -343,10 +353,50 @@ public class Enemy : MonoBehaviour
         #region Flying Enemy
         if (flyingEnemy == true)
         {
-
+            // It is in Bullet Script
         }
         #endregion
     }
+    #endregion
+
+    #region Shoot
+    void Shoot()
+    {
+        GameObject projectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity, bulletsParent);
+        bullet = projectile.GetComponent<Bullets>();
+    }
+    #endregion
+
+    #region Sword Attack
+    void SwordAttack()
+    {
+        Vector3 spawnPos = player.transform.position * 1f;
+
+        #region Spawn a Transform Position in front of enemy 
+        if (_spawnAttackIsCreated == false)
+        {
+            cloneAttackPos = Instantiate(spawnAttackPosObject, spawnPos, Quaternion.identity, spawnAttackParent);
+            _spawnAttackIsCreated = true;
+        }
+        #endregion
+
+        transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2  ) * Time.deltaTime);
+    }
+    #endregion
+
+    #region Trash
+
+    #region Sword Attack      
+    /*
+    
+    */
+
+    #endregion
+
+    #region Shoot
+
+    #endregion
+
     #endregion
 
     #region Bunch of Art stuff
@@ -371,47 +421,6 @@ public class Enemy : MonoBehaviour
 
         }
     }
-    #endregion
-
-    #region Shoot
-    void Shoot()
-    {
-        GameObject projectile = Instantiate(bulletPrefab, transform.position, Quaternion.identity, bulletsParent);
-        bullet = projectile.GetComponent<Bullets>();
-        bullet.Fire((Vector2)player.position);
-    }
-    #endregion
-
-    #region Sword Attack
-    void SwordAttack()
-    {
-        Vector3 spawnPos = player.transform.position * 1f;
-
-        #region Spawn a Transform Position in front of enemy 
-        if (_spawnAttackIsCreated == false)
-        {
-            cloneAttackPos = Instantiate(spawnAttackPosObject, spawnPos, Quaternion.identity, spawnAttackParent);
-            _spawnAttackIsCreated = true;
-        }
-        #endregion
-
-        transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2) * Time.deltaTime);
-    }
-    #endregion
-
-    #region Trash
-
-    #region Sword Attack      
-    /*
-    
-    */
-
-    #endregion
-
-    #region Shoot
-
-    #endregion
-
     #endregion
 
     public enum State
