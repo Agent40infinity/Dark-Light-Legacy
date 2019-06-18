@@ -18,12 +18,13 @@ public class Player : MonoBehaviour
     public static int maxHealth = 5; //default value for player's max health.
     public static int maxWisps = 3; //Max value of how many Wisps the player can have.
     public static int curWisps; //Max value of how many Wisps the player can have.
-    private int damage = 1; //temp, may be moved to child class (sword/weapon).
+    private int damage = 2; //temp, may be moved to child class (sword/weapon).
     public bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     private bool attack = false; //activates and locks when attack hotkey is pressed.
     public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
     public bool hitHostile = false; //Checks whether or not the player has hit a hostile environment object.
     public static bool isDead = false; //Checks whether or not the player has died.
+    public bool takenHealth = false;
     bool fadeIntoDeath = false; //Used to call upon the Sub-routine "Death".
 
     //Attacking:
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
     private int iFCounter = 0; //Counter for iFrame activation.
     private int aCounter = 0; //Counter for attack activation.
     private int dCounter = 0; //Counter for dash activation.
-    private int hCounter = 0; //Counter for hostile activation.
+    private float hCounter = 0; //Counter for hostile activation.
     //private float dthCounter = 0; //Counter for death screen activation.
     //private float fICounter = 0; //Counter for Fade-In activation.
     //private float fOCounter = 0; //Counter for Fade-Out activation.
@@ -64,16 +65,16 @@ public class Player : MonoBehaviour
     #endregion
 
     #region General
-    public void Start() 
-	{
+    public void Start()
+    {
         curHealth = maxHealth;
         curWisps = maxWisps;
-	}
+    }
 
     public void Update()
     {
         Health();
-        if (player.GetComponent<PlayerMovement>().lockAbilities == false)
+        if (player.GetComponent<PlayerMovement>().lockAbilities == false && player.GetComponent<PlayerMovement>().dash == false)
         {
             Attack();
         }
@@ -84,19 +85,19 @@ public class Player : MonoBehaviour
         FaceCheck();
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected() //Used to visualise positioning of hidden objects within the scene.
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other) //Used to check if the player has passed a checkpoint.
     {
         Debug.Log(other);
-        if (other.tag == "Checkpoint")
+        if (other.tag == "Checkpoint") //Looks for the tag attached to each checkpoint.
         {
             int pos = GetNumberFromString(other.name);
-            if (pos > 0 && pos < FallCheckpoint.cPos.Length)
+            if (pos > 0 && pos < FallCheckpoint.cPos.Length) //Checks for the number within the name of the GameObject and links it to the index for the transforms stored in the array.
             {
                 FallCheckpoint.lastPassed = pos;
             }
@@ -104,24 +105,24 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    void OnTriggerStay2D(Collider2D other) //Checks whether or not the player can interact with the save points.
     {
         Debug.Log(other);
-        if (other.tag == "Save")
+        if (other.tag == "Save") //Checks for the tag attached to each save point.
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F)) //Checks if the player is wanting to interact with the save point.
             {
                 int pos = GetNumberFromString(other.name);
-                if (pos > 0 && pos < Lamp.lPos.Length)
+                if (pos > 0 && pos < Lamp.lPos.Length) //Checks if the number from the GameObject has been stored previously in the array of checkpoints and index's it.
                 {
                     Lamp.lastSaved = pos;
                 }
                 Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
             }
         }
-        if (other.tag == "HostileEnvironment")
+        if (other.tag == "HostileEnvironment") //Checks if the player has touched a hostile environment object.
         {
-            hitHostile = true;            
+            hitHostile = true;
         }
     }
     #endregion
@@ -158,11 +159,10 @@ public class Player : MonoBehaviour
                 Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackPos.position, attackRange, isEnemy);
                 for (int i = 0; i < enemiesInRange.Length; i++) //Deals damage to all enemies within the radius of the attack hitbox.
                 {
-                    //enemiesInRange[i].GetComponent<EnemyHealth>.TakeDamage(damage);     
-                    //boss.Heath = Boss.Health - Damage; //(boss doesn't exist currently)
+                    enemiesInRange[i].GetComponent<EnemyHealth>().TakeDamage(damage);     
                 }
                 attackCooldown = startACooldown;
-            }   
+            }
         }
         else //Used to make sure the player can attack again after cooldown and allow for other animations.
         {
@@ -204,7 +204,7 @@ public class Player : MonoBehaviour
             if (curHealth != 0) //Applies knockback to the player only while their health isn't 0.
             {
                 player.GetComponent<PlayerMovement>().beenKnocked = true;
-                iFrame = true; 
+                iFrame = true;
             }
             beenHit = false;
         }
@@ -214,17 +214,17 @@ public class Player : MonoBehaviour
             curHealth--;
             if (curHealth != 0) //Checks whether or not the player's health isn't 0; Then applies Knockback it isn't 0, starts a fade out, teleports the player away from danger (to the nearest safe space), and then proceeds to fade back in.
             {
-                //hCounter++;
-                player.GetComponent<PlayerMovement>().beenKnocked = true;
+                //hCounter += Time.deltaTime;
+                //player.GetComponent<PlayerMovement>().beenKnocked = true;
                 fade.GetComponent<FadeController>().FadeOut();
-                print("fadeOut");
-                //if (hCounter >= 6)
+                //if (hCounter >= 0.16)
                 //{
-                    hCounter = 0;
+                    player.GetComponent<PlayerMovement>().rigid.velocity = new Vector2(0, 0);
                     transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
-                print("fadeIn");
-
-                fade.GetComponent<FadeController>().FadeIn();
+                    player.GetComponent<PlayerMovement>().fallTime = 2f;
+                    iFrame = true;
+                    fade.GetComponent<FadeController>().FadeIn();
+                    hCounter = 0;
                     hitHostile = false;
                 //}
             }
@@ -233,7 +233,6 @@ public class Player : MonoBehaviour
                 hitHostile = false;
             }
         }
-
 
         if (curHealth <= 0 && !fadeIntoDeath) //Checks whether or not the curret health is less than or equal to 0 and that fadeIntoDeath has not already been activated.
         {
