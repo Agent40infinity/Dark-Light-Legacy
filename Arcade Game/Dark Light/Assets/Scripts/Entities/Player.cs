@@ -116,6 +116,7 @@ public class Player : MonoBehaviour
                 if (pos > 0 && pos < Lamp.lPos.Length) //Checks if the number from the GameObject has been stored previously in the array of checkpoints and index's it.
                 {
                     Lamp.lastSaved = pos;
+                    other.gameObject.GetComponent<LampController>().LightLamp();
                 }
                 Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
             }
