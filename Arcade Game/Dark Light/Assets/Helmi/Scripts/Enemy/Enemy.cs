@@ -57,6 +57,7 @@ public class Enemy : MonoBehaviour
     public float _timer;
 
     // >>>ATTACK<<<
+    private float _attackTimer = 0f;
     private bool _swordAttack = false;
     private bool _bulletAttack = false;
 
@@ -85,7 +86,7 @@ public class Enemy : MonoBehaviour
     {
         _chanceIsOn = true;
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        
+
         if (flyingEnemy == true)
         {
             originPlace = new Vector2(transform.position.x, transform.position.y);
@@ -173,21 +174,21 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region Seeking Player
-    void SeekPlayer()
+    void SeekPlayer(float speed)
     {
         #region Ground Enemy
         if (groundEnemy == true)
         {
             Vector2 seekPosition = player.transform.position;
             seekPosition.y = transform.position.y;
-            transform.position = Vector2.MoveTowards(transform.position, seekPosition, _speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, seekPosition, speed * Time.deltaTime);
         }
         #endregion
 
         #region Flying Enemy
         if (flyingEnemy == true)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, _speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
         #endregion
 
@@ -220,68 +221,67 @@ public class Enemy : MonoBehaviour
             if (groundEnemy == true)
             {
                 currentState = State.Seek;
-                SeekPlayer();
+                SeekPlayer(_speed);
             }
             #endregion
-
+            
             #region Flying Enemy
             if (flyingEnemy == true)
             {
                 // Green Range
-                //if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
-                //{ }
-
+                if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
+                {
+                }
                 // Yellow Range
-               // if (distanceToPlayer <= retreatDistance)
-                //{
+                if (distanceToPlayer <= retreatDistance)
+                {
                     // Enemy backing from player 
-                    //transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
-                //}
-
+                    transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
+                }
                 // Just Outside Yellow Range
                 if (distanceToPlayer <= retreatDistance + 2)
-                { 
+                {
+                    // Count up Timer
+                    _attackTimer += Time.deltaTime;
+                    // If the timer reaches the delay
+                    if (_attackTimer >= attackDelay)
+                    {
+                        SeekPlayer(50);
+                        _attackTimer = 0f;
+                    }
                     // If time more than or equal to 3 seconds
                     _timer += Time.deltaTime;
 
                     if (_chanceIsOn == true)
                     {
                         chance = Random.Range(0, 2);
-
                         #region when it is 0
                         if (chance == 0)
                         {
-                            SwordAttack();
+                           // SwordAttack();
                             Debug.Log("Sword Attack");
                         }
                         #endregion
-
                         #region When it is 1
                         if (chance == 1)
                         {
-                            SwordAttack();
+                           // SwordAttack();
                             //Shoot();
                         }
                         #endregion
-
                         _chanceIsOn = false;
-
                     }
-
                     // If it is in 6 seconds 
                     if (_timer >= 4)
                     {
                         // Reset timer and Chance
                         ResetTimerNStuff();
                     }
-
-
                 }
-
                 else
                 {
                     currentState = State.Seek;
-                    SeekPlayer();
+                    SeekPlayer(_speed);
                     ResetTimerNStuff();
                 }
             }
@@ -323,6 +323,7 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
+    #region Reset
     void ResetTimerNStuff()
     {
         _timer = 0;
@@ -331,6 +332,7 @@ public class Enemy : MonoBehaviour
         _spawnAttackIsCreated = false;
         Destroy(cloneAttackPos);
     }
+    #endregion
 
     #region Damage To Player
     void DamagePlayer()
@@ -370,7 +372,7 @@ public class Enemy : MonoBehaviour
     #region Sword Attack
     void SwordAttack()
     {
-        Vector3 spawnPos = player.transform.position * 1f;
+        Vector3 spawnPos = player.transform.position;
 
         #region Spawn a Transform Position in front of enemy 
         if (_spawnAttackIsCreated == false)
@@ -380,7 +382,7 @@ public class Enemy : MonoBehaviour
         }
         #endregion
 
-        transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2  ) * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2) * Time.deltaTime);
     }
     #endregion
 
