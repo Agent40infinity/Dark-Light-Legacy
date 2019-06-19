@@ -119,6 +119,7 @@ public class Player : MonoBehaviour
                 {
                     Lamp.lastSaved = pos;
                     other.gameObject.GetComponent<LampController>().LightLamp();
+                    //SystemSave.SavePlayer(this);
                     save.GetComponent<Animator>().SetTrigger("SaveLoad");
                 }
                 Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
