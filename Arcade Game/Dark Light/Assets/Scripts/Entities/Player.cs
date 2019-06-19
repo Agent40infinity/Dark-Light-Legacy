@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     public bool hitHostile = false; //Checks whether or not the player has hit a hostile environment object.
     public static bool isDead = false; //Checks whether or not the player has died.
     public bool takenHealth = false;
+    public static bool recovered = false;
     bool fadeIntoDeath = false; //Used to call upon the Sub-routine "Death".
 
     //Attacking:
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
     public LayerMask isEnemy; //Mask to check whether or not an object is an enemy.
     public Animator anim; //Reference for the animator attached to player.
     public SpriteRenderer rend; //Reference for the sprite renderer attached to player.
+    public GameObject save;
 
     int GetNumberFromString(string word) //Allows for the trasnlation of strings into integers.
     {
@@ -117,6 +119,7 @@ public class Player : MonoBehaviour
                 {
                     Lamp.lastSaved = pos;
                     other.gameObject.GetComponent<LampController>().LightLamp();
+                    save.GetComponent<Animator>().SetTrigger("SaveLoad");
                 }
                 Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
             }
@@ -299,15 +302,18 @@ public class Player : MonoBehaviour
         Instantiate(darkLight, transform.position, transform.rotation);
         transform.position = Lamp.lPos[Lamp.lastSaved].position;
         curHealth = maxHealth;
+
         isDead = false;
 
         yield return new WaitForSeconds(5f); //Fades back in after the animation for the death screen is complete.
         death.SetActive(false);
         fade.GetComponent<FadeController>().FadeIn();
+        save.GetComponent<Animator>().SetTrigger("SaveLoad");
         fadeIntoDeath = false;
 
         yield return new WaitForSeconds(2f); //Unlocks all movement once the player is completely visable.
         player.GetComponent<PlayerMovement>().unlockAll = true;
+        recovered = true;
     }
     #endregion
     #endregion

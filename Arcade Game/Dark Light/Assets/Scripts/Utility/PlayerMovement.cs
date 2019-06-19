@@ -72,11 +72,12 @@ public class PlayerMovement : MonoBehaviour
     {
         #region Debug Logs
         //Debug.Log("iFrame from PlayerMovement: " + player.GetComponent<Player>().iFrame);
-        Debug.Log("fallTime:" + fallTime);
+        //Debug.Log("fallTime:" + fallTime);
         //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         //Debug.Log("forceY: " + GetComponent<Player>().anim.GetFloat("forceY") + "   velocity: " + rigid.velocity.y);
+        Debug.Log("Dash: " + dashAvaliable);
         #endregion
 
         //Animation controls:
@@ -255,6 +256,7 @@ public class PlayerMovement : MonoBehaviour
                 GetComponent<Player>().IFrame();
                 lockYAxis = true;//enable y axis lock here.
                 canDash = false;
+                dashAvaliable = 0;
                 dashTimer -= Time.deltaTime;
                 if (isFacing == true) //Checks what direction the dash is being activated from and acts accordingly.
                 {

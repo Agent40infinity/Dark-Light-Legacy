@@ -15,6 +15,8 @@ namespace HealthManagement
         public Image[] heartSlots = new Image[5]; //Array used to reference the individual heart locations.
         public Sprite[] hearts = new Sprite[2]; //Array used to reference the images used per heart.
         private float imagesPerHeart; //Defines how many Images there are per heart slot.
+
+        public Animator[] anim = new Animator[5];
         #endregion
 
         #region General
@@ -29,13 +31,21 @@ namespace HealthManagement
             {
                 if (Player.curHealth >= (imagesPerHeart * 2) * (i + 1)) 
                 {
-                    heartSlots[i].sprite = hearts[0];
                 }
                 else
-                {   
-                    heartSlots[i].sprite = hearts[1];
+                {
+                    anim[i].SetTrigger("Lose");
                 }
-            }   
+            }
+
+            if (Player.recovered == true)
+            {
+                for (int i = 0; i < anim.Length; i++)
+                {
+                    anim[i].SetTrigger("Recover");
+                }
+                Player.recovered = false;
+            }
         }
         #endregion
         #region CheckForHealth
