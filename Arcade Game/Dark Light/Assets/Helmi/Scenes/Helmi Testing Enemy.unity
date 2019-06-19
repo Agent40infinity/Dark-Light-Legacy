@@ -313,6 +313,7 @@ MonoBehaviour:
   flyingEnemy: 0
   attackDelay: 1
   attackRange: 2
+  attackSpeed: 10
   bulletSpeed: 20
   attackDetector: {fileID: 1739324710}
   currentState: 0
@@ -332,6 +333,7 @@ MonoBehaviour:
   player: {fileID: 1204109430}
   wallDetector: {fileID: 255818504}
   lastPlayerPosition: {x: 0, y: 0}
+  lastEnemyPosition: {x: 0, y: 0}
   anim: {fileID: 31441941}
 --- !u!50 &31441939
 Rigidbody2D:
@@ -4937,6 +4939,7 @@ MonoBehaviour:
   dash: 0
   canDash: 1
   dashReset: 0
+  dashAvaliable: 1
   dashCooldown: 0
   lockMovement: 0
   lockAll: 0
@@ -4976,6 +4979,7 @@ MonoBehaviour:
   iFrame: 0
   beenHit: 0
   hitHostile: 0
+  takenHealth: 0
   attackRange: 1
   death: {fileID: 0}
   player: {fileID: 1204109429}
@@ -4988,6 +4992,7 @@ MonoBehaviour:
     m_Bits: 2048
   anim: {fileID: 1204109435}
   rend: {fileID: 1204109436}
+  save: {fileID: 0}
 --- !u!95 &1204109435
 Animator:
   serializedVersion: 3
@@ -8571,8 +8576,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundEnemy: 0
   flyingEnemy: 1
-  attackDelay: 0
+  attackDelay: 1
   attackRange: 1.5
+  attackSpeed: 5
   bulletSpeed: 20
   attackDetector: {fileID: 0}
   currentState: 0
@@ -8594,6 +8600,7 @@ MonoBehaviour:
   player: {fileID: 1204109430}
   wallDetector: {fileID: 0}
   lastPlayerPosition: {x: 0, y: 0}
+  lastEnemyPosition: {x: 0, y: 0}
   anim: {fileID: 0}
 --- !u!61 &1951656519
 BoxCollider2D:
@@ -9429,3 +9436,9 @@ MonoBehaviour:
   hearts:
   - {fileID: 21300000, guid: 87d7903e4491460478198d7c8e2a71b8, type: 3}
   - {fileID: 21300002, guid: 87d7903e4491460478198d7c8e2a71b8, type: 3}
+  anim:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
