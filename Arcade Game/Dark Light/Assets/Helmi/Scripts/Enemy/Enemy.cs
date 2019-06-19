@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
     public float attackDelay;
     private float lastAttackTime;
     public float attackRange = 1.5f;
+    public float attackSpeed = 10f;
     public float bulletSpeed = 20f;
     public Transform attackDetector;
 
@@ -56,6 +57,8 @@ public class Enemy : MonoBehaviour
     private float _startingTimer = 0;
     public float _timer;
 
+    // 0 == 0
+
     // >>>ATTACK<<<
     private float _attackTimer = 0f;
     private bool _swordAttack = false;
@@ -74,10 +77,15 @@ public class Enemy : MonoBehaviour
     private Player playerScrpt;
     [HideInInspector]
     public Vector2 lastPlayerPosition;
+    public Vector2 lastEnemyPosition;
 
     // Testing
     [Header("Animation Testing")]
     public Animator anim;
+
+    private Vector2 attackPos;
+    private float attackTimer = 0f;
+    private float revertTimer = 0f;
 
     #endregion
 
@@ -110,7 +118,33 @@ public class Enemy : MonoBehaviour
                 break;
             case State.hit:
                 break;
+            case State.Attack:
+
+                attackTimer += attackSpeed * Time.deltaTime;
+
+                // If the attack timer is not at the end?
+                if (attackTimer <= 1f)
+                {
+                    // Lerp Enemy to Attack Point
+                    transform.position = Vector3.Lerp(lastEnemyPosition, attackPos, attackTimer);
+                }
+                else
+                {
+                    // Increase the revertTimer
+                    revertTimer += attackSpeed * Time.deltaTime;
+
+                    // If it's less than zero
+                    if (revertTimer <= 1f)
+                    {
+                        // Lerp Enemy to Last Point
+                        transform.position = Vector3.Lerp(attackPos, lastEnemyPosition, revertTimer);
+                    }
+                }
+
+                break;
         }
+
+
 
         PlayerInsideRange();
     }
@@ -224,7 +258,7 @@ public class Enemy : MonoBehaviour
                 SeekPlayer(_speed);
             }
             #endregion
-            
+
             #region Flying Enemy
             if (flyingEnemy == true)
             {
@@ -241,14 +275,7 @@ public class Enemy : MonoBehaviour
                 // Just Outside Yellow Range
                 if (distanceToPlayer <= retreatDistance + 2)
                 {
-                    // Count up Timer
-                    _attackTimer += Time.deltaTime;
-                    // If the timer reaches the delay
-                    if (_attackTimer >= attackDelay)
-                    {
-                        SeekPlayer(50);
-                        _attackTimer = 0f;
-                    }
+
                     // If time more than or equal to 3 seconds
                     _timer += Time.deltaTime;
 
@@ -258,15 +285,13 @@ public class Enemy : MonoBehaviour
                         #region when it is 0
                         if (chance == 0)
                         {
-                           // SwordAttack();
-                            Debug.Log("Sword Attack");
+                            StartCoroutine(Attack());
                         }
                         #endregion
                         #region When it is 1
                         if (chance == 1)
                         {
-                           // SwordAttack();
-                            //Shoot();
+                            Shoot();
                         }
                         #endregion
                         _chanceIsOn = false;
@@ -291,7 +316,9 @@ public class Enemy : MonoBehaviour
         // Player outside the red Circle Range
         else
         {
-            currentState = State.Patrol;
+            if(currentState != State.Attack)
+                currentState = State.Patrol;
+
             BaseEnemyMovement();
         }
         #endregion
@@ -386,20 +413,22 @@ public class Enemy : MonoBehaviour
     }
     #endregion
 
-    #region Trash
+    IEnumerator Attack()
+    {
+        // Reset timers
+        revertTimer = 0f;
+        attackTimer = 0f;
 
-    #region Sword Attack      
-    /*
-    
-    */
+        attackPos = player.position;
+        lastEnemyPosition = transform.position;
+        var prevState = currentState;
 
-    #endregion
+        currentState = State.Attack;
 
-    #region Shoot
+        yield return new WaitForSeconds(attackDelay);
 
-    #endregion
-
-    #endregion
+        currentState = prevState;
+    }
 
     #region Bunch of Art stuff
     // Don't how to draw a line so I'll use Sphere XD
@@ -429,6 +458,7 @@ public class Enemy : MonoBehaviour
     {
         Patrol,
         Seek,
-        hit
+        hit,
+        Attack
     }
 }
