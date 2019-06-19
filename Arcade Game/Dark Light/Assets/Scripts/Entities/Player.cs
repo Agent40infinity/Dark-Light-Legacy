@@ -303,7 +303,6 @@ public class Player : MonoBehaviour
         Instantiate(darkLight, transform.position, transform.rotation);
         transform.position = Lamp.lPos[Lamp.lastSaved].position;
         curHealth = maxHealth;
-
         isDead = false;
 
         yield return new WaitForSeconds(5f); //Fades back in after the animation for the death screen is complete.

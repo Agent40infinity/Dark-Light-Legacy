@@ -15,7 +15,7 @@ namespace MainMenu
     {
         #region Variables
         //General: 
-        public GameObject main, mainBackground, fade, options, general, video, audio, controls; //Allows for reference to GameObjects Meny and Options
+        public GameObject main, mainBackground, fade, options, general, video, audio, controls, overlay; //Allows for reference to GameObjects Meny and Options
         //public bool toggle = false; //Toggle for switching between settings and main
         //public int option = 0; //Changes between the 4 main screens in options.
         public bool quitTimer = false; //Check whether or not the exit button has been pressed
@@ -100,6 +100,7 @@ namespace MainMenu
                     sTimer = 0;
                     main.SetActive(false);
                     mainBackground.SetActive(false);
+                    overlay.SetActive(true);
                     startTimer = false;
                     fade.GetComponent<FadeController>().FadeIn();
                 }

@@ -1511,7 +1511,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pos (6)
   m_TagString: Checkpoint
-  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1946,7 +1946,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pos (2)
   m_TagString: Checkpoint
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5607,7 +5607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8df803b2d5708544887cfd835a25fde6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSpeed: 12
+  xSpeed: 10
   ySpeed: 14
   yLimiter: 1
   knockback: {x: 40, y: 8}
@@ -5943,7 +5943,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pos (7)
   m_TagString: Checkpoint
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -22596,7 +22596,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pos (4)
   m_TagString: Checkpoint
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -28473,7 +28473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1519330696
 RectTransform:
   m_ObjectHideFlags: 0
@@ -101955,7 +101955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1602054382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102029,7 +102029,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pos (1)
   m_TagString: Checkpoint
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -104528,7 +104528,7 @@ GameObject:
   m_Layer: 0
   m_Name: Pos (5)
   m_TagString: Checkpoint
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -105491,7 +105491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1906339245
 RectTransform:
   m_ObjectHideFlags: 0
@@ -105572,6 +105572,7 @@ MonoBehaviour:
   video: {fileID: 2028184363}
   audio: {fileID: 1050723612}
   controls: {fileID: 1273155129}
+  overlay: {fileID: 1519330695}
   quitTimer: 0
   qTimer: 0
   startTimer: 0
@@ -107372,7 +107373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2058848804
 RectTransform:
   m_ObjectHideFlags: 0

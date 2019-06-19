@@ -34,14 +34,16 @@ namespace HealthManagement
                 }
                 else
                 {
+                    Debug.Log("Still doing this");
                     anim[i].SetTrigger("Lose");
                 }
             }
 
             if (Player.recovered == true)
-            {
+            {     
                 for (int i = 0; i < anim.Length; i++)
                 {
+                    anim[i].ResetTrigger("Lose");
                     anim[i].SetTrigger("Recover");
                 }
                 Player.recovered = false;
