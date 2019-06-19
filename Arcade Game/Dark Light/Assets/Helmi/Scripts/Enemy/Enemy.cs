@@ -12,80 +12,77 @@ public class Enemy : MonoBehaviour
 {
     // Not all variables are automatically connecting to components
     #region Variables
+
+    #region Type of Enemy
     [Header("What type of enemy is this?")]
     public bool groundEnemy;
     public bool flyingEnemy;
+    #endregion
 
-    [Header("Attack Stuff")]
-    public float attackDelay;
-    private float lastAttackTime;
-    public float attackRange = 1.5f;
-    public float attackSpeed = 10f;
-    public float bulletSpeed = 20f;
-    public Transform attackDetector;
+    #region All Enemy Attack
+    [Header("Attack Attributes")]
+    public float attackDelay; // Delay for attack,,, Ground Enemy is set to 3f as default and Flying Enemy is set to 1f as default  
+    #endregion
 
-    [Header("Base Enemy Attributes")]
+    #region Enemy Attributes
+    [Header("Both Enemy Attributes")]
     public State currentState;
-    public float initialSpeed = 5f;
-    private float _speed;
+    public float initialSpeed = 5f; // Speed of enemy
+    private float _speed; // Initial Speed will be stored to this variable
+    #endregion
 
-    [Header("Patrol & Chasing Attributes")]
-    public float playerDetectorDistance = 20f;
+    #region Chasing Attributes
+    [Header("Chasing Attributes")]
+    public float playerDetectorDistance = 20f; // Distance where able to check where the player is
     [HideInInspector]
     public bool moveRight = true;
+    #endregion
 
+    #region Ground Enemy Attributes
     [Header("Ground Enemy Attributes")]
-    public float groundDetectorDistance = 2f;
-    public Transform groundDetector;
+    public float groundDetectorDistance = 1f; // Raycast distance to the ground 
+    public float attackDistance = 2f; // Attack Distance
+    private float lastAttackTime; // Connecting with Attack Delay
+    public Transform groundDetector; // Transform for Ground Detector
+    public GameObject wallDetector; // Only for Ground Enemy
+    #endregion
 
+    #region Flying Enemy Attributes
     [Header("Flying Enemy Attributes")]
-    public Transform spawnAttackParent;
-    private GameObject cloneAttackPos;
-    public GameObject spawnAttackPosObject;
-    public float stoppingDistance = 7f;
-    public float retreatDistance = 6f;
-    private bool _spawnAttackIsCreated = false;
-    private bool enemyBackingUp = true;
-    private Vector2 originPlace;
-
-    [Header("Shooting Flying Enemy Attributes")]
-    public GameObject bulletPrefab;
-    public Transform bulletsParent;
-    private Bullets bullet;
+    public float attackSpeed = 5f; // Speed of the attack when it moves fast to player.
+    public float bulletSpeed = 20f; // Speed of the bullet.
+    public float stoppingDistance = 8f; // Stopping Distance.
+    public float retreatDistance = 6f; // Retreat Distance.
+    public float flyAttackDistance = 1f; // Fly Attack Distance.
+    public GameObject bulletPrefab; // Bullet prefab
+    public Transform bulletsParent; // This is just for making it tidy (bullets will spawn under this GameObject in inspector)
+    private Bullets bullet; // Bullet
+    private Vector2 originPlace; // Set where the enemy needs to go after chasing
+    #endregion
 
     // >>>TIMER<<<
-    private float _startingTimer = 0;
-    public float _timer;
-
-    // 0 == 0
-
-    // >>>ATTACK<<<
-    private float _attackTimer = 0f;
-    private bool _swordAttack = false;
-    private bool _bulletAttack = false;
-
-    //>>>CHASING<<<
+    private float _timer = 0; // Timer for Attack and chance
+    private float attackTimer = 0f; // AttackTimer
+    private float revertTimer = 0f; // RevertTimer
 
     // >>>CHANCES<<<
-    public int chance;
+    private int chance;
     private bool _chanceIsOn = false;
 
+    #region Reference
     [Header("Reference")]
     public Transform player;
-    private Vector2 playerDir;
-    public GameObject wallDetector;
-    private Player playerScrpt;
-    [HideInInspector]
-    public Vector2 lastPlayerPosition;
-    public Vector2 lastEnemyPosition;
+    public float _distanceToPlayer; // Distance between enemy and player
+    private Player playerScrpt; // Plyer Script
+    private Vector2 lastEnemyPosition; // Store Last Enemy Position
+    private Vector2 attackPos; // Store Attack Pos
+    #endregion
 
+    #region Testing
     // Testing
     [Header("Animation Testing")]
     public Animator anim;
-
-    private Vector2 attackPos;
-    private float attackTimer = 0f;
-    private float revertTimer = 0f;
+    #endregion
 
     #endregion
 
@@ -102,7 +99,6 @@ public class Enemy : MonoBehaviour
         playerScrpt = player.GetComponent<Player>();
         _speed = initialSpeed;
         currentState = State.Patrol;
-        _timer = _startingTimer;
     }
     #endregion
 
@@ -122,12 +118,18 @@ public class Enemy : MonoBehaviour
 
                 attackTimer += attackSpeed * Time.deltaTime;
 
+                if (_distanceToPlayer <= flyAttackDistance)
+                {
+                    playerScrpt.beenHit = true;
+                }
+
                 // If the attack timer is not at the end?
                 if (attackTimer <= 1f)
                 {
                     // Lerp Enemy to Attack Point
                     transform.position = Vector3.Lerp(lastEnemyPosition, attackPos, attackTimer);
                 }
+
                 else
                 {
                     // Increase the revertTimer
@@ -144,7 +146,8 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
-
+        // the distance between enemy and player
+        _distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         PlayerInsideRange();
     }
@@ -244,12 +247,9 @@ public class Enemy : MonoBehaviour
     #region When Player Inside any circle radius
     void PlayerInsideRange()
     {
-        // the distance between enemy and player
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
         #region Chase player or not
         // Player inside the red Circle Range
-        if (distanceToPlayer <= playerDetectorDistance)
+        if (_distanceToPlayer <= playerDetectorDistance)
         {
             #region Ground Enemy
             if (groundEnemy == true)
@@ -262,18 +262,14 @@ public class Enemy : MonoBehaviour
             #region Flying Enemy
             if (flyingEnemy == true)
             {
-                // Green Range
-                if (distanceToPlayer <= stoppingDistance && retreatDistance <= distanceToPlayer)
-                {
-                }
                 // Yellow Range
-                if (distanceToPlayer <= retreatDistance)
+                if (_distanceToPlayer <= retreatDistance)
                 {
                     // Enemy backing from player 
                     transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
                 }
                 // Just Outside Yellow Range
-                if (distanceToPlayer <= retreatDistance + 2)
+                if (_distanceToPlayer <= stoppingDistance)
                 {
 
                     // If time more than or equal to 3 seconds
@@ -285,7 +281,7 @@ public class Enemy : MonoBehaviour
                         #region when it is 0
                         if (chance == 0)
                         {
-                            StartCoroutine(Attack());
+                            StartCoroutine(SwordAttack());
                         }
                         #endregion
                         #region When it is 1
@@ -296,7 +292,7 @@ public class Enemy : MonoBehaviour
                         #endregion
                         _chanceIsOn = false;
                     }
-                    // If it is in 6 seconds 
+                    // If it is in 4 seconds 
                     if (_timer >= 4)
                     {
                         // Reset timer and Chance
@@ -316,8 +312,11 @@ public class Enemy : MonoBehaviour
         // Player outside the red Circle Range
         else
         {
+            // If it is not attacking then Patrol
             if(currentState != State.Attack)
+            {
                 currentState = State.Patrol;
+            }
 
             BaseEnemyMovement();
         }
@@ -329,7 +328,7 @@ public class Enemy : MonoBehaviour
         if (groundEnemy == true)
         {
             // If player inside the hit box range
-            if (distanceToPlayer <= attackRange)
+            if (_distanceToPlayer <= attackDistance)
             {
                 currentState = State.hit;
                 _speed = 0;
@@ -345,7 +344,6 @@ public class Enemy : MonoBehaviour
             }
         }
         #endregion
-
         #endregion
     }
     #endregion
@@ -356,8 +354,6 @@ public class Enemy : MonoBehaviour
         _timer = 0;
         chance = 0;
         _chanceIsOn = true;
-        _spawnAttackIsCreated = false;
-        Destroy(cloneAttackPos);
     }
     #endregion
 
@@ -378,13 +374,6 @@ public class Enemy : MonoBehaviour
             //============== 
         }
         #endregion
-
-        #region Flying Enemy
-        if (flyingEnemy == true)
-        {
-            // It is in Bullet Script
-        }
-        #endregion
     }
     #endregion
 
@@ -397,38 +386,25 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region Sword Attack
-    void SwordAttack()
-    {
-        Vector3 spawnPos = player.transform.position;
-
-        #region Spawn a Transform Position in front of enemy 
-        if (_spawnAttackIsCreated == false)
-        {
-            cloneAttackPos = Instantiate(spawnAttackPosObject, spawnPos, Quaternion.identity, spawnAttackParent);
-            _spawnAttackIsCreated = true;
-        }
-        #endregion
-
-        transform.position = Vector2.MoveTowards(transform.position, spawnPos, (_speed * 2) * Time.deltaTime);
-    }
-    #endregion
-
-    IEnumerator Attack()
+    IEnumerator SwordAttack()
     {
         // Reset timers
         revertTimer = 0f;
         attackTimer = 0f;
+        
+        attackPos = player.position; // Store the last player position
+        lastEnemyPosition = transform.position; // Store the Last Enemy Position
 
-        attackPos = player.position;
-        lastEnemyPosition = transform.position;
-        var prevState = currentState;
+        var prevState = currentState; // Store Previous State (State.Seek)
 
-        currentState = State.Attack;
+        currentState = State.Attack; // Switch to Attack State
 
-        yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(attackDelay); 
 
-        currentState = prevState;
+        currentState = prevState; // Switch to Seek State
     }
+    #endregion
+
 
     #region Bunch of Art stuff
     // Don't how to draw a line so I'll use Sphere XD
@@ -440,7 +416,7 @@ public class Enemy : MonoBehaviour
         if (groundEnemy == true)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(attackDetector.position, attackRange);
+            Gizmos.DrawWireSphere(transform.position, attackDistance);
         }
         if (flyingEnemy == true)
         {
@@ -449,6 +425,9 @@ public class Enemy : MonoBehaviour
 
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, retreatDistance);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, flyAttackDistance);
 
         }
     }
