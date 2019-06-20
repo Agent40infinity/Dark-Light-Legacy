@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+/*---------------------------------/
+ * Script by Aiden Nathan.
+ *---------------------------------*/
+
 namespace PauseMenu
 {
     public class Pause : MonoBehaviour

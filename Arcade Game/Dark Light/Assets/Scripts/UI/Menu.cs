@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 /*---------------------------------/
  * Script by Aiden Nathan.
+ * Set up Assistance by Helmi.
  *---------------------------------*/
 
 namespace MainMenu

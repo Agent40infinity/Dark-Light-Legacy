@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*---------------------------------/
+ * Script by Aiden Nathan.
+ *---------------------------------*/
+
 namespace Boss
 {
 	public class Boss : MonoBehaviour 

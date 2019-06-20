@@ -406,7 +406,7 @@ public class Enemy : MonoBehaviour
     #endregion
 
 
-    #region Bunch of Art stuff
+    #region Gizmos
     // Don't how to draw a line so I'll use Sphere XD
     void OnDrawGizmosSelected()
     {

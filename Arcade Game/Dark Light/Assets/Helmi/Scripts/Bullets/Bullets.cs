@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//==========================================
+// Title:  Dark Light
+// Author: Helmi Amsani
+// Date:   14 May 2019
+//==========================================
+
 public class Bullets : MonoBehaviour
 {
     public float speed = 40f;
