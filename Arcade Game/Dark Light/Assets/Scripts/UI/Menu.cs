@@ -205,7 +205,7 @@ namespace MainMenu
             Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         }
 
-        public void onGUI()
+        public void OnGUI()
         {
             if (currentKey != null) //Checks whether or not there is a Keycode saved to 'currentKey'
             {
