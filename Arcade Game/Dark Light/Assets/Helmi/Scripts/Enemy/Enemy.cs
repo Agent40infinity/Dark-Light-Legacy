@@ -365,7 +365,7 @@ public class Enemy : MonoBehaviour
         {
             //==============
             // Referenced from this website: https://www.youtube.com/watch?v=LqCJowEQFBc
-            if (Time.time > lastAttackTime + attackDelay)
+            if (Time.time >= lastAttackTime + attackDelay)
             {
                 playerScrpt.beenHit = true;
                 anim.SetBool("IsAttack", true);

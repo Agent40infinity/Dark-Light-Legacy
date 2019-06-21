@@ -424,7 +424,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 610576115}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &89555204
 GameObject:
@@ -971,13 +971,14 @@ GameObject:
   - component: {fileID: 187216420}
   - component: {fileID: 187216419}
   - component: {fileID: 187216418}
+  - component: {fileID: 187216421}
   m_Layer: 11
-  m_Name: FlyingEnemy (With Sprites)
+  m_Name: Sentry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &187216417
 Transform:
   m_ObjectHideFlags: 0
@@ -987,7 +988,7 @@ Transform:
   m_GameObject: {fileID: 187216416}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 15.31, y: 10, z: 0}
-  m_LocalScale: {x: 0.38529995, y: 0.39526835, z: 0.30201116}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 610576115}
   m_RootOrder: 2
@@ -1025,7 +1026,7 @@ MonoBehaviour:
   bulletsParent: {fileID: 38185427}
   player: {fileID: 1204109430}
   distanceToPlayer: 0
-  anim: {fileID: 0}
+  anim: {fileID: 187216421}
 --- !u!61 &187216419
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1043,7 +1044,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.3333335, y: 4}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1089,7 +1090,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f41f305814d2ad347aca3334587fb251, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a972a824d9c19fc4c80d73e90cf3de9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -1100,6 +1101,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &187216421
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187216416}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 942917dd6b566334785c8d76385c890b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &255818504
 GameObject:
   m_ObjectHideFlags: 0
@@ -2337,8 +2357,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1951656517}
   - {fileID: 38185427}
+  - {fileID: 1951656517}
   - {fileID: 187216417}
   m_Father: {fileID: 1460799045}
   m_RootOrder: 1
@@ -8299,13 +8319,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundEnemy: 1
   flyingEnemy: 0
-  attackDelay: 3
+  attackDelay: 0.2
   currentState: 0
   initialSpeed: 5
   playerDetectorDistance: 5
   moveRight: 1
   groundDetectorDistance: 1
-  attackDistance: 2.5
+  attackDistance: 1.3
   groundDetector: {fileID: 2039197623}
   wallDetector: {fileID: 533606946}
   attackSpeed: 0
@@ -8861,7 +8881,7 @@ Transform:
   m_LocalScale: {x: 0.38529995, y: 0.39526835, z: 0.30201116}
   m_Children: []
   m_Father: {fileID: 610576115}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1951656518
 MonoBehaviour:
