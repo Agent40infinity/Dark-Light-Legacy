@@ -969,9 +969,9 @@ GameObject:
   m_Component:
   - component: {fileID: 187216417}
   - component: {fileID: 187216420}
-  - component: {fileID: 187216419}
   - component: {fileID: 187216418}
   - component: {fileID: 187216421}
+  - component: {fileID: 187216419}
   m_Layer: 11
   m_Name: Sentry
   m_TagString: Untagged
@@ -987,7 +987,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187216416}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.31, y: 10, z: 0}
+  m_LocalPosition: {x: 28.4, y: 12.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 610576115}
@@ -1021,14 +1021,14 @@ MonoBehaviour:
   stoppingDistance: 8
   retreatDistance: 6
   flyAttackDistance: 1
-  bulletPrefab: {fileID: 5296262863754479933, guid: bd8db4c9bd10e68468432dc6ad834096,
+  bulletPrefab: {fileID: 4932681080750320421, guid: ef6538c1a9c0a1b46a3dedc621c90e5f,
     type: 3}
   bulletsParent: {fileID: 38185427}
   player: {fileID: 1204109430}
   distanceToPlayer: 0
   anim: {fileID: 187216421}
---- !u!61 &187216419
-BoxCollider2D:
+--- !u!58 &187216419
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1037,22 +1037,12 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
 --- !u!212 &187216420
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8289,7 +8279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1903774880
 Transform:
   m_ObjectHideFlags: 0

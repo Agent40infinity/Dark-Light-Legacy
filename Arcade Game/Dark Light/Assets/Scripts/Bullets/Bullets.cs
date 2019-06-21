@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public float speed = 40f;
+    public float speed = 20f;
 
     private Transform player;
     private Player playerScrpt;

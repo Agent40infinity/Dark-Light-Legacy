@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     #region All Enemy Attack
     [Header("Attack Attributes")]
-    public float attackDelay; // Delay for attack,,, Ground Enemy is set to 3f as default and Flying Enemy is set to 1f as default  
+    public float attackDelay; // Delay for attack,,, Ground Enemy is set to 0.2f as default and Flying Enemy is set to 1f as default  
     #endregion
 
     #region Enemy Attributes
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
     #endregion
 
     // >>>TIMER<<<
-    private float _timer = 0; // Timer for Attack and chance
+    private float _timer = 0f; // Timer for Attack and chance
     private float attackTimer = 0f; // AttackTimer
     private float revertTimer = 0f; // RevertTimer
 
@@ -299,6 +299,7 @@ public class Enemy : MonoBehaviour
                         ResetTimerNStuff();
                     }
                 }
+
                 else
                 {
                     currentState = State.Seek;
