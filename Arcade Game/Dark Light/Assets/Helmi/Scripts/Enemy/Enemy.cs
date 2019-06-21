@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
     #region Reference
     [Header("Reference")]
     public Transform player;
-    public float _distanceToPlayer; // Distance between enemy and player
+    public float distanceToPlayer; // Distance between enemy and player
     private Player playerScrpt; // Plyer Script
     private Vector2 lastEnemyPosition; // Store Last Enemy Position
     private Vector2 attackPos; // Store Attack Pos
@@ -91,14 +91,14 @@ public class Enemy : MonoBehaviour
     {
         _chanceIsOn = true;
         player = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        playerScrpt = player.GetComponent<Player>();
+        _speed = initialSpeed;
+        currentState = State.Patrol;
 
         if (flyingEnemy == true)
         {
             originPlace = new Vector2(transform.position.x, transform.position.y);
         }
-        playerScrpt = player.GetComponent<Player>();
-        _speed = initialSpeed;
-        currentState = State.Patrol;
     }
     #endregion
 
@@ -118,7 +118,7 @@ public class Enemy : MonoBehaviour
 
                 attackTimer += attackSpeed * Time.deltaTime;
 
-                if (_distanceToPlayer <= flyAttackDistance)
+                if (distanceToPlayer <= flyAttackDistance)
                 {
                     playerScrpt.beenHit = true;
                 }
@@ -147,7 +147,7 @@ public class Enemy : MonoBehaviour
         }
 
         // the distance between enemy and player
-        _distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         PlayerInsideRange();
     }
@@ -164,7 +164,7 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region Base Enemy Movement
-    void BaseEnemyMovement()
+    public void BaseEnemyMovement()
     {
         #region Ground Enemy
         // When it is a ground enemy
@@ -249,7 +249,7 @@ public class Enemy : MonoBehaviour
     {
         #region Chase player or not
         // Player inside the red Circle Range
-        if (_distanceToPlayer <= playerDetectorDistance)
+        if (distanceToPlayer <= playerDetectorDistance)
         {
             #region Ground Enemy
             if (groundEnemy == true)
@@ -263,13 +263,13 @@ public class Enemy : MonoBehaviour
             if (flyingEnemy == true)
             {
                 // Yellow Range
-                if (_distanceToPlayer <= retreatDistance)
+                if (distanceToPlayer <= retreatDistance)
                 {
                     // Enemy backing from player 
                     transform.position = Vector2.MoveTowards(transform.position, player.position, -(_speed * 0.75f) * Time.deltaTime);
                 }
                 // Just Outside Yellow Range
-                if (_distanceToPlayer <= stoppingDistance)
+                if (distanceToPlayer <= stoppingDistance)
                 {
 
                     // If time more than or equal to 3 seconds
@@ -328,7 +328,7 @@ public class Enemy : MonoBehaviour
         if (groundEnemy == true)
         {
             // If player inside the hit box range
-            if (_distanceToPlayer <= attackDistance)
+            if (distanceToPlayer <= attackDistance)
             {
                 currentState = State.hit;
                 _speed = 0;

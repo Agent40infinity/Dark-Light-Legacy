@@ -8,6 +8,7 @@ TagManager:
   - Save
   - HostileEnvironment
   - Bullet
+  - Wall Detector
   layers:
   - Default
   - TransparentFX
