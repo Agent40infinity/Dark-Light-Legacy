@@ -9,6 +9,7 @@ TagManager:
   - HostileEnvironment
   - Bullet
   - Wall Detector
+  - Enemy
   layers:
   - Default
   - TransparentFX

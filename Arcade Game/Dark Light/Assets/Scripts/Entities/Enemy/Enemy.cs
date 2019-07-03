@@ -1,6 +1,7 @@
 ﻿//==========================================
 // Title:  Dark Light
 // Author: Helmi Amsani
+//Modifed by: Aiden Nathan
 // Date:   14 May 2019
 //==========================================
 
@@ -10,44 +11,31 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Not all variables are automatically connecting to components
     #region Variables
-
-    #region Type of Enemy
     [Header("What type of enemy is this?")]
     public bool groundEnemy;
     public bool flyingEnemy;
-    #endregion
 
-    #region All Enemy Attack
     [Header("Attack Attributes")]
     public float attackDelay; // Delay for attack,,, Ground Enemy is set to 0.2f as default and Flying Enemy is set to 1f as default  
-    #endregion
 
-    #region Enemy Attributes
     [Header("Both Enemy Attributes")]
     public State currentState;
     public float initialSpeed = 5f; // Speed of enemy
     private float _speed; // Initial Speed will be stored to this variable
-    #endregion
 
-    #region Chasing Attributes
     [Header("Chasing Attributes")]
     public float playerDetectorDistance = 20f; // Distance where able to check where the player is
     [HideInInspector]
     public bool moveRight = true;
-    #endregion
 
-    #region Ground Enemy Attributes
     [Header("Ground Enemy Attributes")]
     public float groundDetectorDistance = 1f; // Raycast distance to the ground 
     public float attackDistance = 2f; // Attack Distance
     private float lastAttackTime; // Connecting with Attack Delay
     public Transform groundDetector; // Transform for Ground Detector
     public GameObject wallDetector; // Only for Ground Enemy
-    #endregion
 
-    #region Flying Enemy Attributes
     [Header("Flying Enemy Attributes")]
     public float attackSpeed = 5f; // Speed of the attack when it moves fast to player.
     public float bulletSpeed = 20f; // Speed of the bullet.
@@ -58,7 +46,6 @@ public class Enemy : MonoBehaviour
     public Transform bulletsParent; // This is just for making it tidy (bullets will spawn under this GameObject in inspector)
     private Bullets bullet; // Bullet
     private Vector2 originPlace; // Set where the enemy needs to go after chasing
-    #endregion
 
     // >>>TIMER<<<
     private float _timer = 0f; // Timer for Attack and chance
@@ -69,21 +56,16 @@ public class Enemy : MonoBehaviour
     private int chance;
     private bool _chanceIsOn = false;
 
-    #region Reference
     [Header("Reference")]
     public Transform player;
     public float distanceToPlayer; // Distance between enemy and player
     private Player playerScrpt; // Plyer Script
     private Vector2 lastEnemyPosition; // Store Last Enemy Position
     private Vector2 attackPos; // Store Attack Pos
-    #endregion
 
-    #region Testing
     // Testing
     [Header("Animation Testing")]
     public Animator anim;
-    #endregion
-
     #endregion
 
     #region Start
