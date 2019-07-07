@@ -213,6 +213,10 @@ public class Player : MonoBehaviour
             }
             beenHit = false;
         }
+        else if (beenHit == true && iFrame == true)
+        {
+            beenHit = false;
+        }
 
         if (hitHostile == true) //Checks if the player has collided with a hostile environment object.
         {

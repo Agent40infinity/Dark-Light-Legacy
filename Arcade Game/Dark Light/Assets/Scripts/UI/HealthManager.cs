@@ -48,6 +48,11 @@ namespace HealthManagement
                 }
                 Player.recovered = false;
             }
+
+            if (anim[0].GetCurrentAnimatorStateInfo(0).normalizedTime == 0)
+            {
+
+            }
         }
         #endregion
         #region CheckForHealth
