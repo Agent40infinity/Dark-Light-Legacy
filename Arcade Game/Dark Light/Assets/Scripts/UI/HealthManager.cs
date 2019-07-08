@@ -49,10 +49,13 @@ namespace HealthManagement
                 Player.recovered = false;
             }
 
-            if (anim[0].GetCurrentAnimatorStateInfo(0).normalizedTime == 0)
-            {
-
-            }
+            //if (anim[0].GetCurrentAnimatorStateInfo(0).normalizedTime == 0)
+            //{
+            //    for (int i = 0; i < anim.Length; i++)
+            //    {
+                 
+            //    }
+            //}
         }
         #endregion
         #region CheckForHealth
