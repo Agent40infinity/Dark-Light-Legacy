@@ -39,14 +39,12 @@ public class TestSuite
     public IEnumerator PlayerCanMove()
     {
         yield return new WaitForEndOfFrame();
-        Assert.NotNull(player, "Player Exists");
     }
 
     [UnityTest]
     public IEnumerator PlayerCanJump()
     {
         yield return new WaitForEndOfFrame();
-        Assert.NotNull(player, "Player Exists");
     }
 
     [UnityTest]
@@ -70,7 +68,6 @@ public class TestSuite
     public IEnumerator PlayerCanSave()
     {
         yield return new WaitForEndOfFrame();
-        Assert.NotNull(player, "Player Exists");
     }
 
     [TearDown]
