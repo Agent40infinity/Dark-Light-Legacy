@@ -231,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<Player>().anim.SetBool("tooHigh", true);
             if (landTime >= 40) //Unlocks the player's movement and ends the animation.
             {
-                GetComponent<Player>().anim.SetBool("tooHigh", false);                                      //Gonna be real, don't know why this is under Locks. Might move it later.
+                GetComponent<Player>().anim.SetBool("tooHigh", false); //Gonna be real, don't know why this is under Locks. Might move it later.
                 unlockAll = true;
                 Debug.Log("locked: " + lockMovement);
                 fallTime = 0;
