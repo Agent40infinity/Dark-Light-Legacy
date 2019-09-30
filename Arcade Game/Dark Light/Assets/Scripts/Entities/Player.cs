@@ -38,9 +38,6 @@ public class Player : MonoBehaviour
     private int aCounter = 0; //Counter for attack activation.
     private int dCounter = 0; //Counter for dash activation.
     private float hCounter = 0; //Counter for hostile activation.
-    //private float dthCounter = 0; //Counter for death screen activation.
-    //private float fICounter = 0; //Counter for Fade-In activation.
-    //private float fOCounter = 0; //Counter for Fade-Out activation.
 
     //Reference:
     public GameObject death; //Reference for the death screen.
@@ -74,13 +71,12 @@ public class Player : MonoBehaviour
     }
 
     public void Update()
-    {
+    {   
         Health();
         if (player.GetComponent<PlayerMovement>().lockAbilities == false && player.GetComponent<PlayerMovement>().dash == false)
         {
             Attack();
         }
-        Debug.Log("Current Health" + maxHealth);
         Debug.Log("Current Health" + curHealth);
     }
     public void FixedUpdate() //basic update cycle.
@@ -123,6 +119,9 @@ public class Player : MonoBehaviour
                     other.gameObject.GetComponent<LampController>().LightLamp();
                     //SystemSave.SavePlayer(this);
                     save.GetComponent<Animator>().SetTrigger("SaveLoad");
+                    curHealth = maxHealth;
+                    curWisps = maxWisps;
+                    recovered = true;
                 }
                 Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
             }
@@ -249,39 +248,6 @@ public class Player : MonoBehaviour
         {
             player.GetComponent<PlayerMovement>().lockAll = true; //Locks all movement, actions, and abilities.
             StartCoroutine("Death");
-            /*
-            beenHit = false;
-            isDead = true;
-            dthCounter += Time.deltaTime;
-            //Debug.Log("Death Counter: " + dthCounter);
-            if (dthCounter >= 2.50f)
-            {
-                fICounter += Time.deltaTime;
-                fade.GetComponent<FadeController>().FadeOut();
-                print("fadeOut");
-
-                Debug.Log("!KillMe");
-                if (fICounter >= 1f)
-                {                                                                                 Old Broken Code: Replaced by Co-routine / Enum.
-                    fOCounter += Time.deltaTime;
-                    death.SetActive(true);
-                    isDead = false;
-                    if (fOCounter >= 5f)
-                    {
-                        fade.GetComponent<FadeController>().FadeIn();
-                        print("fadeIn");
-
-                        death.SetActive(false);
-                        Instantiate(darkLight, transform.position, transform.rotation);
-                        transform.position = Lamp.lPos[Lamp.lastSaved].position;
-                        curHealth = maxHealth;
-                        dthCounter = 0;
-                        fICounter = 0;
-                        fOCounter = 0;
-                    }
-                }
-            }
-            */
         }
 
         if (isDead == true)
@@ -298,7 +264,6 @@ public class Player : MonoBehaviour
     IEnumerator Death() //Called upon to show that the player has died; Makes the player un-hittable and dead.
     {
         fadeIntoDeath = true;
-        beenHit = false;
         isDead = true;
 
         yield return new WaitForSeconds(2.5f); //Fades out after death animation is played.
@@ -308,6 +273,7 @@ public class Player : MonoBehaviour
         death.SetActive(true);
         Instantiate(darkLight, transform.position, transform.rotation);
         transform.position = Lamp.lPos[Lamp.lastSaved].position;
+        beenHit = false;
         curHealth = maxHealth;
         isDead = false;
 
