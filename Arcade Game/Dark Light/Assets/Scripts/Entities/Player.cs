@@ -80,6 +80,8 @@ public class Player : MonoBehaviour
         {
             Attack();
         }
+        Debug.Log("Current Health" + maxHealth);
+        Debug.Log("Current Health" + curHealth);
     }
     public void FixedUpdate() //basic update cycle.
     {
