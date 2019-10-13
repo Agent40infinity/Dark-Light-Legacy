@@ -1122,7 +1122,8 @@ MonoBehaviour:
   curHealth: 0
   maxHealth: 10
   Dead: 0
-  Enemy: {fileID: 102634571}
+  anim: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!61 &102634576
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2026,7 +2027,8 @@ MonoBehaviour:
   curHealth: 0
   maxHealth: 6
   Dead: 0
-  Enemy: {fileID: 146456939}
+  anim: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!212 &146456945
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4968,11 +4970,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 5000
+  field of view: 40
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 6.52
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -4996,7 +4998,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: -10}
+  m_LocalPosition: {x: 0, y: 3.2600002, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 111514224}
@@ -6445,7 +6447,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3d31c69305a43684bba4d50311308179, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6534,6 +6536,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   player: {fileID: 681664074}
+  jumpDust: {fileID: 1870957830483065498, guid: 7256c055eb7a39a45929bdf6c8004bbe,
+    type: 3}
 --- !u!95 &681664081
 Animator:
   serializedVersion: 3
@@ -23514,7 +23518,8 @@ MonoBehaviour:
   curHealth: 0
   maxHealth: 6
   Dead: 0
-  Enemy: {fileID: 789118620}
+  anim: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!212 &789118626
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -26099,7 +26104,8 @@ MonoBehaviour:
   curHealth: 0
   maxHealth: 10
   Dead: 0
-  Enemy: {fileID: 1048509229}
+  anim: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!61 &1048509234
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -106163,7 +106169,8 @@ MonoBehaviour:
   curHealth: 0
   maxHealth: 6
   Dead: 0
-  Enemy: {fileID: 1765338520}
+  anim: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!212 &1765338526
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -106316,7 +106323,8 @@ MonoBehaviour:
   curHealth: 0
   maxHealth: 10
   Dead: 0
-  Enemy: {fileID: 1769578350}
+  anim: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!61 &1769578355
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -111598,12 +111606,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4874620894434014111, guid: ae4a249c2f9cbb844817aad72c1345ba,
-        type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 1082542370190828052, guid: 34127bdd722b8ce45a4af79547df7fc0,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae4a249c2f9cbb844817aad72c1345ba, type: 3}
 --- !u!4 &5713609154444094438 stripped

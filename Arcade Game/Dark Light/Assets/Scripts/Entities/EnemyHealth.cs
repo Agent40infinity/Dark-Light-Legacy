@@ -11,11 +11,14 @@ public class EnemyHealth : MonoBehaviour
     public int curHealth;
     public int maxHealth;
     public bool Dead = false;
-    public GameObject Enemy;
+    public Animator anim;
+    public GameObject enemy;
 
     public void Start()
     {
-        switch (Enemy.name)
+        enemy = gameObject;
+        anim = gameObject.GetComponent<Animator>();
+        switch (enemy.name)
         {
             case "GroundEnemy":
                 maxHealth = 10;
@@ -27,6 +30,14 @@ public class EnemyHealth : MonoBehaviour
         curHealth = maxHealth;
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            StartCoroutine("Death");
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         if (curHealth != 0)
@@ -35,7 +46,14 @@ public class EnemyHealth : MonoBehaviour
         }
         else
         {
-            Dead = true;
+            StartCoroutine("Death");
         }
+    }
+
+    public IEnumerator Death()
+    {
+        anim.SetBool("isDead", true);
+        yield return new WaitForSeconds(2);
+        Destroy(enemy);
     }
 }

@@ -351,6 +351,7 @@ public class Enemy : MonoBehaviour
             if (Time.time >= lastAttackTime + attackDelay)
             {
                 playerScrpt.beenHit = true;
+                PlayerMovement.enemyPos = gameObject.transform;
                 anim.SetBool("IsAttack", true);
                 lastAttackTime = Time.time;
             }

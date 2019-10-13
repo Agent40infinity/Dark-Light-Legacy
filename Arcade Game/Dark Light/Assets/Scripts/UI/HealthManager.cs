@@ -42,7 +42,7 @@ namespace HealthManagement
             if (Player.recovered == true)
             {     
                 for (int i = 0; i < anim.Length; i++)
-                {
+                {   
                     anim[i].ResetTrigger("Lose");
                     anim[i].SetTrigger("Recover");
                 }

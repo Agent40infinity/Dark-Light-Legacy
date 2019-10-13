@@ -56,6 +56,10 @@ public class PlayerMovement : MonoBehaviour
     public Transform feetPos; //Used to reference the ground check for player.
     public LayerMask isWalkable; //Used to create reference to walkable objects.
     public GameObject player; //References the player itself.
+    public static Transform enemyPos;
+
+    //Particles:
+    public GameObject jumpDust;
     #endregion
 
     #region General
@@ -173,6 +177,7 @@ public class PlayerMovement : MonoBehaviour
             rigid.velocity = Vector2.up * ySpeed * yLimiter;
             aTTimer = airTime;
             isJumping = true;
+            Instantiate(jumpDust, player.transform.position + Vector3.down, Quaternion.identity);
         }
         if (Input.GetKey(KeyCode.Space) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
         {
@@ -261,13 +266,12 @@ public class PlayerMovement : MonoBehaviour
                 if (isFacing == true) //Checks what direction the dash is being activated from and acts accordingly.
                 {
                     force = 1f;
-                    rigid.velocity = new Vector2(force * xSpeed * accelSpeed, rigid.velocity.y);
                 }
-                if (isFacing == false)
+                else
                 {
                     force = -1f;
-                    rigid.velocity = new Vector2(force * xSpeed * accelSpeed, rigid.velocity.y);
                 }
+                rigid.velocity = new Vector2(force * xSpeed * accelSpeed, rigid.velocity.y);
             }
             else //Disables Dash. 
             {
@@ -306,6 +310,15 @@ public class PlayerMovement : MonoBehaviour
         {
             kBTimer -= Time.deltaTime;
             lockMovement = true;
+            if (enemyPos.position.x > player.transform.position.x)
+            {
+                knockbackDirection = false;
+            }
+            else if (enemyPos.position.x < player.transform.position.x)
+            {
+                knockbackDirection = true;
+            }
+
             if (knockbackDirection == true) //Applies knockback based on the direction the player was hit from.
             {
                 rigid.velocity = new Vector2(knockback.x, knockback.y);
@@ -319,6 +332,7 @@ public class PlayerMovement : MonoBehaviour
         {
             lockMovement = false;
             kBTimer = knockbackTime;
+            enemyPos = null;
             beenKnocked = false;
         }
     }
@@ -329,6 +343,10 @@ public class PlayerMovement : MonoBehaviour
     {
         force = Input.GetAxisRaw("Horizontal");
         rigid.velocity = new Vector2(force * xSpeed, rigid.velocity.y);
+        if (force != 0)
+        {
+            //Used for spawning walking effect.
+        }
     }
     #endregion
 }

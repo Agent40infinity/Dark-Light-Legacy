@@ -224,19 +224,14 @@ public class Player : MonoBehaviour
             curHealth--;
             if (curHealth != 0) //Checks whether or not the player's health isn't 0; Then applies Knockback it isn't 0, starts a fade out, teleports the player away from danger (to the nearest safe space), and then proceeds to fade back in.
             {
-                //hCounter += Time.deltaTime;
-                //player.GetComponent<PlayerMovement>().beenKnocked = true;
                 fade.GetComponent<FadeController>().FadeOut();
-                //if (hCounter >= 0.16)
-                //{
-                    player.GetComponent<PlayerMovement>().rigid.velocity = new Vector2(0, 0);
-                    transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
-                    player.GetComponent<PlayerMovement>().fallTime = 2f;
-                    iFrame = true;
-                    fade.GetComponent<FadeController>().FadeIn();
-                    hCounter = 0;
-                    hitHostile = false;
-                //}
+                player.GetComponent<PlayerMovement>().rigid.velocity = new Vector2(0, 0);
+                transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
+                player.GetComponent<PlayerMovement>().fallTime = 2f;
+                iFrame = true;
+                fade.GetComponent<FadeController>().FadeIn();
+                hCounter = 0;
+                hitHostile = false;
             }
             else
             {
