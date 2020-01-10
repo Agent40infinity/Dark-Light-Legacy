@@ -11,7 +11,7 @@ using UnityEngine;
 public class WallDetector : MonoBehaviour
 {
     #region Variables
-    public Enemy enemy;
+    public EnemyOld enemy;
     #endregion
 
     #region When This Collider Hit any collider but Player
