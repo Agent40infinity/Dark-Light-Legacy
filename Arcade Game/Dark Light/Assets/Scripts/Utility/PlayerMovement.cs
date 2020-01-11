@@ -105,7 +105,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Knockback();
         }
-        
     }
 
     public void FixedUpdate()
