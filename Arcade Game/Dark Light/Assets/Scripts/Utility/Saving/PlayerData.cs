@@ -9,17 +9,19 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public int level;
-    public int health;
-    public float[] position = new float[3];
+    public bool dashUnlocked;
+    public int lampIndex;
+    public bool[] lampsLit;
 
     public PlayerData(Player player) //Creates a reference for the Player and is used as the baseline for all data being saved into "save.dat".
     {
-        //level = player.level;
-        health = Player.curHealth;
-        position[0] = Lamp.lPos[Lamp.lastSaved].position.x;
-        position[1] = Lamp.lPos[Lamp.lastSaved].position.y;
-        position[2] = Lamp.lPos[Lamp.lastSaved].position.z;
+        dashUnlocked = player.dashUnlocked;
 
+        lampIndex = Lamp.lastSaved;
+        lampsLit = new bool[Lamp.lLight.Length];
+        for (int i = 0; i < Lamp.lLight.Length; i++)
+        {
+            lampsLit[i] = Lamp.lLight[i];
+        }
     }
 }

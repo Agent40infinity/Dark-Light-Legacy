@@ -20,4 +20,9 @@ public class LampController : MonoBehaviour
     {
         Lamp.SetTrigger("FirstLight");
     }
+
+    public void LoadLamp()
+    {
+        Lamp.SetTrigger("Loaded");
+    }
 }

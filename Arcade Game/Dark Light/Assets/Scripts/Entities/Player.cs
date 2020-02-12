@@ -28,6 +28,9 @@ public class Player : MonoBehaviour
     public static bool recovered = false;
     bool fadeIntoDeath = false; //Used to call upon the Sub-routine "Death".
 
+    //Upgrade:
+    public bool dashUnlocked = true;
+
     //Attacking:
     private int attackCooldown; //Cooldown for attacking.
     private int startACooldown = 15; //Used to reset the attack cooldown.
@@ -116,8 +119,10 @@ public class Player : MonoBehaviour
                 if (pos > 0 && pos < Lamp.lPos.Length) //Checks if the number from the GameObject has been stored previously in the array of checkpoints and index's it.
                 {
                     Lamp.lastSaved = pos;
+                    Lamp.lLight[pos] = true;
+                    Debug.Log(Lamp.lLight[pos]);
                     other.gameObject.GetComponent<LampController>().LightLamp();
-                    //SystemSave.SavePlayer(this);
+                    SystemSave.SavePlayer(this);
                     save.GetComponent<Animator>().SetTrigger("SaveLoad");
                     curHealth = maxHealth;
                     curWisps = maxWisps;

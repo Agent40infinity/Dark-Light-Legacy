@@ -96,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
             Movement();
         }
 
-        if (dash == true && lockAbilities == false)
+        if (dash == true && lockAbilities == false /*&& GetComponent<Player>().dashUnlocked == true*/)
         {
             Dash();
         }

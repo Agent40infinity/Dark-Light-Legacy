@@ -103,6 +103,9 @@ namespace MainMenu
                     mainBackground.SetActive(false);
                     overlay.SetActive(true);
                     startTimer = false;
+                    Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
+                    SystemSave.LoadPlayer(player);
+
                     fade.GetComponent<FadeController>().FadeIn();
                 }
             }
