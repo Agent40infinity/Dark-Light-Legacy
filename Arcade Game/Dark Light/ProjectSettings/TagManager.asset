@@ -10,6 +10,7 @@ TagManager:
   - Bullet
   - Wall Detector
   - Enemy
+  - Menu
   layers:
   - Default
   - TransparentFX

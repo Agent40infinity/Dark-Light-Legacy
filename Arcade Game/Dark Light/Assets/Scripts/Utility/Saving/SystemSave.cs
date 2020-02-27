@@ -11,10 +11,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SystemSave
 {
-    public static void SavePlayer(Player player) //Creates reference to player and allows the player to save their data to a save file.
+    public static void SavePlayer(Player player, string fileName) //Creates reference to player and allows the player to save their data to a save file.
     {
         BinaryFormatter formatter = new BinaryFormatter(); //Creates a new BinaryFormatter to allow for data conversion.
-        string path = Application.persistentDataPath + "/save.dat";
+        string path = Application.persistentDataPath + "/save" + fileName + ".dat";
         FileStream stream = new FileStream(path, FileMode.Create);
 
         PlayerData data = new PlayerData(player); //Creates reference to the PlayerData and allows it to be called upon.
@@ -23,9 +23,9 @@ public static class SystemSave
         stream.Close();
     }
 
-    public static PlayerData LoadPlayer(Player player) //Allows the player to load their data from the system.
+    public static PlayerData LoadPlayer(Player player, string fileName) //Allows the player to load their data from the system.
     {
-        string path = Application.persistentDataPath + "/save.dat"; //Creates a check for the directory of the file.
+        string path = Application.persistentDataPath + "/save" + fileName + ".dat"; //Creates a check for the directory of the file.
         if (File.Exists(path)) //Checks if the path and file exist.
         {
             BinaryFormatter formatter = new BinaryFormatter(); //Creates a new reference to the Binary Formatter.

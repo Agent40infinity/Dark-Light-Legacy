@@ -122,7 +122,7 @@ public class Player : MonoBehaviour
                     Lamp.lLight[pos] = true;
                     Debug.Log(Lamp.lLight[pos]);
                     other.gameObject.GetComponent<LampController>().LightLamp();
-                    SystemSave.SavePlayer(this);
+                    SystemSave.SavePlayer(this, GameManager.loadedSave);
                     save.GetComponent<Animator>().SetTrigger("SaveLoad");
                     curHealth = maxHealth;
                     curWisps = maxWisps;
