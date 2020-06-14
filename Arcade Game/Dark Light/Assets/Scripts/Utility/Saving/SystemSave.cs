@@ -16,7 +16,7 @@ public static class SystemSave
         BinaryFormatter formatter = new BinaryFormatter(); //Creates a new BinaryFormatter to allow for data conversion.
         string path = Application.persistentDataPath + "/save" + fileName + ".dat";
         FileStream stream = new FileStream(path, FileMode.Create);
-
+        Debug.Log("path: " + path);
         PlayerData data = new PlayerData(player); //Creates reference to the PlayerData and allows it to be called upon.
 
         formatter.Serialize(stream, data); //Serializes all data being transfered from PlayerData.

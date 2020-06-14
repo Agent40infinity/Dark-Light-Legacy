@@ -17,17 +17,17 @@ public class GameSelection : MonoBehaviour
     public void CreateLoad()
     {
         string name = gameObject.name.Replace("Save", "");
-        Debug.Log(Application.persistentDataPath);
-        if (File.Exists("/save" + name + ".dat"))
+        Debug.Log(File.Exists(Application.persistentDataPath + "/save" + name + ".dat"));
+        if (File.Exists(Application.persistentDataPath + "/save" + name + ".dat"))
         {
-            name = GameManager.loadedSave;
+            GameManager.loadedSave = name;
             SystemSave.LoadPlayer(player, name);
         }
         else
         {
             SystemSave.SavePlayer(player, name);
             Debug.Log("Created File");
-            menu.StartGame();
         }
+        menu.StartGame();
     }
 }

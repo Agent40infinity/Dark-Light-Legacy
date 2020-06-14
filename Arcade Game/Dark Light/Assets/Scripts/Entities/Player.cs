@@ -111,29 +111,30 @@ public class Player : MonoBehaviour
     void OnTriggerStay2D(Collider2D other) //Checks whether or not the player can interact with the save points.
     {
         Debug.Log(other);
-        if (other.tag == "Save") //Checks for the tag attached to each save point.
+        switch (other.tag)
         {
-            if (Input.GetKeyDown(KeyCode.F)) //Checks if the player is wanting to interact with the save point.
-            {
-                int pos = GetNumberFromString(other.name);
-                if (pos > 0 && pos < Lamp.lPos.Length) //Checks if the number from the GameObject has been stored previously in the array of checkpoints and index's it.
+            case "Save": //Checks for the tag attached to each save point.
+                if (Input.GetKeyDown(KeyCode.F)) //Checks if the player is wanting to interact with the save point.
                 {
-                    Lamp.lastSaved = pos;
-                    Lamp.lLight[pos] = true;
-                    Debug.Log(Lamp.lLight[pos]);
-                    other.gameObject.GetComponent<LampController>().LightLamp();
-                    SystemSave.SavePlayer(this, GameManager.loadedSave);
-                    save.GetComponent<Animator>().SetTrigger("SaveLoad");
-                    curHealth = maxHealth;
-                    curWisps = maxWisps;
-                    recovered = true;
+                    int pos = GetNumberFromString(other.name);
+                    if (pos > 0 && pos < Lamp.lPos.Length) //Checks if the number from the GameObject has been stored previously in the array of checkpoints and index's it.
+                    {
+                        Lamp.lastSaved = pos;
+                        Lamp.lLight[pos] = true;
+                        Debug.Log(Lamp.lLight[pos]);
+                        other.gameObject.GetComponent<LampController>().LightLamp();
+                        SystemSave.SavePlayer(this, GameManager.loadedSave);
+                        save.GetComponent<Animator>().SetTrigger("SaveLoad");
+                        curHealth = maxHealth;
+                        curWisps = maxWisps;
+                        recovered = true;
+                    }
+                    Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
                 }
-                Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
-            }
-        }
-        if (other.tag == "HostileEnvironment") //Checks if the player has touched a hostile environment object.
-        {
-            hitHostile = true;
+                break;
+            case "HostileEnvironment": //Checks if the player has touched a hostile environment object.
+                hitHostile = true;
+                break;
         }
     }
     #endregion
