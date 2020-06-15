@@ -55,4 +55,11 @@ public static class SystemSave
             return null;
         }
     }
+
+    public static void DeletePlayer(string fileName)
+    {
+        File.Delete(Application.persistentDataPath + "/save" + fileName + ".dat");
+        Debug.Log("Save" + fileName + " Deleted!");
+        return;
+    }
 }

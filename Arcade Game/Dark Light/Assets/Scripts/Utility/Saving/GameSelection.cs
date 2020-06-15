@@ -18,9 +18,9 @@ public class GameSelection : MonoBehaviour
     {
         string name = gameObject.name.Replace("Save", "");
         Debug.Log(File.Exists(Application.persistentDataPath + "/save" + name + ".dat"));
+        GameManager.loadedSave = name;
         if (File.Exists(Application.persistentDataPath + "/save" + name + ".dat"))
         {
-            GameManager.loadedSave = name;
             SystemSave.LoadPlayer(player, name);
         }
         else

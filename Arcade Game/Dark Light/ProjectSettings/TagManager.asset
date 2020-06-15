@@ -11,6 +11,7 @@ TagManager:
   - Wall Detector
   - Enemy
   - Menu
+  - DeleteSave
   layers:
   - Default
   - TransparentFX
