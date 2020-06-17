@@ -14,7 +14,7 @@ namespace PauseMenu
     {
         #region Variables
         public static bool isPaused = false; //Checks whether or not the game is paused
-        public GameObject pauseMenu, options, main, mainBackground; //Creates reference for the pause menu
+        public GameObject pauseMenu, options, main, mainBackground, fade, overlay; //Creates reference for the pause menu
         public bool optionsTimer = false; //Checks whether or not the options button has been pressed
         public int oTimer = 0; //Timer for transition - options
         public bool menuTimer = false; //Checks whether or not the menu button has been pressed
@@ -53,8 +53,13 @@ namespace PauseMenu
                 {
                     mTimer = 0;
                     Time.timeScale = 1f;
+                    pauseMenu.SetActive(false);
                     main.SetActive(true);
+                    overlay.SetActive(false);
                     mainBackground.SetActive(true);
+                    Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                    SystemSave.SavePlayer(player, GameManager.loadedSave);
+                    fade.GetComponent<FadeController>().FadeIn();
                     menuTimer = false;
                 }
             }
@@ -79,6 +84,7 @@ namespace PauseMenu
         public void Menu() //Trigger for menu button
         {
             menuTimer = true;
+            fade.GetComponent<FadeController>().FadeOut();
         }
 
         public void Options() //Trigger for Options button

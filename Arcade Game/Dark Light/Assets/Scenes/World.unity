@@ -32133,7 +32133,7 @@ GameObject:
   - component: {fileID: 1479336383}
   m_Layer: 5
   m_Name: DeleteSave
-  m_TagString: Untagged
+  m_TagString: DeleteSave
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32843,7 +32843,7 @@ GameObject:
   - component: {fileID: 1530198458}
   m_Layer: 5
   m_Name: DeleteSave
-  m_TagString: Untagged
+  m_TagString: DeleteSave
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33749,7 +33749,7 @@ GameObject:
   - component: {fileID: 1564658450}
   m_Layer: 5
   m_Name: DeleteSave
-  m_TagString: Untagged
+  m_TagString: DeleteSave
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110669,6 +110669,8 @@ MonoBehaviour:
   options: {fileID: 907585186}
   main: {fileID: 1602054381}
   mainBackground: {fileID: 334226316}
+  fade: {fileID: 109552051}
+  overlay: {fileID: 1519330695}
   optionsTimer: 0
   oTimer: 0
   menuTimer: 0
