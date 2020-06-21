@@ -28,7 +28,6 @@ public class Menu : MonoBehaviour
     public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
 
     //Controls:
-    private Dictionary<string, KeyCode> keybind = new Dictionary<string, KeyCode>();
     public Text up, down, left, right, jump, attack, dash;
     private GameObject currentKey;
     #endregion
@@ -55,22 +54,6 @@ public class Menu : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
-
-        keybind.Add("Up", KeyCode.W);
-        keybind.Add("Down", KeyCode.S);
-        keybind.Add("Left", KeyCode.A);
-        keybind.Add("Right", KeyCode.D);
-        keybind.Add("Jump", KeyCode.Space);
-        keybind.Add("Attack", KeyCode.E);
-        keybind.Add("Dash", KeyCode.LeftShift);
-
-        //up.text = keybind["Up"].ToString();
-        //down.text = keybind["Down"].ToString();
-        //left.text = keybind["Left"].ToString();
-        //right.text = keybind["Right"].ToString();
-        //jump.text = keybind["Jump"].ToString();
-        //attack.text = keybind["Attack"].ToString();
-        //dash.text = keybind["Dash"].ToString();
     }
 
     public void Update()
@@ -101,6 +84,7 @@ public class Menu : MonoBehaviour
                 SystemSave.LoadPlayer(player, GameManager.loadedSave);
 
                 fade.GetComponent<FadeController>().FadeIn();
+                GameManager.gameActive = true;
             }
         }
     }
@@ -184,22 +168,22 @@ public class Menu : MonoBehaviour
 
     public void MasterVolume(float volume) //Trigger for changing volume of game's master channel
     {
-        masterMixer.SetFloat("Master", volume);
+        masterMixer.SetFloat("Master", Mathf.Log10 (volume) * 20);
     }
 
     public void EffectsVolume(float volume) //Trigger for changing volume of game's sfx channel
     {
-        masterMixer.SetFloat("Effects", volume);
+        masterMixer.SetFloat("Effects", Mathf.Log10(volume) * 20);
     }
 
     public void MusicVolume(float volume) //Trigger for changing volume of game's music channel
     {
-        masterMixer.SetFloat("Music", volume);
+        masterMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
     }
 
     public void AmbienceVolume(float volume) //Trigger for changing volume of game's music channel
     {
-        masterMixer.SetFloat("Ambience", volume);
+        masterMixer.SetFloat("Ambience", Mathf.Log10(volume) * 20);
     }
 
     public void ChangeQuality(int qualityIndex) //Trigger for applying level of quality - detailing of objects
@@ -225,7 +209,7 @@ public class Menu : MonoBehaviour
             Event keypress = Event.current; //Creates an event called keypress
             if (keypress.isKey) //Checks whether or not the event "keypress" contains a keycode
             {
-                keybind[currentKey.name] = keypress.keyCode; //Saves the keycode from the event as the keycode attached to the keybind dictionary
+                GameManager.keybind[currentKey.name] = keypress.keyCode; //Saves the keycode from the event as the keycode attached to the keybind dictionary
                 currentKey.transform.GetChild(0).GetComponent<Text>().text = keypress.keyCode.ToString(); //Changes the text to match that of the keycode replacing the previous one
                 currentKey = null; //resets the currentKey putting it back to null
             }

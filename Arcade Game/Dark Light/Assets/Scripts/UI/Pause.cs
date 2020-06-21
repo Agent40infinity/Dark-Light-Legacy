@@ -24,7 +24,7 @@ namespace PauseMenu
         #region General
         public void Update() //Ensures the pause menu can function
         {
-            if (Input.GetKeyDown(KeyCode.Escape)) //Show pause menu
+            if (Input.GetKeyDown(KeyCode.Escape) && GameManager.gameActive) //Show pause menu
             {
                 if (isPaused == true)
                 {
@@ -57,10 +57,12 @@ namespace PauseMenu
                     main.SetActive(true);
                     overlay.SetActive(false);
                     mainBackground.SetActive(true);
+                    menuTimer = false;
                     Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
                     SystemSave.SavePlayer(player, GameManager.loadedSave);
+
                     fade.GetComponent<FadeController>().FadeIn();
-                    menuTimer = false;
+                    GameManager.gameActive = false;
                 }
             }
         }
