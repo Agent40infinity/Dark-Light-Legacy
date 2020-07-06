@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using System.Net;
+using Newtonsoft.Json;
 
 /*---------------------------------/
  * Script by Aiden Nathan.
@@ -61,5 +62,26 @@ public static class SystemSave
         File.Delete(Application.persistentDataPath + "/save" + fileName + ".dat");
         Debug.Log("Save" + fileName + " Deleted!");
         return;
+    }
+
+    public static void SaveSettings()
+    {
+        string path = Application.persistentDataPath + "/settings.json";
+        SettingData data = new SettingData();
+
+        string json = data.keybind;
+        StreamWriter writer = File.CreateText(path);
+        writer.Close();
+
+        File.WriteAllText(path, json);
+        Debug.Log("Saved");
+    }
+
+    public static void LoadSettings()
+    {
+        string path = Application.persistentDataPath + "/settings.json";
+        string json = File.ReadAllText(path);
+        GameManager.keybind = JsonConvert.DeserializeObject<Dictionary<string, KeyCode>>(json);
+        Debug.Log("Loaded");
     }
 }

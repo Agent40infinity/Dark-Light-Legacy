@@ -1932,7 +1932,7 @@ GameObject:
   - component: {fileID: 139996186}
   - component: {fileID: 139996185}
   m_Layer: 5
-  m_Name: Dash Button
+  m_Name: Dash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2354,6 +2354,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 165954956}
+  - component: {fileID: 165954957}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2375,6 +2376,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &165954957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165954955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2429dd408c5e64f96da43f94f9a442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &168361071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4760,7 +4773,7 @@ GameObject:
   - component: {fileID: 467830551}
   - component: {fileID: 467830550}
   m_Layer: 5
-  m_Name: Up Button
+  m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24160,7 +24173,7 @@ GameObject:
   - component: {fileID: 784200754}
   - component: {fileID: 784200753}
   m_Layer: 5
-  m_Name: Right Button
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31841,7 +31854,7 @@ GameObject:
   - component: {fileID: 1474343613}
   - component: {fileID: 1474343612}
   m_Layer: 5
-  m_Name: Left Button
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109421,7 +109434,7 @@ GameObject:
   - component: {fileID: 1849999006}
   - component: {fileID: 1849999005}
   m_Layer: 5
-  m_Name: Attack Button
+  m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111964,7 +111977,7 @@ GameObject:
   - component: {fileID: 1994834991}
   - component: {fileID: 1994834990}
   m_Layer: 5
-  m_Name: Juimp Button
+  m_Name: Jump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113597,7 +113610,7 @@ GameObject:
   - component: {fileID: 2105406322}
   - component: {fileID: 2105406321}
   m_Layer: 5
-  m_Name: Down Button
+  m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

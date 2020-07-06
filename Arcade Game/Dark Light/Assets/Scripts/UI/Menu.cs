@@ -23,7 +23,6 @@ public class Menu : MonoBehaviour
     public int sTimer = 0; //Timer for transition - load game
 
     //Settings:
-    public AudioMixer masterMixer; //Creates reference for the menu music
     Resolution[] resolutions; //Creates reference   for all resolutions within Unity
     public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
 
@@ -50,6 +49,14 @@ public class Menu : MonoBehaviour
                 currentResolutionIndex = i;
             }
         }
+
+        up.text = GameManager.keybind["Up"].ToString();
+        down.text = GameManager.keybind["Down"].ToString();
+        left.text = GameManager.keybind["Left"].ToString();
+        right.text = GameManager.keybind["Right"].ToString();
+        jump.text = GameManager.keybind["Jump"].ToString();
+        attack.text = GameManager.keybind["Attack"].ToString();
+        dash.text = GameManager.keybind["Dash"].ToString();
 
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
@@ -168,22 +175,22 @@ public class Menu : MonoBehaviour
 
     public void MasterVolume(float volume) //Trigger for changing volume of game's master channel
     {
-        masterMixer.SetFloat("Master", Mathf.Log10 (volume) * 20);
+        GameManager.masterMixer.SetFloat("Master", Mathf.Log10 (volume) * 20);
     }
 
     public void EffectsVolume(float volume) //Trigger for changing volume of game's sfx channel
     {
-        masterMixer.SetFloat("Effects", Mathf.Log10(volume) * 20);
+        GameManager.masterMixer.SetFloat("Effects", Mathf.Log10(volume) * 20);
     }
 
     public void MusicVolume(float volume) //Trigger for changing volume of game's music channel
     {
-        masterMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
+        GameManager.masterMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
     }
 
     public void AmbienceVolume(float volume) //Trigger for changing volume of game's music channel
     {
-        masterMixer.SetFloat("Ambience", Mathf.Log10(volume) * 20);
+        GameManager.masterMixer.SetFloat("Ambience", Mathf.Log10(volume) * 20);
     }
 
     public void ChangeQuality(int qualityIndex) //Trigger for applying level of quality - detailing of objects
@@ -211,6 +218,7 @@ public class Menu : MonoBehaviour
             {
                 GameManager.keybind[currentKey.name] = keypress.keyCode; //Saves the keycode from the event as the keycode attached to the keybind dictionary
                 currentKey.transform.GetChild(0).GetComponent<Text>().text = keypress.keyCode.ToString(); //Changes the text to match that of the keycode replacing the previous one
+                SystemSave.SaveSettings();
                 currentKey = null; //resets the currentKey putting it back to null
             }
         }
