@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     public void Awake()
     {
+        masterMixer = Resources.Load("Music/Mixers/Master") as AudioMixer;
+
         if (File.Exists(Application.persistentDataPath + "/settings.json"))
         {
             SystemSave.LoadSettings();
@@ -29,6 +31,5 @@ public class GameManager : MonoBehaviour
             keybind.Add("Dash", KeyCode.LeftShift);
             SystemSave.SaveSettings();
         }
-
     }
 }

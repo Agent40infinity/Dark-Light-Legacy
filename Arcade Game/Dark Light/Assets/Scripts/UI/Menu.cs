@@ -15,8 +15,8 @@ public class Menu : MonoBehaviour
     #region Variables
     //General: 
     public GameObject main, mainBackground, fade, options, general, video, audio, controls, overlay, saveload; //Allows for reference to GameObjects Meny and Options
-                                                                                                               //public bool toggle = false; //Toggle for switching between settings and main
-                                                                                                               //public int option = 0; //Changes between the 4 main screens in options.
+    public AudioMixer masterMixer;                                                                                                           //public bool toggle = false; //Toggle for switching between settings and main
+                                                                                                                                                    //public int option = 0; //Changes between the 4 main screens in options.
     public bool quitTimer = false; //Check whether or not the exit button has been pressed
     public int qTimer = 0; //Timer for transition - exit
     public bool startTimer = false; //Checks whether or not the play button has been pressed

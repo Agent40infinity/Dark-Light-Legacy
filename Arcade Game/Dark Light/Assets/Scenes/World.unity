@@ -110653,11 +110653,11 @@ MonoBehaviour:
   controls: {fileID: 1273155129}
   overlay: {fileID: 1519330695}
   saveload: {fileID: 1226902132}
+  masterMixer: {fileID: 24100000, guid: 7680df674b4acee468cb4a0071db5dc8, type: 2}
   quitTimer: 0
   qTimer: 0
   startTimer: 0
   sTimer: 0
-  masterMixer: {fileID: 24100000, guid: 7680df674b4acee468cb4a0071db5dc8, type: 2}
   resolutionDropdown: {fileID: 1900458107}
   up: {fileID: 1899930682}
   down: {fileID: 1352569043}
