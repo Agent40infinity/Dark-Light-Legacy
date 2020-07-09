@@ -3,22 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
-using JetBrains.Annotations;
 
 [System.Serializable]
 public class SettingData : MonoBehaviour
 {
-    public string keybind;
-    public float masterMixer;
-    public float effectsMixer;
-    public float musicMixer;
-    public float ambienceMixer;
+    public float masterMixer; //Variable for master volume.
+    public float effectsMixer; //Variable for effects volume.
+    public float musicMixer; //Variable for music volume.
+    public float ambienceMixer;//Variable for ambience volume.
 
-    public SettingData()
+    public SettingData() //Used to set up the default data required for the json conversion.
     {
-        keybind = JsonConvert.SerializeObject(GameManager.keybind, Formatting.Indented);
         float value;
-        if (GameManager.masterMixer.GetFloat("Master", out value))
+        if (GameManager.masterMixer.GetFloat("Master", out value)) //If the mixer within MasterMixer exists, saves the value to it's respective variable so json conversion - Repeats 4 times for each Mixer.
         { 
             masterMixer = value; 
         }
@@ -34,7 +31,5 @@ public class SettingData : MonoBehaviour
         { 
             ambienceMixer = value; 
         }
-
-        Debug.Log(keybind);
     }
 }
