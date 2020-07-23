@@ -82,10 +82,6 @@ public static class SystemSave
         string path = Application.persistentDataPath + "/settings.json";
         string json = File.ReadAllText(path);
         string[] output = json.Split('|');
-        for (int i = 0; i < output.Length; i++)
-        {
-            Debug.Log("Output: " + i + output[i]);
-        }
         SettingData settingData = new SettingData(SaveState.Save, output);
         Debug.Log("Loaded");
     }
