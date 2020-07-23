@@ -67,10 +67,9 @@ public static class SystemSave
     public static void SaveSettings()
     {
         string path = Application.persistentDataPath + "/settings.json";
-        SettingData settingData = new SettingData();
-        DictionaryData dictionaryData = new DictionaryData();
+        SettingData settingData = new SettingData(SaveState.Save, null);
 
-        string json = dictionaryData.keybind + "\n|\n" + JsonUtility.ToJson(settingData);
+        string json = settingData.output;
         StreamWriter writer = File.CreateText(path);
         writer.Close();
 
@@ -83,12 +82,17 @@ public static class SystemSave
         string path = Application.persistentDataPath + "/settings.json";
         string json = File.ReadAllText(path);
         string[] output = json.Split('|');
-        GameManager.keybind = JsonConvert.DeserializeObject<Dictionary<string, KeyCode>>(output[0]);
-        JsonUtility.FromJson<SettingData>(output[1]);
-        //GameManager.masterMixer.SetFloat("Master", );
-        //GameManager.masterMixer.SetFloat("Music", );
-        //GameManager.masterMixer.SetFloat("Effects", );
-        //GameManager.masterMixer.SetFloat("Ambience", );
+        for (int i = 0; i < output.Length; i++)
+        {
+            Debug.Log("Output: " + i + output[i]);
+        }
+        SettingData settingData = new SettingData(SaveState.Save, output);
         Debug.Log("Loaded");
     }
+}
+
+public enum SaveState
+{
+    Save,
+    Load
 }

@@ -149,6 +149,8 @@ public class Menu : MonoBehaviour
             video.SetActive(false);
             audio.SetActive(false);
             controls.SetActive(false);
+
+            SystemSave.SaveSettings();
         }
         else if (option == 1)
         {
@@ -218,7 +220,6 @@ public class Menu : MonoBehaviour
             {
                 GameManager.keybind[currentKey.name] = keypress.keyCode; //Saves the keycode from the event as the keycode attached to the keybind dictionary
                 currentKey.transform.GetChild(0).GetComponent<Text>().text = keypress.keyCode.ToString(); //Changes the text to match that of the keycode replacing the previous one
-                SystemSave.SaveSettings();
                 currentKey = null; //resets the currentKey putting it back to null
             }
         }

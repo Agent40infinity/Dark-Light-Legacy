@@ -16,19 +16,19 @@ public class GameManager : MonoBehaviour
     {
         masterMixer = Resources.Load("Music/Mixers/Master") as AudioMixer; //Loads the MasterMixer for renference.
 
+        keybind.Add("Up", KeyCode.W);
+        keybind.Add("Down", KeyCode.S);
+        keybind.Add("Left", KeyCode.A);
+        keybind.Add("Right", KeyCode.D);
+        keybind.Add("Jump", KeyCode.Space);
+        keybind.Add("Attack", KeyCode.E);
+        keybind.Add("Dash", KeyCode.LeftShift);
         if (File.Exists(Application.persistentDataPath + "/settings.json")) //Checks if the file already exists and loads the file if it does.
         {
             SystemSave.LoadSettings();
         }
         else //Else, creates the data for the new file.
         {
-            keybind.Add("Up", KeyCode.W);
-            keybind.Add("Down", KeyCode.S);
-            keybind.Add("Left", KeyCode.A);
-            keybind.Add("Right", KeyCode.D);
-            keybind.Add("Jump", KeyCode.Space);
-            keybind.Add("Attack", KeyCode.E);
-            keybind.Add("Dash", KeyCode.LeftShift);
             SystemSave.SaveSettings(); //Saves the new data as a new file "Settings".
         }
     }
