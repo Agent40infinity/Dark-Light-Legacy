@@ -1,2 +1,2 @@
 # Dark-Light
-A Metoidvania game in the works. Will be presented as an Arcade Game before release.
+Dark Light is a metroidvania in the works which takes heavy inspiration from the Dark Souls trilogy and Hollow Knight. 
