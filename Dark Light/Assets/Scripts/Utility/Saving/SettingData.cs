@@ -21,7 +21,7 @@ public class SettingData : MonoBehaviour
     {
         switch (state)
         {
-            case SaveState.Save:
+            case SaveState.Save: //Used for saving data
                 keybind = JsonConvert.SerializeObject(GameManager.keybind, Formatting.Indented); //Using Json converter to serialize the data within the GameManager.keybind dictionary and converts it to a string.
 
                 float value;
@@ -41,11 +41,11 @@ public class SettingData : MonoBehaviour
                 {
                     ambienceMixer = value;
                 }
-                output = keybind + "\n|\n" + JsonConvert.SerializeObject(masterMixer) + "\n|\n" + JsonConvert.SerializeObject(effectsMixer) + "\n|\n" + JsonConvert.SerializeObject(musicMixer) + "\n|\n" + JsonConvert.SerializeObject(ambienceMixer);
+                output = keybind + "\n|\n" + JsonConvert.SerializeObject(masterMixer) + "\n|\n" + JsonConvert.SerializeObject(effectsMixer) + "\n|\n" + JsonConvert.SerializeObject(musicMixer) + "\n|\n" + JsonConvert.SerializeObject(ambienceMixer); //Creates the output string that will be used for the json.
                 break;
-            case SaveState.Load:
-                GameManager.keybind = JsonConvert.DeserializeObject<Dictionary<string, KeyCode>>(input[0]);
-                GameManager.masterMixer.SetFloat("Master", float.Parse(input[1]));
+            case SaveState.Load: //Used for loading data
+                GameManager.keybind = JsonConvert.DeserializeObject<Dictionary<string, KeyCode>>(input[0]); //Deserializes the Dictionary data stored in the json and loads it back into the static keybinds dictionary.
+                GameManager.masterMixer.SetFloat("Master", float.Parse(input[1])); //Loads the values stored in the .json data back into the mixers.
                 GameManager.masterMixer.SetFloat("Music", float.Parse(input[2]));
                 GameManager.masterMixer.SetFloat("Effects", float.Parse(input[3]));
                 GameManager.masterMixer.SetFloat("Ambience", float.Parse(input[4]));
