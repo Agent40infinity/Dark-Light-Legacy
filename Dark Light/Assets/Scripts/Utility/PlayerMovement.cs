@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     public float airTime = 0.1f; //Air time counter.
     //public int aHTimer; //This was for something, can't remember what.
     //public int airHTime = 5; //same with this.
-    public float dashTimer; //Dash time timer.
+    private float dashTimer; //Dash time timer.
     public float dashTimeReset = 0.15f; //Dash time reset.
     public float dashCTime = 0.5f; //Dash cooldown reset.
     public float dCTimer = 0.5f; //Dash cooldown timer.
@@ -129,6 +129,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isFacing = true;
         }
+
         if ((int)Input.GetAxisRaw("Horizontal") != 0) //Esed to flip all sprites used in the sprite renderer.
         {
             GetComponent<Player>().rend.flipX = (int)Input.GetAxisRaw("Horizontal") < 0;
