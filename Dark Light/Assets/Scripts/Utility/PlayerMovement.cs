@@ -29,8 +29,7 @@ public class PlayerMovement : MonoBehaviour
     public int dashAvaliable = 1;
     public bool dashCooldown = false; //Used to see whether or not the dash is on cooldown.
     public bool lockMovement = false; //Used to lock all Movement inputs.
-    public bool lockAll = false; //Used to lock all movement, actions, and abilities.
-    public bool unlockAll = false; //Used to unlock all movement, actions, and abilities.
+    public LockState lockState = LockState.decease; //Used to lock and unlock all movement, actions, and abilities.
     public bool lockAbilities = false; //Used to lock Abilities.
     public bool lockYAxis = false; //Used to lock the Y Axis.
     public bool unlockYAxis = false; //Used to Unlock the Y Axis.
@@ -209,18 +208,19 @@ public class PlayerMovement : MonoBehaviour
     #region Locks
     void Locks()
     {
-        if (lockAll == true) //Used to lock all functions.
+        switch (lockState)
         {
-            lockMovement = true;
-            lockAbilities = true;
-            rigid.velocity = new Vector3(0, rigid.velocity.y);
-            lockAll = false;
-        }
-        else if (unlockAll == true) //Used to unlock all functions.
-        {
-            lockMovement = false;
-            lockAbilities = false;
-            unlockAll = false;
+            case LockState.lockAll: //Used to lock all functions.
+                lockMovement = true;
+                lockAbilities = true;
+                rigid.velocity = new Vector3(0, rigid.velocity.y);
+                lockState = LockState.decease;
+                break;
+            case LockState.unlockAll: //Used to unlock all functions.
+                lockMovement = false;
+                lockAbilities = false;
+                lockState = LockState.decease;
+                break;
         }
 
         #region Fall time
@@ -230,14 +230,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (isGrounded == true && fallTime >= 1.5f) //Checks whether or not the player is grounded once again and that the fall time was greater than 1.5 seconds; Locks the player into place if so and plays an animation.
         {
-            lockAll = true;
+            lockState = LockState.lockAll;
             landTime++;
             Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
             if (landTime >= 40) //Unlocks the player's movement and ends the animation.
             {
                 GetComponent<Player>().anim.SetBool("tooHigh", false); //Gonna be real, don't know why this is under Locks. Might move it later.
-                unlockAll = true;
+                lockState = LockState.unlockAll;
                 Debug.Log("locked: " + lockMovement);
                 fallTime = 0;
                 landTime = 0;
@@ -349,4 +349,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     #endregion
+}
+
+public enum LockState //Used to unlock and lock abilities.
+{ 
+    lockAll,
+    unlockAll,
+    decease
 }
