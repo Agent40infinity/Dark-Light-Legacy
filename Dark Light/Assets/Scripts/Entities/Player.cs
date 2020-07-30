@@ -247,7 +247,7 @@ public class Player : MonoBehaviour
 
         if (curHealth <= 0 && !fadeIntoDeath) //Checks whether or not the curret health is less than or equal to 0 and that fadeIntoDeath has not already been activated.
         {
-            player.GetComponent<PlayerMovement>().lockAll = true; //Locks all movement, actions, and abilities.
+            player.GetComponent<PlayerMovement>().lockState = LockState.lockAll; //Locks all movement, actions, and abilities.
             StartCoroutine("Death");
         }
 
@@ -285,7 +285,7 @@ public class Player : MonoBehaviour
         fadeIntoDeath = false;
 
         yield return new WaitForSeconds(2f); //Unlocks all movement once the player is completely visable.
-        player.GetComponent<PlayerMovement>().unlockAll = true;
+        player.GetComponent<PlayerMovement>().lockState = LockState.unlockAll;
         recovered = true;
     }
     #endregion
