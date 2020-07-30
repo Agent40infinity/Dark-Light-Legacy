@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5937184312664143809}
   - component: {fileID: 5937184312664143813}
-  - component: {fileID: 5937184312664143812}
-  - component: {fileID: 5937184312664143810}
+  - component: {fileID: 1377367883890847284}
   - component: {fileID: 5937184312664143811}
   - component: {fileID: 5937184312664143808}
   m_Layer: 11
@@ -83,7 +82,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5937184312664143812
+--- !u!114 &1377367883890847284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,47 +91,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 5937184312664143838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7132a0b7d91e0b147b7bef772fa01953, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d60ea77a4c74ce4f87aedd18f43172a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyTypes: []
+  enemyType: 0
+  moveSpeed: 4
+  activationDistance: 12
+  chaseDistance: 20
+  canChase: 1
+  beenActivated: 0
+  facing: 1
+  damage: 0
+  attackTime: 3
+  attackTimer: 0
   curHealth: 0
-  maxHealth: 6
-  Dead: 0
-  Enemy: {fileID: 5937184312664143838}
---- !u!114 &5937184312664143810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5937184312664143838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11af91d96cdf3424e89ac0bc2fc904f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundEnemy: 0
-  flyingEnemy: 1
-  attackDelay: 4
-  currentState: 0
-  initialSpeed: 5
-  playerDetectorDistance: 20
-  moveRight: 1
-  groundDetectorDistance: 0
-  attackDistance: 0
-  groundDetector: {fileID: 0}
-  wallDetector: {fileID: 0}
-  attackSpeed: 5
-  bulletSpeed: 20
-  stoppingDistance: 8
+  maxHealth: 0
+  dead: 0
+  playerDistance: 0
   retreatDistance: 6
-  flyAttackDistance: 1
-  bulletPrefab: {fileID: 4932681080750320421, guid: ef6538c1a9c0a1b46a3dedc621c90e5f,
-    type: 3}
-  bulletsParent: {fileID: 0}
+  stoppingDistance: 8
   player: {fileID: 0}
-  distanceToPlayer: 0
-  anim: {fileID: 5937184312664143811}
+  anim: {fileID: 0}
+  enemy: {fileID: 0}
+  bulletPrefab: {fileID: 0}
 --- !u!95 &5937184312664143811
 Animator:
   serializedVersion: 3

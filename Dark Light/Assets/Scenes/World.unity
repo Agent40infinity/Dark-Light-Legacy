@@ -2058,7 +2058,6 @@ GameObject:
   m_Component:
   - component: {fileID: 146456940}
   - component: {fileID: 146456945}
-  - component: {fileID: 146456944}
   - component: {fileID: 146456943}
   - component: {fileID: 146456942}
   - component: {fileID: 146456941}
@@ -2127,48 +2126,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 146456939}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11af91d96cdf3424e89ac0bc2fc904f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d60ea77a4c74ce4f87aedd18f43172a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundEnemy: 0
-  flyingEnemy: 1
-  attackDelay: 1
-  currentState: 0
-  initialSpeed: 5
-  playerDetectorDistance: 20
-  moveRight: 1
-  groundDetectorDistance: 0
-  attackDistance: 0
-  groundDetector: {fileID: 0}
-  wallDetector: {fileID: 0}
-  attackSpeed: 5
-  bulletSpeed: 20
-  stoppingDistance: 8
-  retreatDistance: 6
-  flyAttackDistance: 1
-  bulletPrefab: {fileID: 4932681080750320421, guid: ef6538c1a9c0a1b46a3dedc621c90e5f,
-    type: 3}
-  bulletsParent: {fileID: 1268581306}
-  player: {fileID: 0}
-  distanceToPlayer: 0
-  anim: {fileID: 146456942}
---- !u!114 &146456944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146456939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7132a0b7d91e0b147b7bef772fa01953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  enemyTypes: []
+  enemyType: 0
+  moveSpeed: 4
+  activationDistance: 12
+  chaseDistance: 20
+  canChase: 1
+  beenActivated: 0
+  facing: 1
+  damage: 0
+  attackTime: 3
+  attackTimer: 0
   curHealth: 0
-  maxHealth: 6
-  Dead: 0
+  maxHealth: 0
+  dead: 0
+  playerDistance: 0
+  retreatDistance: 6
+  stoppingDistance: 8
+  player: {fileID: 0}
   anim: {fileID: 0}
   enemy: {fileID: 0}
+  bulletPrefab: {fileID: 0}
 --- !u!212 &146456945
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7052,15 +7033,13 @@ MonoBehaviour:
   dashAvaliable: 1
   dashCooldown: 0
   lockMovement: 0
-  lockAll: 0
-  unlockAll: 0
+  lockState: 2
   lockAbilities: 0
   lockYAxis: 0
   unlockYAxis: 0
   tempGravity: {x: 0, y: 0}
   tempYVelocity: {x: 0, y: 0}
   airTime: 0.1
-  dashTimer: 0
   dashTimeReset: 0.3
   dashCTime: 0.5
   dCTimer: 0.5
@@ -24407,7 +24386,6 @@ GameObject:
   m_Component:
   - component: {fileID: 789118621}
   - component: {fileID: 789118626}
-  - component: {fileID: 789118625}
   - component: {fileID: 789118624}
   - component: {fileID: 789118623}
   - component: {fileID: 789118622}
@@ -24476,48 +24454,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 789118620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11af91d96cdf3424e89ac0bc2fc904f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d60ea77a4c74ce4f87aedd18f43172a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundEnemy: 0
-  flyingEnemy: 1
-  attackDelay: 1
-  currentState: 0
-  initialSpeed: 5
-  playerDetectorDistance: 20
-  moveRight: 1
-  groundDetectorDistance: 0
-  attackDistance: 0
-  groundDetector: {fileID: 0}
-  wallDetector: {fileID: 0}
-  attackSpeed: 5
-  bulletSpeed: 20
-  stoppingDistance: 8
-  retreatDistance: 6
-  flyAttackDistance: 1
-  bulletPrefab: {fileID: 4932681080750320421, guid: ef6538c1a9c0a1b46a3dedc621c90e5f,
-    type: 3}
-  bulletsParent: {fileID: 1268581306}
-  player: {fileID: 0}
-  distanceToPlayer: 0
-  anim: {fileID: 789118623}
---- !u!114 &789118625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789118620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7132a0b7d91e0b147b7bef772fa01953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  enemyTypes: []
+  enemyType: 0
+  moveSpeed: 4
+  activationDistance: 12
+  chaseDistance: 20
+  canChase: 1
+  beenActivated: 0
+  facing: 1
+  damage: 0
+  attackTime: 3
+  attackTimer: 0
   curHealth: 0
-  maxHealth: 6
-  Dead: 0
+  maxHealth: 0
+  dead: 0
+  playerDistance: 0
+  retreatDistance: 6
+  stoppingDistance: 8
+  player: {fileID: 0}
   anim: {fileID: 0}
   enemy: {fileID: 0}
+  bulletPrefab: {fileID: 0}
 --- !u!212 &789118626
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -114662,5 +114622,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1082542369673641955, guid: 34127bdd722b8ce45a4af79547df7fc0,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5937184312664143812, guid: 27a77b6b8180b294eb115f1769c908cd, type: 3}
+    - {fileID: 5937184312664143810, guid: 27a77b6b8180b294eb115f1769c908cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 27a77b6b8180b294eb115f1769c908cd, type: 3}

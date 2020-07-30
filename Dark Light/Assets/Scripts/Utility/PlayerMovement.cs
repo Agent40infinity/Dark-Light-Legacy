@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("Facing Right? " + isFacing);
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         //Debug.Log("forceY: " + GetComponent<Player>().anim.GetFloat("forceY") + "   velocity: " + rigid.velocity.y);
-        Debug.Log("Dash: " + dashAvaliable);
+        //Debug.Log("Dash: " + dashAvaliable);
         #endregion
 
         //Animation controls:
@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dCTimer >= 0) //Counts down the cooldown.
             {
-                Debug.Log(dCTimer);
+                //Debug.Log(dCTimer);
                 dCTimer -= Time.deltaTime;
             }
             else //Takes dash off cooldown.
@@ -232,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
         {
             lockState = LockState.lockAll;
             landTime++;
-            Debug.Log("Land Time: " + landTime);
+            //Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
             if (landTime >= 40) //Unlocks the player's movement and ends the animation.
             {

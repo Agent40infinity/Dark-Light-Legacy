@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     public float attackRange; //Distance used to determine the radius of the attack range.
 
     //Counters:
-    private int iFCounter = 0; //Counter for iFrame activation.
+    private float iFCounter = 0; //Counter for iFrame activation.
     private int aCounter = 0; //Counter for attack activation.
     private int dCounter = 0; //Counter for dash activation.
     private float hCounter = 0; //Counter for hostile activation.
@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other) //Checks whether or not the player can interact with the save points.
     {
-        Debug.Log(other);
+        //Debug.Log(other);
         switch (other.tag)
         {
             case "Save": //Checks for the tag attached to each save point.
@@ -162,7 +162,7 @@ public class Player : MonoBehaviour
 
     public void Attack() //deals with attack activation sequence.
     {
-        Debug.Log("AttackCooldown" + attackCooldown);
+        //Debug.Log("AttackCooldown" + attackCooldown);
         if (attackCooldown <= 0) //Checks if the attack is off cooldown.
         {
             if (Input.GetButtonDown("Attack")) //Checks if the player is attempting to attack via keypress.
@@ -171,7 +171,7 @@ public class Player : MonoBehaviour
                 Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackPos.position, attackRange, isEnemy);
                 for (int i = 0; i < enemiesInRange.Length; i++) //Deals damage to all enemies within the radius of the attack hitbox.
                 {
-                    enemiesInRange[i].GetComponent<EnemyHealth>().TakeDamage(damage);     
+                    enemiesInRange[i].GetComponent<Enemy>().TakeDamage(damage);     
                 }
                 attackCooldown = startACooldown;
             }
@@ -189,9 +189,9 @@ public class Player : MonoBehaviour
     {
         if (iFrame == true) //Checks if iFrame has been set to true.
         {
-            iFCounter++;
-            Debug.Log("iFCounter: " + iFCounter);
-            if (iFCounter >= 60) //Checks that enough time has passed so the iFrame can end and allow the player to take damage again.
+            iFCounter += Time.deltaTime;
+            //Debug.Log("iFCounter: " + iFCounter);
+            if (iFCounter >= 1) //Checks that enough time has passed so the iFrame can end and allow the player to take damage again.
             {
                 iFCounter = 0;
                 iFrame = false;

@@ -23,7 +23,7 @@ public class Lamp : MonoBehaviour
         lamps = GameObject.Find("Lamps");
         lPos = lamps.GetComponentsInChildren<Transform>();
         lLight = new bool[lamps.GetComponentsInChildren<Transform>().Length];
-        Debug.Log("Lights length: " + lLight.Length);
+        //Debug.Log("Lights length: " + lLight.Length);
     }
     #endregion
 }
