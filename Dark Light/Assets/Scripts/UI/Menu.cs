@@ -228,7 +228,6 @@ public class Menu : MonoBehaviour
     public void changeControls(GameObject clicked) //Trigger for changing any one of the keybinds
     {
         currentKey = clicked;
-
     }
     #endregion
 }
