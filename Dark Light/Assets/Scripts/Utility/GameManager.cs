@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public static Dictionary<string, KeyCode> keybind = new Dictionary<string, KeyCode>(); //Dictionary to store the keybinds.
     public static AudioMixer masterMixer; //Creates reference for the menu music
 
-    public void Awake()
+    public void Start()
     {
         masterMixer = Resources.Load("Music/Mixers/Master") as AudioMixer; //Loads the MasterMixer for renference.
 

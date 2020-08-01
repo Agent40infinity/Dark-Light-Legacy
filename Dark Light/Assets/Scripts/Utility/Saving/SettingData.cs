@@ -46,8 +46,8 @@ public class SettingData : MonoBehaviour
             case SaveState.Load: //Used for loading data
                 GameManager.keybind = JsonConvert.DeserializeObject<Dictionary<string, KeyCode>>(input[0]); //Deserializes the Dictionary data stored in the json and loads it back into the static keybinds dictionary.
                 GameManager.masterMixer.SetFloat("Master", float.Parse(input[1])); //Loads the values stored in the .json data back into the mixers.
-                GameManager.masterMixer.SetFloat("Music", float.Parse(input[2]));
-                GameManager.masterMixer.SetFloat("Effects", float.Parse(input[3]));
+                GameManager.masterMixer.SetFloat("Effects", float.Parse(input[2]));
+                GameManager.masterMixer.SetFloat("Music", float.Parse(input[3]));
                 GameManager.masterMixer.SetFloat("Ambience", float.Parse(input[4]));
                 break;
         } 
