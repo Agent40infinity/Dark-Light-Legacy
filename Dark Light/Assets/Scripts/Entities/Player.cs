@@ -124,7 +124,6 @@ public class Player : MonoBehaviour
                         Debug.Log(Lamp.lLight[pos]);
                         other.gameObject.GetComponent<LampController>().LightLamp();
                         SystemSave.SavePlayer(this, GameManager.loadedSave);
-                        save.GetComponent<Animator>().SetTrigger("SaveLoad");
                         curHealth = maxHealth;
                         curWisps = maxWisps;
                         recovered = true;
