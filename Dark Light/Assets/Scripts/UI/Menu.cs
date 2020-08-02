@@ -29,9 +29,6 @@ public class Menu : MonoBehaviour
     //Controls:
     public Text up, down, left, right, jump, attack, dash;
     private GameObject currentKey;
-
-    //Music:
-    public AudioSource music;
     #endregion
 
     #region General
@@ -52,9 +49,6 @@ public class Menu : MonoBehaviour
                 currentResolutionIndex = i;
             }
         }
-
-        music = GameObject.FindGameObjectWithTag("MenuMusic").GetComponent<AudioSource>();
-        music.Play();
 
         up.text = GameManager.keybind["Up"].ToString();
         down.text = GameManager.keybind["Down"].ToString();
@@ -122,7 +116,6 @@ public class Menu : MonoBehaviour
     public void StartGame() //Trigger for Play Button
     {
         startTimer = true;
-        music.Stop();
         fade.GetComponent<FadeController>().FadeOut();
     }
 
