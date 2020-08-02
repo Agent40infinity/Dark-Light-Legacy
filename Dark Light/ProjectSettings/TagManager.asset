@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Menu
   - DeleteSave
+  - MenuMusic
   layers:
   - Default
   - TransparentFX

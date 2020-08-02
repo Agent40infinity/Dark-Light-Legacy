@@ -22,6 +22,8 @@ public static class SystemSave
 
         formatter.Serialize(stream, data); //Serializes all data being transfered from PlayerData.
         stream.Close();
+
+        SaveDisplay();
     }
 
     public static PlayerData LoadPlayer(Player player, string fileName) //Allows the player to load their data from the system.
@@ -48,6 +50,7 @@ public static class SystemSave
             player.transform.position = playerPos;
 
             stream.Close(); //Closes the file.
+            SaveDisplay();
             return data; //Returns the data within "data".
         }
         else
@@ -84,6 +87,12 @@ public static class SystemSave
         string[] output = json.Split('|'); //Splits the data from the json string into an array of strings to allow the data to be loaded.
         SettingData settingData = new SettingData(SaveState.Load, output); //Creates a new SettingData so that the data can be deserialised and put back into the correct variables.
         Debug.Log("Loaded");
+    }
+
+    private static void SaveDisplay()
+    {
+        Animator save = GameObject.Find("Saving").GetComponent<Animator>();
+        save.SetTrigger("SaveLoad");
     }
 }
 
