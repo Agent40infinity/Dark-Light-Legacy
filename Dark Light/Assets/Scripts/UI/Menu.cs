@@ -150,35 +150,34 @@ public class Menu : MonoBehaviour
     #region Settings
     public void ChangeBetween(int option) //Trigger for Settings - sets active layer/pannel
     {
-        if (option == 0)
+        switch (option)
         {
-            general.SetActive(true);
-            video.SetActive(false);
-            audio.SetActive(false);
-            controls.SetActive(false);
+            case 0:
+                general.SetActive(true);
+                video.SetActive(false);
+                audio.SetActive(false);
+                controls.SetActive(false);
 
-            SystemSave.SaveSettings();
-        }
-        else if (option == 1)
-        {
-            general.SetActive(false);
-            video.SetActive(true);
-            audio.SetActive(false);
-            controls.SetActive(false);
-        }
-        else if (option == 2)
-        {
-            general.SetActive(false);
-            video.SetActive(false);
-            audio.SetActive(true);
-            controls.SetActive(false);
-        }
-        else if (option == 3)
-        {
-            general.SetActive(false);
-            video.SetActive(false);
-            audio.SetActive(false);
-            controls.SetActive(true);
+                SystemSave.SaveSettings();
+                break;
+            case 1:
+                general.SetActive(false);
+                video.SetActive(true);
+                audio.SetActive(false);
+                controls.SetActive(false);
+                break;
+            case 2:
+                general.SetActive(false);
+                video.SetActive(false);
+                audio.SetActive(true);
+                controls.SetActive(false);
+                break;
+            case 3:
+                general.SetActive(false);
+                video.SetActive(false);
+                audio.SetActive(false);
+                controls.SetActive(true);
+                break;
         }
     }
 

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
         keybind.Add("Jump", KeyCode.Space);
         keybind.Add("Attack", KeyCode.E);
         keybind.Add("Dash", KeyCode.LeftShift);
+
         if (File.Exists(Application.persistentDataPath + "/settings.json")) //Checks if the file already exists and loads the file if it does.
         {
             SystemSave.LoadSettings();
