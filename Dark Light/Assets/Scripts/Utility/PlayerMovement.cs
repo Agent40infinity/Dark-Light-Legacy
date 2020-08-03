@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     public float xSpeed = 12f; //Default value for movement on the x-axis.
     public float ySpeed = 14f; //Default value for movement on the y-axis.
     public float yLimiter = 0.5f; //Default value for the limiter placed on the y-axis.
-    private float gravity; //Default value of gravity for player.
     private float force; //Default value of the force applied to the player.
     public Vector2 knockback = new Vector2(10, 5); //Stores the values for the amount of knockback the player will take.
     public bool beenKnocked = false; //Checks whether or not the player needs to take knockback.
