@@ -119,18 +119,15 @@ public class PlayerMovement : MonoBehaviour
     public void Movement() //Normal Movement - used for vertical input and movement.
     {
         #region Facing
-        if ((int)Input.GetAxisRaw("Horizontal") == -1) //Determines whether or not the player is Facing left.
+        if (Input.GetKeyDown(GameManager.keybind["Left"])) //Determines whether or not the player is Facing left.
         {
             isFacing = false;
+            GetComponent<Player>().rend.flipX = true; //Esed to flip all sprites used in the sprite renderer.
         }
-        else if ((int)Input.GetAxisRaw("Horizontal") == 1) //Determines whether or not the player is Facing right.
+        if (Input.GetKeyDown(GameManager.keybind["Right"])) //Determines whether or not the player is Facing right.
         {
             isFacing = true;
-        }
-
-        if ((int)Input.GetAxisRaw("Horizontal") != 0) //Esed to flip all sprites used in the sprite renderer.
-        {
-            GetComponent<Player>().rend.flipX = (int)Input.GetAxisRaw("Horizontal") < 0;
+            GetComponent<Player>().rend.flipX = false;
         }
         #endregion
 
@@ -158,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
             canDash = true;
             dashReset = false;
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift)) //Checks whether or not the player is attempting to dash.
+        if (Input.GetKeyDown(GameManager.keybind["Dash"])) //Checks whether or not the player is attempting to dash.
         {
             if (canDash == true)
             {
@@ -170,14 +167,14 @@ public class PlayerMovement : MonoBehaviour
 
         #region Jump
         isGrounded = Physics2D.OverlapBox(feetPos.position, checkRadius, 0, isWalkable); //Checks for if the player is grounded or not based on a small overlap box's collider.
-        if (isGrounded == true && Input.GetKeyDown(KeyCode.Space)) //Checks if the player is grounded and space has been pressed - light jump.
+        if (isGrounded == true && Input.GetKeyDown(GameManager.keybind["Jump"])) //Checks if the player is grounded and space has been pressed - light jump.
         {
             rigid.velocity = Vector2.up * ySpeed * yLimiter;
             aTTimer = airTime;
             isJumping = true;
             Instantiate(jumpDust, player.transform.position + Vector3.down, Quaternion.identity);
         }
-        if (Input.GetKey(KeyCode.Space) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
+        if (Input.GetKey(GameManager.keybind["Jump"]) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
         {
             if (aTTimer > 0) //Checks the timer to allow the player to jump higher.
             {
@@ -189,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
                 isJumping = false;
             }
         }
-        if (Input.GetKeyUp(KeyCode.Space)) //Makes sure jumping isn't active when space isn't pressed.
+        if (Input.GetKeyUp(GameManager.keybind["Jump"])) //Makes sure jumping isn't active when space isn't pressed.
         {
             Vector2 jX = rigid.velocity;
             if (rigid.velocity.y >= yLimiter) //Checks if the velocity is creater than the lowest value for the jump.
@@ -340,7 +337,19 @@ public class PlayerMovement : MonoBehaviour
     #region Movement - Fixed
     public void MovementF() //Fixed Movement - Allows for horizontal input and movement.
     {
-        force = Input.GetAxisRaw("Horizontal");
+        if (Input.GetKey(GameManager.keybind["Left"]))
+        {
+            force = -1;
+        }
+        else if (Input.GetKey(GameManager.keybind["Right"]))
+        {
+            force = 1;
+        }
+        else
+        {
+            force = 0;  
+        }
+
         rigid.velocity = new Vector2(force * xSpeed, rigid.velocity.y);
         if (force != 0)
         {

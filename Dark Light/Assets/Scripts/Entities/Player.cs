@@ -114,7 +114,7 @@ public class Player : MonoBehaviour
         switch (other.tag)
         {
             case "Save": //Checks for the tag attached to each save point.
-                if (Input.GetKeyDown(KeyCode.F)) //Checks if the player is wanting to interact with the save point.
+                if (Input.GetKeyDown(GameManager.keybind["Interact"])) //Checks if the player is wanting to interact with the save point.
                 {
                     int pos = GetNumberFromString(other.name);
                     if (pos > 0 && pos < Lamp.lPos.Length) //Checks if the number from the GameObject has been stored previously in the array of checkpoints and index's it.
@@ -141,11 +141,11 @@ public class Player : MonoBehaviour
     #region Attacking
     public void FaceCheck() //Used to determine where the hitbox for attacking will be placed.
     {
-        if ((int)Input.GetAxisRaw("Vertical") == 1) //Checks if the player is looking up.
+        if (Input.GetKeyDown(GameManager.keybind["Right"])) //Checks if the player is looking up.
         {
             attackPos.position = new Vector2(player.transform.position.x, player.transform.position.y + 1.5f);
         }
-        else if ((int)Input.GetAxisRaw("Vertical") == -1 && player.GetComponent<PlayerMovement>().isGrounded == false) //Checks if the player is looking down and is currently not on the ground.
+        else if (Input.GetKeyDown(GameManager.keybind["Left"]) && player.GetComponent<PlayerMovement>().isGrounded == false) //Checks if the player is looking down and is currently not on the ground.
         {
             attackPos.position = new Vector2(player.transform.position.x, player.transform.position.y - 1.5f);
         }
