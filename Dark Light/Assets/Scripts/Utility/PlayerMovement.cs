@@ -119,12 +119,12 @@ public class PlayerMovement : MonoBehaviour
     public void Movement() //Normal Movement - used for vertical input and movement.
     {
         #region Facing
-        if (Input.GetKeyDown(GameManager.keybind["Left"])) //Determines whether or not the player is Facing left.
+        if (Input.GetKey(GameManager.keybind["Left"])) //Determines whether or not the player is Facing left.
         {
             isFacing = false;
             GetComponent<Player>().rend.flipX = true; //Esed to flip all sprites used in the sprite renderer.
         }
-        if (Input.GetKeyDown(GameManager.keybind["Right"])) //Determines whether or not the player is Facing right.
+        if (Input.GetKey(GameManager.keybind["Right"])) //Determines whether or not the player is Facing right.
         {
             isFacing = true;
             GetComponent<Player>().rend.flipX = false;
@@ -341,11 +341,11 @@ public class PlayerMovement : MonoBehaviour
         {
             force = -1;
         }
-        else if (Input.GetKey(GameManager.keybind["Right"]))
+        if (Input.GetKey(GameManager.keybind["Right"]))
         {
             force = 1;
         }
-        else
+        if (!Input.GetKey(GameManager.keybind["Right"]) && !Input.GetKey(GameManager.keybind["Left"]) || Input.GetKey(GameManager.keybind["Right"]) && Input.GetKey(GameManager.keybind["Left"]))
         {
             force = 0;  
         }
