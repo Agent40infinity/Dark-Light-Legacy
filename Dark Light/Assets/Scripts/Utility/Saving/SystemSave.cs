@@ -35,19 +35,7 @@ public static class SystemSave
             FileStream stream = new FileStream(path, FileMode.Open); //Creates a reference to allow for the file to open.
 
             PlayerData data = formatter.Deserialize(stream) as PlayerData; //Loads the data from the file to the PlayerData script.
-
-            player.dashUnlocked = data.dashUnlocked;
-            GameObject[] lampControllers = GameObject.FindGameObjectsWithTag("Save");
-            for (int i = 0; i < data.lampsLit.Length; i++)
-            {
-                if (data.lampsLit[i] && lampControllers[i].GetComponent<LampController>())
-                {
-                    lampControllers[i].GetComponent<LampController>().LoadLamp();
-                }
-            }
-            Lamp.lastSaved = data.lampIndex;
-            Vector3 playerPos = new Vector3(Lamp.lPos[Lamp.lastSaved].position.x, Lamp.lPos[Lamp.lastSaved].position.y, 0);
-            player.transform.position = playerPos;
+            data.LoadData(player); //Loads the player data.
 
             stream.Close(); //Closes the file.
             SaveDisplay();

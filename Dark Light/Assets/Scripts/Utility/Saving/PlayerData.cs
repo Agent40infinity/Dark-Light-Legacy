@@ -24,4 +24,20 @@ public class PlayerData
             lampsLit[i] = Lamp.lLight[i];
         }
     }
+
+    public void LoadData(Player player)
+    {
+        player.dashUnlocked = dashUnlocked;
+        GameObject[] lampControllers = GameObject.FindGameObjectsWithTag("Save");
+        for (int i = 0; i < lampsLit.Length; i++)
+        {
+            if (lampsLit[i] && lampControllers[i].GetComponent<LampController>())
+            {
+                lampControllers[i].GetComponent<LampController>().LoadLamp();
+            }
+        }
+        Lamp.lastSaved = lampIndex;
+        Vector3 playerPos = new Vector3(Lamp.lPos[Lamp.lastSaved].position.x, Lamp.lPos[Lamp.lastSaved].position.y, 0);
+        player.transform.position = playerPos;
+    }
 }
