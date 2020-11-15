@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     public static int curWisps; //Max value of how many Wisps the player can have.
     private int damage = 2; //temp, may be moved to child class (sword/weapon).
     public bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
-    private bool attack = false; //activates and locks when attack hotkey is pressed.
     public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
     public bool hitHostile = false; //Checks whether or not the player has hit a hostile environment object.
     public static bool isDead = false; //Checks whether or not the player has died.

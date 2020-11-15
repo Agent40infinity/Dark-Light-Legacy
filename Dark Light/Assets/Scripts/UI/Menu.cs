@@ -158,7 +158,7 @@ public class Menu : MonoBehaviour
                 audio.SetActive(false);
                 controls.SetActive(false);
 
-                SystemSave.SaveSettings();
+                SystemConfig.SaveSettings();
                 break;
             case 1:
                 general.SetActive(false);

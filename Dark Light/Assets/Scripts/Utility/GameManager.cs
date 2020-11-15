@@ -27,11 +27,11 @@ public class GameManager : MonoBehaviour
 
         if (File.Exists(Application.persistentDataPath + "/settings.json")) //Checks if the file already exists and loads the file if it does.
         {
-            SystemSave.LoadSettings();
+            SystemConfig.LoadSettings();
         }
         else //Else, creates the data for the new file.
         {
-            SystemSave.SaveSettings(); //Saves the new data as a new file "Settings".
+            SystemConfig.SaveSettings(); //Saves the new data as a new file "Settings".
         }
     }
 }
