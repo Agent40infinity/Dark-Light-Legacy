@@ -38,9 +38,6 @@ public class Player : MonoBehaviour
 
     //Counters:
     private float iFCounter = 0; //Counter for iFrame activation.
-    private int aCounter = 0; //Counter for attack activation.
-    private int dCounter = 0; //Counter for dash activation.
-    private float hCounter = 0; //Counter for hostile activation.
 
     //Reference:
     public GameObject death; //Reference for the death screen.
@@ -235,7 +232,6 @@ public class Player : MonoBehaviour
                 player.GetComponent<PlayerMovement>().fallTime = 2f;
                 iFrame = true;
                 fade.GetComponent<FadeController>().FadeIn();
-                hCounter = 0;
                 hitHostile = false;
             }
             else
