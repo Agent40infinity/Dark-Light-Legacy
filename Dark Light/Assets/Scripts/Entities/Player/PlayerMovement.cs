@@ -87,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Player>().anim.SetFloat("forceY", rigid.velocity.y);
         GetComponent<Player>().anim.SetBool("Dash", dash);
         GetComponent<Player>().anim.SetBool("isWalking", rigid.velocity.x != 0 && isGrounded);
-
+        Debug.Log(rigid.velocity.x);
 
         if (lockMovement == false)
         {
