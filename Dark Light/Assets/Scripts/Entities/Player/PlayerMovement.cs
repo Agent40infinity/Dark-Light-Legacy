@@ -80,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         //Debug.Log("forceY: " + GetComponent<Player>().anim.GetFloat("forceY") + "   velocity: " + rigid.velocity.y);
         //Debug.Log("Dash: " + dashAvaliable);
+        Debug.Log("Velocity:" + rigid.velocity.x + " | Force * Speed: " + (force * xSpeed));
         #endregion
 
         //Animation controls:
@@ -87,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
         GetComponent<Player>().anim.SetFloat("forceY", rigid.velocity.y);
         GetComponent<Player>().anim.SetBool("Dash", dash);
         GetComponent<Player>().anim.SetBool("isWalking", rigid.velocity.x != 0 && isGrounded);
-        Debug.Log(rigid.velocity.x);
 
         if (lockMovement == false)
         {
@@ -351,6 +351,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rigid.velocity = new Vector2(force * xSpeed, rigid.velocity.y);
+
         if (force != 0)
         {
             //Used for spawning walking effect.
