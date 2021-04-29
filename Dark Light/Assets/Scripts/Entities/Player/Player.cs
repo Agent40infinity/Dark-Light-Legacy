@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     public static int maxWisps = 3; //Max value of how many Wisps the player can have.
     public static int curWisps; //Max value of how many Wisps the player can have.
     private int damage = 2; //temp, may be moved to child class (sword/weapon).
-    public bool iFrame = false; //tested for whether or not Dash has been given an iFrame.
     public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
     public bool hitHostile = false; //Checks whether or not the player has hit a hostile environment object.
     public static bool isDead = false; //Checks whether or not the player has died.
@@ -48,6 +47,7 @@ public class Player : MonoBehaviour
     public Animator anim; //Reference for the animator attached to player.
     public SpriteRenderer rend; //Reference for the sprite renderer attached to player.
     public GameObject save;
+    public FrameState frameState;
 
     int GetNumberFromString(string word) //Allows for the trasnlation of strings into integers.
     {
@@ -70,18 +70,16 @@ public class Player : MonoBehaviour
     }
 
     public void Update()
-    {   
+    {
+        IFrame();
+        FaceCheck();
         Health();
+
         if (player.GetComponent<PlayerMovement>().lockAbilities == false && player.GetComponent<PlayerMovement>().dash == false)
         {
             Attack();
         }
         Debug.Log("Current Health" + curHealth);
-    }
-    public void FixedUpdate() //basic update cycle.
-    {
-        IFrame();
-        FaceCheck();
     }
 
     void OnDrawGizmosSelected() //Used to visualise positioning of hidden objects within the scene.
@@ -137,11 +135,11 @@ public class Player : MonoBehaviour
     #region Attacking
     public void FaceCheck() //Used to determine where the hitbox for attacking will be placed.
     {
-        if (Input.GetKeyDown(GameManager.keybind["Right"])) //Checks if the player is looking up.
+        if (Input.GetKey(GameManager.keybind["Up"])) //Checks if the player is looking up.
         {
             attackPos.position = new Vector2(player.transform.position.x, player.transform.position.y + 1.5f);
         }
-        else if (Input.GetKeyDown(GameManager.keybind["Left"]) && player.GetComponent<PlayerMovement>().isGrounded == false) //Checks if the player is looking down and is currently not on the ground.
+        else if (Input.GetKey(GameManager.keybind["Down"]) && player.GetComponent<PlayerMovement>().isGrounded == false) //Checks if the player is looking down and is currently not on the ground.
         {
             attackPos.position = new Vector2(player.transform.position.x, player.transform.position.y - 1.5f);
         }
@@ -182,16 +180,16 @@ public class Player : MonoBehaviour
     #region iFrame Controller
     public void IFrame() //deals with the iFrame controller after the activation of certain abilities and actions.
     {
-        if (iFrame == true) //Checks if iFrame has been set to true.
+        switch (frameState) 
         {
-            iFCounter += Time.deltaTime;
-            //Debug.Log("iFCounter: " + iFCounter);
-            if (iFCounter >= 1) //Checks that enough time has passed so the iFrame can end and allow the player to take damage again.
-            {
-                iFCounter = 0;
-                iFrame = false;
-                Debug.Log("Read iFrame: " + iFrame);
-            }
+            case FrameState.Active:
+                iFCounter += Time.deltaTime;
+                if (iFCounter >= 1) //Checks that enough time has passed so the iFrame can end and allow the player to take damage again.
+                {
+                    iFCounter = 0;
+                    frameState = FrameState.Idle;
+                }
+                break;
         }
     }
     #endregion
@@ -205,17 +203,17 @@ public class Player : MonoBehaviour
             curHealth = 0;
         }
 
-        if (beenHit == true && iFrame == false && curHealth >= 1) //Checks whether or not the player has been hit when their health is above 1 while there is no iFrame activated.
+        if (beenHit == true && frameState == FrameState.Idle && curHealth >= 1) //Checks whether or not the player has been hit when their health is above 1 while there is no iFrame activated.
         {
             curHealth--;
             if (curHealth != 0) //Applies knockback to the player only while their health isn't 0.
             {
                 player.GetComponent<PlayerMovement>().beenKnocked = true;
-                iFrame = true;
+                frameState = FrameState.Active;
             }
             beenHit = false;
         }
-        else if (beenHit == true && iFrame == true)
+        else if (beenHit == true && frameState == FrameState.Active)
         {
             beenHit = false;
         }
@@ -229,7 +227,7 @@ public class Player : MonoBehaviour
                 player.GetComponent<PlayerMovement>().rigid.velocity = new Vector2(0, 0);
                 transform.position = FallCheckpoint.cPos[FallCheckpoint.lastPassed].position;
                 player.GetComponent<PlayerMovement>().fallTime = 2f;
-                iFrame = true;
+                frameState = FrameState.Active;
                 fade.GetComponent<FadeController>().FadeIn();
                 hitHostile = false;
             }
@@ -284,4 +282,10 @@ public class Player : MonoBehaviour
     }
     #endregion
     #endregion
+}
+
+public enum FrameState
+{
+    Active,
+    Idle
 }

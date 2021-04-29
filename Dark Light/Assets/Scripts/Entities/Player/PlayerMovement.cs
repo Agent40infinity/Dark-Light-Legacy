@@ -80,21 +80,21 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         //Debug.Log("forceY: " + GetComponent<Player>().anim.GetFloat("forceY") + "   velocity: " + rigid.velocity.y);
         //Debug.Log("Dash: " + dashAvaliable);
-        Debug.Log("Velocity:" + rigid.velocity.x + " | Force * Speed: " + (force * xSpeed));
+        //Debug.Log("Velocity:" + rigid.velocity.x + " | Force * Speed: " + (force * xSpeed));
         #endregion
 
         //Animation controls:
         GetComponent<Player>().anim.SetBool("isGrounded", isGrounded);
         GetComponent<Player>().anim.SetFloat("forceY", rigid.velocity.y);
         GetComponent<Player>().anim.SetBool("Dash", dash);
-        GetComponent<Player>().anim.SetBool("isWalking", rigid.velocity.x != 0 && isGrounded);
+        GetComponent<Player>().anim.SetBool("isWalking", (rigid.velocity.x > 0.001 || rigid.velocity.x < -0.001) && isGrounded);
 
         if (lockMovement == false)
         {
             Movement();
         }
 
-        if (dash == true && lockAbilities == false /*&& GetComponent<Player>().dashUnlocked == true*/)
+        if (dash == true && lockAbilities == false)
         {
             Dash();
         }
@@ -254,7 +254,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (dashTimer >= 0) //Checks if the dash timer is being counted.
             {
-                GetComponent<Player>().IFrame();
+                player.GetComponent<Player>().frameState = FrameState.Active;
                 lockYAxis = true;//enable y axis lock here.
                 canDash = false;
                 dashAvaliable = 0;
@@ -271,6 +271,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else //Disables Dash. 
             {
+                player.GetComponent<Player>().frameState = FrameState.Idle;
                 unlockYAxis = true; //disable y axis lock here.
                 fallTime = 0;
                 dashTimer = dashTimeReset;
