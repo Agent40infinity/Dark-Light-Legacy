@@ -6953,7 +6953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07fec48faf6171e478495cd40b4ce94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iFrame: 0
   beenHit: 0
   hitHostile: 0
   takenHealth: 0
@@ -6971,6 +6970,7 @@ MonoBehaviour:
   anim: {fileID: 681664081}
   rend: {fileID: 681664078}
   save: {fileID: 1887876057}
+  frameState: 0
 --- !u!50 &681664076
 Rigidbody2D:
   serializedVersion: 4
@@ -25315,11 +25315,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d96e0d62d3cd048b193cf9204433ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sTimer: 0
-  aTimer: 1000
-  distanceFP: 0
-  aRange: 0
-  Player: {fileID: 681664077}
 --- !u!4 &863161325
 Transform:
   m_ObjectHideFlags: 0
@@ -30264,7 +30259,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: bba3b5ec35b3c7842b408fcbb36f9232, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.85
   m_Pitch: 1
   Loop: 0
   Mute: 0
