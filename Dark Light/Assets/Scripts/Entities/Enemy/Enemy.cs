@@ -86,7 +86,10 @@ public class Enemy : MonoBehaviour
     {
         playerDistance = Vector2.Distance(enemy.transform.position, player.transform.position);
 
-        Movement();
+        if (curHealth > 0)
+        {
+            Movement();
+        }
     }
     #endregion
 
@@ -168,13 +171,14 @@ public class Enemy : MonoBehaviour
         else
         {
             StartCoroutine("Death");
+            gameObject.AddComponent<Rigidbody2D>();
+            anim.SetBool("IsDead", true);
         }
     }
 
     public IEnumerator Death()
     {
-        anim.SetBool("isDead", true);
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(3);
         Destroy(enemy);
     }
     #endregion 

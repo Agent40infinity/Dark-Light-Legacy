@@ -9,54 +9,56 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables
-    //Core:
+    [Header("Physics")]
     public float xSpeed = 12f; //Default value for movement on the x-axis.
+    private float force; //Default value of the force applied to the player.
+    public bool isFacing; //What direction is the player facing? true = right, false = left.
+
+    [Header("Jump")]
     public float ySpeed = 14f; //Default value for movement on the y-axis.
     public float yLimiter = 0.5f; //Default value for the limiter placed on the y-axis.
-    private float force; //Default value of the force applied to the player.
-    public Vector2 knockback = new Vector2(10, 5); //Stores the values for the amount of knockback the player will take.
-    public bool beenKnocked = false; //Checks whether or not the player needs to take knockback.
     public bool isJumping; //Default value of whether the player is jumping.
-    public bool isFacing; //What direction is the player facing? true = right, false = left.
     public bool isGrounded; //Default value for whether the player is on the ground or not.
-    public bool knockbackDirection; //true = left, false = right.
     public Vector2 checkRadius = new Vector2(0.9f, 0.1f); //Stores the values for the range isGrounded will be calculated with.
+    private float aTTimer; //Air time timer.
+    public float airTime = 0.1f; //Air time counter.
+    public float fallTime; //Fall time counter.
+    public int landTime; //Land time counter.
+
+    [Header("Dash")]
     public float accelSpeed = 4f; //Default value for dash's speed.
     public bool dash = false; //Used to call upon the sub-routine (dash).
     public bool canDash = true; //Used to check whether or not the player is able to dash.
     public bool dashReset = false; //Used to see whether or not the dash can be reset.
     public int dashAvaliable = 1;
     public bool dashCooldown = false; //Used to see whether or not the dash is on cooldown.
+    public Vector2 tempGravity; //Used to temporarily store the value of gravity.
+    public Vector2 tempYVelocity; //Used to temporarily store the value of the Y velocity.
+    private float dashTimer; //Dash time timer.
+    public float dashTimeReset = 0.15f; //Dash time reset.
+    public float dashCTime = 0.5f; //Dash cooldown reset.
+    public float dCTimer = 0.5f; //Dash cooldown timer.
+
+    [Header("Knockback")]
+    public Vector2 knockback = new Vector2(10, 5); //Stores the values for the amount of knockback the player will take.
+    public bool beenKnocked = false; //Checks whether or not the player needs to take knockback.
+    public bool knockbackDirection; //true = left, false = right.
+    public float knockbackTime = 0.2f; //Knockback time reset.
+    public float kBTimer; //Knockback timer.
+
+    [Header("Locks")]
     public bool lockMovement = false; //Used to lock all Movement inputs.
     public LockState lockState = LockState.decease; //Used to lock and unlock all movement, actions, and abilities.
     public bool lockAbilities = false; //Used to lock Abilities.
     public bool lockYAxis = false; //Used to lock the Y Axis.
     public bool unlockYAxis = false; //Used to Unlock the Y Axis.
-    public Vector2 tempGravity; //Used to temporarily store the value of gravity.
-    public Vector2 tempYVelocity; //Used to temporarily store the value of the Y velocity.
 
-    //Timers/Counters:
-    private float aTTimer; //Air time timer.
-    public float airTime = 0.1f; //Air time counter.
-    //public int aHTimer; //This was for something, can't remember what.
-    //public int airHTime = 5; //same with this.
-    private float dashTimer; //Dash time timer.
-    public float dashTimeReset = 0.15f; //Dash time reset.
-    public float dashCTime = 0.5f; //Dash cooldown reset.
-    public float dCTimer = 0.5f; //Dash cooldown timer.
-    public float knockbackTime = 0.2f; //Knockback time reset.
-    public float kBTimer; //Knockback timer.
-    public float fallTime; //Fall time counter.
-    public int landTime; //Land time counter.
-
-    //Reference:
+    [Header("References")]
     public Rigidbody2D rigid; //References the RigidBody2D for player.
     public Transform feetPos; //Used to reference the ground check for player.
     public LayerMask isWalkable; //Used to create reference to walkable objects.
     public GameObject player; //References the player itself.
     public static Transform enemyPos;
-
-    //Particles:
     public GameObject jumpDust;
     #endregion
 
@@ -80,7 +82,11 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log((int)Input.GetAxis("Horizontal"));
         //Debug.Log("forceY: " + GetComponent<Player>().anim.GetFloat("forceY") + "   velocity: " + rigid.velocity.y);
         //Debug.Log("Dash: " + dashAvaliable);
+        //Debug.Log("DAsh Cooldown: "+ dCTimer);
         //Debug.Log("Velocity:" + rigid.velocity.x + " | Force * Speed: " + (force * xSpeed));
+        //Debug.Log("Land Time: " + landTime);
+        //Debug.Log("locked: " + lockMovement);
+        //Debug.Log("Gravity: " + Physics2D.gravity);
         #endregion
 
         //Animation controls:
@@ -91,7 +97,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (lockMovement == false)
         {
-            Movement();
+            MovementHandler();
+            Jump();
         }
 
         if (dash == true && lockAbilities == false)
@@ -110,13 +117,13 @@ public class PlayerMovement : MonoBehaviour
         Locks();
         if (lockMovement == false)
         {
-            MovementF();
+            MovementForce();
         }
     }
     #endregion
 
     #region Movement - Update
-    public void Movement() //Normal Movement - used for vertical input and movement.
+    public void MovementHandler() //Normal Movement - used for vertical input and movement.
     {
         #region Facing
         if (Input.GetKey(GameManager.keybind["Left"])) //Determines whether or not the player is Facing left.
@@ -131,12 +138,11 @@ public class PlayerMovement : MonoBehaviour
         }
         #endregion
 
-        #region Dash - Movement
+        #region Dash Handler
         if (dashCooldown == true)  //Puts dash on cooldown.
         {
             if (dCTimer >= 0) //Counts down the cooldown.
             {
-                //Debug.Log(dCTimer);
                 dCTimer -= Time.deltaTime;
             }
             else //Takes dash off cooldown.
@@ -164,40 +170,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         #endregion
-
-        #region Jump
-        isGrounded = Physics2D.OverlapBox(feetPos.position, checkRadius, 0, isWalkable); //Checks for if the player is grounded or not based on a small overlap box's collider.
-        if (isGrounded == true && Input.GetKeyDown(GameManager.keybind["Jump"])) //Checks if the player is grounded and space has been pressed - light jump.
-        {
-            rigid.velocity = Vector2.up * ySpeed * yLimiter;
-            aTTimer = airTime;
-            isJumping = true;
-            Instantiate(jumpDust, player.transform.position + Vector3.down, Quaternion.identity);
-        }
-        if (Input.GetKey(GameManager.keybind["Jump"]) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
-        {
-            if (aTTimer > 0) //Checks the timer to allow the player to jump higher.
-            {
-                rigid.velocity = Vector2.up * ySpeed;
-                aTTimer -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
-            }
-        }
-        if (Input.GetKeyUp(GameManager.keybind["Jump"])) //Makes sure jumping isn't active when space isn't pressed.
-        {
-            Vector2 jX = rigid.velocity;
-            if (rigid.velocity.y >= yLimiter) //Checks if the velocity is creater than the lowest value for the jump.
-            {
-                rigid.velocity = new Vector2(jX.x, 0);
-                isJumping = false;
-            }
-
-        }
-        #endregion
-
     }
     #endregion
 
@@ -228,13 +200,11 @@ public class PlayerMovement : MonoBehaviour
         {
             lockState = LockState.lockAll;
             landTime++;
-            //Debug.Log("Land Time: " + landTime);
             GetComponent<Player>().anim.SetBool("tooHigh", true);
             if (landTime >= 40) //Unlocks the player's movement and ends the animation.
             {
                 GetComponent<Player>().anim.SetBool("tooHigh", false); //Gonna be real, don't know why this is under Locks. Might move it later.
                 lockState = LockState.unlockAll;
-                Debug.Log("locked: " + lockMovement);
                 fallTime = 0;
                 landTime = 0;
             }
@@ -247,7 +217,42 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    #region Dash - Update
+    #region Jump
+    public void Jump()
+    {
+        isGrounded = Physics2D.OverlapBox(feetPos.position, checkRadius, 0, isWalkable); //Checks for if the player is grounded or not based on a small overlap box's collider.
+        if (isGrounded == true && Input.GetKeyDown(GameManager.keybind["Jump"])) //Checks if the player is grounded and space has been pressed - light jump.
+        {
+            rigid.velocity = Vector2.up * ySpeed * yLimiter;
+            aTTimer = airTime;
+            isJumping = true;
+            Instantiate(jumpDust, player.transform.position + Vector3.down, Quaternion.identity);
+        }
+        if (Input.GetKey(GameManager.keybind["Jump"]) && isJumping == true) //Checks if space has been pressed and that the player is in the air.
+        {
+            if (aTTimer > 0) //Checks the timer to allow the player to jump higher.
+            {
+                rigid.velocity = Vector2.up * ySpeed;
+                aTTimer -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+        if (Input.GetKeyUp(GameManager.keybind["Jump"])) //Makes sure jumping isn't active when space isn't pressed.
+        {
+            Vector2 jX = rigid.velocity;
+            if (rigid.velocity.y >= yLimiter) //Checks if the velocity is creater than the lowest value for the jump.
+            {
+                rigid.velocity = new Vector2(jX.x, 0);
+                isJumping = false;
+            }
+        }
+    }
+    #endregion
+
+    #region Dash
     public void Dash() //Movement: Dash - Allows the player to dash forward.
     {
         if (dash == true) //Double check that dash is activated.S
@@ -283,16 +288,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (lockYAxis == true) //Used to lock the YAxis while the player is dashing.
         {
-            //tempGravity = Physics2D.gravity;
             Physics2D.gravity = Vector2.zero;
-            //Debug.Log("Gravity: " + Physics2D.gravity);
             tempYVelocity = rigid.velocity;
             rigid.velocity = new Vector2(tempYVelocity.x, 0);
             lockYAxis = false;
         }
         if (unlockYAxis == true) //Used to restore the values lost when locking the YAxis (Yes, it unlocks the YAxis).
         {
-            //Debug.Log("Gravity before unlock: " + Physics2D.gravity);
             Physics2D.gravity = tempGravity;
             rigid.velocity = tempYVelocity;
             unlockYAxis = false;
@@ -307,7 +309,7 @@ public class PlayerMovement : MonoBehaviour
         {
             kBTimer -= Time.deltaTime;
             lockMovement = true;
-            if (enemyPos.position.x > player.transform.position.x)
+            if (enemyPos == null || enemyPos.position.x > player.transform.position.x)
             {
                 knockbackDirection = false;
             }
@@ -336,7 +338,7 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Movement - Fixed
-    public void MovementF() //Fixed Movement - Allows for horizontal input and movement.
+    public void MovementForce() //Fixed Movement - Allows for horizontal input and movement.
     {
         if (Input.GetKey(GameManager.keybind["Left"]))
         {

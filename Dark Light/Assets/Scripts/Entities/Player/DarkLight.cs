@@ -12,8 +12,8 @@ public class DarkLight : MonoBehaviour
     {
         if (other.name == "Player") //Checks whether or not the player has collected the DarkLight and acts accordingly.
         {
-            Player.isDead = false;
-            Player.curWisps = Player.maxWisps;
+            Player.curMaxWisps = Player.maxWisps;
+            Player.curWisps = Player.curMaxWisps;
             Destroy(this.gameObject);
         }
     }

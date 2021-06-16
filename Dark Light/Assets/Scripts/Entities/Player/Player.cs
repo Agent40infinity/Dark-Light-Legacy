@@ -13,31 +13,33 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     #region Variables
-    //Mechanics:
+    [Header("Attack")]
+    public float attackRange; //Distance used to determine the radius of the attack range.
+    public float attackTimer;
+    public float attackTimerReset = 0.416f;
+    public bool attack = false;
+    private Collider2D[] enemiesInRange;
+
+    [Header("Health")]
+    public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
+    public bool hitHostile = false; //Checks whether or not the player has hit a hostile environment object.
     public static int curHealth; //Value for player's current health.
     public static int maxHealth = 5; //default value for player's max health.
     public static int maxWisps = 3; //Max value of how many Wisps the player can have.
+    public static int curMaxWisps; //Max value of how many Wisps the player can at the time being.
     public static int curWisps; //Max value of how many Wisps the player can have.
-    private int damage = 2; //temp, may be moved to child class (sword/weapon).
-    public bool beenHit = false; //activates and locks to give an additional iFrame for a brief moment after the player has been hit.
-    public bool hitHostile = false; //Checks whether or not the player has hit a hostile environment object.
-    public static bool isDead = false; //Checks whether or not the player has died.
-    public bool takenHealth = false;
-    public static bool recovered = false;
+
+    [Header("iFrame")]
+    public float iFrameTimerReset = 1;
+    private float iFrameTimer = 0; //Counter for iFrame activation.
+    public FrameState frameState;
+
+    [Header("Death")]
     bool fadeIntoDeath = false; //Used to call upon the Sub-routine "Death".
+    public static bool isDead = false; //Checks whether or not the player has died.
+    public static bool recovered = false;
 
-    //Upgrade:
-    public bool dashUnlocked = true;
-
-    //Attacking:
-    private int attackCooldown; //Cooldown for attacking.
-    private int startACooldown = 15; //Used to reset the attack cooldown.
-    public float attackRange; //Distance used to determine the radius of the attack range.
-
-    //Counters:
-    private float iFCounter = 0; //Counter for iFrame activation.
-
-    //Reference:
+    [Header("Reference")]
     public GameObject death; //Reference for the death screen.
     public GameObject player; //Reference for the player itself.
     public GameObject darkLight; //Reference for the DarkLight (dropped upon death collectable soul).
@@ -47,7 +49,10 @@ public class Player : MonoBehaviour
     public Animator anim; //Reference for the animator attached to player.
     public SpriteRenderer rend; //Reference for the sprite renderer attached to player.
     public GameObject save;
-    public FrameState frameState;
+
+    [Header("Move Later")]
+    public int damage = 2; //temp, may be moved to child class (sword/weapon).
+    public bool dashUnlocked = true;
 
     int GetNumberFromString(string word) //Allows for the trasnlation of strings into integers.
     {
@@ -71,6 +76,12 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
+        #region Debug
+        //Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
+        //Debug.Log("Current Health: " + curHealth);
+        //Debug.Log("Updated lastPassed: " + FallCheckpoint.lastPassed);
+        #endregion
+
         IFrame();
         FaceCheck();
         Health();
@@ -79,7 +90,6 @@ public class Player : MonoBehaviour
         {
             Attack();
         }
-        Debug.Log("Current Health" + curHealth);
     }
 
     void OnDrawGizmosSelected() //Used to visualise positioning of hidden objects within the scene.
@@ -90,7 +100,6 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) //Used to check if the player has passed a checkpoint.
     {
-        Debug.Log(other);
         if (other.tag == "Checkpoint") //Looks for the tag attached to each checkpoint.
         {
             int pos = GetNumberFromString(other.name);
@@ -98,13 +107,11 @@ public class Player : MonoBehaviour
             {
                 FallCheckpoint.lastPassed = pos;
             }
-            Debug.Log("Updated lastPassed: " + FallCheckpoint.lastPassed);
         }
     }
 
     void OnTriggerStay2D(Collider2D other) //Checks whether or not the player can interact with the save points.
     {
-        //Debug.Log(other);
         switch (other.tag)
         {
             case "Save": //Checks for the tag attached to each save point.
@@ -115,14 +122,11 @@ public class Player : MonoBehaviour
                     {
                         Lamp.lastSaved = pos;
                         Lamp.lLight[pos] = true;
-                        Debug.Log(Lamp.lLight[pos]);
+                        //Debug.Log(Lamp.lLight[pos]);
                         other.gameObject.GetComponent<LampController>().LightLamp();
                         SystemSave.SavePlayer(this, GameManager.loadedSave);
-                        curHealth = maxHealth;
-                        curWisps = maxWisps;
-                        recovered = true;
+                        RecoverFull();
                     }
-                    Debug.Log("Updated lastSaved: " + Lamp.lastSaved);
                 }
                 break;
             case "HostileEnvironment": //Checks if the player has touched a hostile environment object.
@@ -155,24 +159,37 @@ public class Player : MonoBehaviour
 
     public void Attack() //deals with attack activation sequence.
     {
-        //Debug.Log("AttackCooldown" + attackCooldown);
-        if (attackCooldown <= 0) //Checks if the attack is off cooldown.
+        if (Input.GetButtonDown("Attack") && attack == false) //Checks if the player is attempting to attack via keypress.
         {
-            if (Input.GetButtonDown("Attack")) //Checks if the player is attempting to attack via keypress.
+            anim.SetBool("Attack_Down", true);
+            attack = true;
+            attackTimer = attackTimerReset;
+        }
+
+        if (attack == true)
+        {
+            attackTimer -= Time.deltaTime;
+
+            if (player.GetComponent<PlayerMovement>().dash == true)
             {
-                anim.SetBool("Attack_Down", true);
-                Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(attackPos.position, attackRange, isEnemy);
+                anim.SetBool("Attack_Down", false);
+                anim.SetTrigger("Attack_Dash");
+            }
+
+            if (attackTimer < 0.333 && attackTimer > 0.083)
+            {
+                enemiesInRange = Physics2D.OverlapCircleAll(attackPos.position, attackRange, isEnemy);
                 for (int i = 0; i < enemiesInRange.Length; i++) //Deals damage to all enemies within the radius of the attack hitbox.
                 {
-                    enemiesInRange[i].GetComponent<Enemy>().TakeDamage(damage);     
+                    enemiesInRange[i].GetComponent<Enemy>().TakeDamage(damage);
                 }
-                attackCooldown = startACooldown;
             }
-        }
-        else //Used to make sure the player can attack again after cooldown and allow for other animations.
-        {
-            anim.SetBool("Attack_Down", false);
-            attackCooldown--;
+
+            if (attackTimer <= 0)
+            {
+                anim.SetBool("Attack_Down", false);
+                attack = false;
+            }
         }
     }
     #endregion
@@ -183,10 +200,10 @@ public class Player : MonoBehaviour
         switch (frameState) 
         {
             case FrameState.Active:
-                iFCounter += Time.deltaTime;
-                if (iFCounter >= 1) //Checks that enough time has passed so the iFrame can end and allow the player to take damage again.
+                iFrameTimer -= Time.deltaTime;
+                if (iFrameTimer < 0) //Checks that enough time has passed so the iFrame can end and allow the player to take damage again.
                 {
-                    iFCounter = 0;
+                    iFrameTimer = iFrameTimerReset;
                     frameState = FrameState.Idle;
                 }
                 break;
@@ -200,7 +217,7 @@ public class Player : MonoBehaviour
         anim.SetBool("Death", isDead);
         if (Input.GetKeyDown(KeyCode.O))
         {
-            curHealth = 0;
+            beenHit = true;
         }
 
         if (beenHit == true && frameState == FrameState.Idle && curHealth >= 1) //Checks whether or not the player has been hit when their health is above 1 while there is no iFrame activated.
@@ -242,15 +259,13 @@ public class Player : MonoBehaviour
             player.GetComponent<PlayerMovement>().lockState = LockState.lockAll; //Locks all movement, actions, and abilities.
             StartCoroutine("Death");
         }
+    }
 
-        if (isDead == true)
-        {
-            maxWisps = 0;
-        }
-        else
-        {
-            maxWisps = 3;
-        }
+    public void RecoverFull()
+    { 
+        curHealth = maxHealth;
+        curWisps = curMaxWisps;
+        recovered = true;
     }
 
     #region Death
@@ -267,18 +282,19 @@ public class Player : MonoBehaviour
         Instantiate(darkLight, transform.position, transform.rotation);
         transform.position = Lamp.lPos[Lamp.lastSaved].position;
         beenHit = false;
-        curHealth = maxHealth;
+        curMaxWisps = 0;
+        RecoverFull();
         isDead = false;
+
+        SystemSave.SavePlayer(this, GameManager.loadedSave);
 
         yield return new WaitForSeconds(5f); //Fades back in after the animation for the death screen is complete.
         death.SetActive(false);
         fade.GetComponent<FadeController>().FadeIn();
-        save.GetComponent<Animator>().SetTrigger("SaveLoad");
         fadeIntoDeath = false;
 
         yield return new WaitForSeconds(2f); //Unlocks all movement once the player is completely visable.
         player.GetComponent<PlayerMovement>().lockState = LockState.unlockAll;
-        recovered = true;
     }
     #endregion
     #endregion

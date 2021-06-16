@@ -15,6 +15,7 @@ namespace HealthManagement
         public Image[] heartSlots = new Image[5]; //Array used to reference the individual heart locations.
         public Sprite[] hearts = new Sprite[2]; //Array used to reference the images used per heart.
         private float imagesPerHeart; //Defines how many Images there are per heart slot.
+        public bool checkHealth = true;
 
         public Animator[] anim = new Animator[5];
         #endregion
@@ -22,7 +23,13 @@ namespace HealthManagement
         #region General
         public void Start()
         {
-            CheckForHealth();
+            anim = GetComponentsInChildren<Animator>();
+            heartSlots = GetComponentsInChildren<Image>();
+
+            if (checkHealth == true)
+            {
+                CheckForHealth();
+            }
         }
 
         public void Update() //Changes the image depending on how much health the player has.
@@ -34,7 +41,7 @@ namespace HealthManagement
                 }
                 else
                 {
-                    Debug.Log("Still doing this | " + "Dump: " + (imagesPerHeart * 2) * (i + 1));
+                    anim[i].ResetTrigger("Recover");
                     anim[i].SetTrigger("Lose");
                 }
             }
@@ -48,20 +55,14 @@ namespace HealthManagement
                 }
                 Player.recovered = false;
             }
-
-            //if (anim[0].GetCurrentAnimatorStateInfo(0).normalizedTime == 0)
-            //{
-            //    for (int i = 0; i < anim.Length; i++)
-            //    {
-                 
-            //    }
-            //}
         }
         #endregion
         #region CheckForHealth
         public void CheckForHealth() //Calculates the health per slot.
         {
             imagesPerHeart = (float)Player.maxHealth / (float)(heartSlots.Length * 2.5f); //0.5
+            checkHealth = false;
+
         }
         #endregion
     }

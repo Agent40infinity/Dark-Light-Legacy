@@ -2102,7 +2102,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1380304321}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &146456941
 CircleCollider2D:
@@ -4987,7 +4987,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 498676180}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19, y: 2, z: 0}
+  m_LocalPosition: {x: -19, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1136816444}
@@ -6953,11 +6953,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07fec48faf6171e478495cd40b4ce94b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackRange: 1
+  attackTimer: 0
+  attackTimerReset: 0.416
+  attack: 0
   beenHit: 0
   hitHostile: 0
-  takenHealth: 0
-  dashUnlocked: 1
-  attackRange: 1
+  iFrameTimerReset: 1
+  frameState: 0
   death: {fileID: 355035826}
   player: {fileID: 681664074}
   darkLight: {fileID: 8305289630323460300, guid: 5aa8101b61f20bb49a295115748131e5,
@@ -6970,7 +6973,8 @@ MonoBehaviour:
   anim: {fileID: 681664081}
   rend: {fileID: 681664078}
   save: {fileID: 1887876057}
-  frameState: 0
+  damage: 2
+  dashUnlocked: 1
 --- !u!50 &681664076
 Rigidbody2D:
   serializedVersion: 4
@@ -7097,36 +7101,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xSpeed: 10
+  isFacing: 0
   ySpeed: 14
   yLimiter: 1
-  knockback: {x: 40, y: 8}
-  beenKnocked: 0
   isJumping: 0
-  isFacing: 0
   isGrounded: 0
-  knockbackDirection: 0
   checkRadius: {x: 0.9, y: 0.1}
+  airTime: 0.1
+  fallTime: 0
+  landTime: 0
   accelSpeed: 2
   dash: 0
   canDash: 1
   dashReset: 0
   dashAvaliable: 1
   dashCooldown: 0
+  tempGravity: {x: 0, y: 0}
+  tempYVelocity: {x: 0, y: 0}
+  dashTimeReset: 0.3
+  dashCTime: 0.5
+  dCTimer: 0.5
+  knockback: {x: 40, y: 8}
+  beenKnocked: 0
+  knockbackDirection: 0
+  knockbackTime: 0.07
+  kBTimer: 0
   lockMovement: 0
   lockState: 2
   lockAbilities: 0
   lockYAxis: 0
   unlockYAxis: 0
-  tempGravity: {x: 0, y: 0}
-  tempYVelocity: {x: 0, y: 0}
-  airTime: 0.1
-  dashTimeReset: 0.3
-  dashCTime: 0.5
-  dCTimer: 0.5
-  knockbackTime: 0.07
-  kBTimer: 0
-  fallTime: 0
-  landTime: 0
   rigid: {fileID: 0}
   feetPos: {fileID: 918328630}
   isWalkable:
@@ -24473,7 +24477,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1380304321}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &789118622
 CircleCollider2D:
@@ -31178,6 +31182,7 @@ Transform:
   m_Children:
   - {fileID: 1268581306}
   - {fileID: 336246416}
+  - {fileID: 1593697234}
   - {fileID: 146456940}
   - {fileID: 789118621}
   - {fileID: 1765338521}
@@ -34085,6 +34090,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589561793}
   m_CullTransparentMesh: 0
+--- !u!1001 &1593697233
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1380304321}
+    m_Modifications:
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5937184312664143810, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: bulletsParent
+      value: 
+      objectReference: {fileID: 1082542369673641955, guid: 34127bdd722b8ce45a4af79547df7fc0,
+        type: 3}
+    - target: {fileID: 5937184312664143838, guid: 27a77b6b8180b294eb115f1769c908cd,
+        type: 3}
+      propertyPath: m_Name
+      value: SentryOrb (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5937184312664143812, guid: 27a77b6b8180b294eb115f1769c908cd, type: 3}
+    - {fileID: 5937184312664143810, guid: 27a77b6b8180b294eb115f1769c908cd, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 27a77b6b8180b294eb115f1769c908cd, type: 3}
+--- !u!4 &1593697234 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5937184312664143809, guid: 27a77b6b8180b294eb115f1769c908cd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1593697233}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1596272132
 GameObject:
   m_ObjectHideFlags: 0
@@ -108258,7 +108346,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1380304321}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &1765338522
 CircleCollider2D:
@@ -114376,6 +114464,7 @@ MonoBehaviour:
   hearts:
   - {fileID: 21300000, guid: 87d7903e4491460478198d7c8e2a71b8, type: 3}
   - {fileID: 21300002, guid: 87d7903e4491460478198d7c8e2a71b8, type: 3}
+  checkHealth: 1
   anim:
   - {fileID: 1783891353}
   - {fileID: 619645624}
