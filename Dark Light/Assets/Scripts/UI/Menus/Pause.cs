@@ -15,7 +15,7 @@ namespace PauseMenu
         #region Variables
         public static bool isPaused = false; //Checks whether or not the game is paused
         public GameObject pauseMenu;
-        public GameObject options, main, mainBackground, fade, overlay; //Creates reference for the pause menu
+        public GameObject options, main, mainBackground, fade, overlay, background; //Creates reference for the pause menu
         public bool menuTimer = false; //Checks whether or not the menu button has been pressed
         public int mTimer = 0; //Timer for transition - menu
         public Menu mainMenu;
@@ -42,13 +42,13 @@ namespace PauseMenu
                 if (mTimer >= 120)
                 {
                     mTimer = 0;
-                    Time.timeScale = 1f;
                     pauseMenu.SetActive(false);
                     main.SetActive(true);
                     overlay.SetActive(false);
                     mainBackground.SetActive(true);
                     menuTimer = false;
                     Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+                    background.SetActive(false);
                     SystemSave.SavePlayer(player, GameManager.loadedSave);
 
                     fade.GetComponent<FadeController>().FadeIn();
@@ -62,6 +62,7 @@ namespace PauseMenu
         public void ResumeG() //Trigger for resuming game and resume button
         {
             pauseMenu.SetActive(false);
+            background.SetActive(false);
             Time.timeScale = 1f;
             isPaused = false;
         }
@@ -69,6 +70,7 @@ namespace PauseMenu
         public void PauseG() //Trigger for pausing game
         {
             pauseMenu.SetActive(true);
+            background.SetActive(true);
             Time.timeScale = 0f;
             isPaused = true;
         }
@@ -76,6 +78,7 @@ namespace PauseMenu
         public void Menu() //Trigger for menu button
         {
             menuTimer = true;
+            Time.timeScale = 1f;
             fade.GetComponent<FadeController>().FadeOut();
         }
 
