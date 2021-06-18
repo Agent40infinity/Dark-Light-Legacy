@@ -25648,8 +25648,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1906339249}
-        m_MethodName: Options
-        m_Mode: 1
+        m_MethodName: OptionsCall
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -33543,7 +33543,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1906339248}
-        m_MethodName: Options
+        m_MethodName: OptionsCall
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -106899,7 +106899,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1906339248}
-        m_MethodName: Options
+        m_MethodName: OptionsCall
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -110638,7 +110638,7 @@ GameObject:
   - component: {fileID: 1906339249}
   - component: {fileID: 1906339250}
   m_Layer: 5
-  m_Name: Menus
+  m_Name: MainMenu
   m_TagString: Menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110741,6 +110741,8 @@ MonoBehaviour:
   attack: {fileID: 1869654859}
   dash: {fileID: 1896737820}
   music: {fileID: 0}
+  lastMenuState: 0
+  pauseMenu: {fileID: 1758546086}
 --- !u!114 &1906339249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110759,10 +110761,9 @@ MonoBehaviour:
   mainBackground: {fileID: 334226316}
   fade: {fileID: 109552051}
   overlay: {fileID: 1519330695}
-  optionsTimer: 0
-  oTimer: 0
   menuTimer: 0
   mTimer: 0
+  mainMenu: {fileID: 1906339248}
 --- !u!95 &1906339250
 Animator:
   serializedVersion: 3
