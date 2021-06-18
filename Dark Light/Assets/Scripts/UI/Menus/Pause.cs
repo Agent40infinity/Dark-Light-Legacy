@@ -18,7 +18,7 @@ namespace PauseMenu
         public GameObject options, main, mainBackground, fade, overlay, background; //Creates reference for the pause menu
         public bool menuTimer = false; //Checks whether or not the menu button has been pressed
         public int mTimer = 0; //Timer for transition - menu
-        public Menu mainMenu;
+        public Settings optionsMenu;
         #endregion
 
         #region General
@@ -84,7 +84,7 @@ namespace PauseMenu
 
         public void OptionsCall(bool toggle)
         {
-            mainMenu.ToggleOptions(toggle, LastMenuState.PauseMenu);
+            optionsMenu.ToggleOptions(toggle, LastMenuState.PauseMenu);
         }
         #endregion
     }

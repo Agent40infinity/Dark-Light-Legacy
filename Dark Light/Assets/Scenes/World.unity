@@ -110709,6 +110709,7 @@ GameObject:
   - component: {fileID: 1906339247}
   - component: {fileID: 1906339246}
   - component: {fileID: 1906339248}
+  - component: {fileID: 1906339251}
   - component: {fileID: 1906339249}
   - component: {fileID: 1906339250}
   m_Layer: 5
@@ -110818,6 +110819,7 @@ MonoBehaviour:
   music: {fileID: 0}
   lastMenuState: 0
   pauseMenu: {fileID: 1758546086}
+  optionsMenu: {fileID: 1906339251}
 --- !u!114 &1906339249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110839,7 +110841,7 @@ MonoBehaviour:
   background: {fileID: 1400223706}
   menuTimer: 0
   mTimer: 0
-  mainMenu: {fileID: 1906339248}
+  optionsMenu: {fileID: 1906339251}
 --- !u!95 &1906339250
 Animator:
   serializedVersion: 3
@@ -110859,6 +110861,35 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1906339251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1906339244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a16babc35d412dc4caa6c0852f830411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenu: {fileID: 1602054381}
+  options: {fileID: 2058848803}
+  general: {fileID: 0}
+  video: {fileID: 0}
+  audio: {fileID: 0}
+  controls: {fileID: 0}
+  masterMixer: {fileID: 0}
+  resolutionDropdown: {fileID: 0}
+  up: {fileID: 0}
+  down: {fileID: 0}
+  left: {fileID: 0}
+  right: {fileID: 0}
+  jump: {fileID: 0}
+  attack: {fileID: 0}
+  dash: {fileID: 0}
+  lastMenuState: 0
+  pauseMenu: {fileID: 1758546086}
 --- !u!1 &1917056116
 GameObject:
   m_ObjectHideFlags: 0

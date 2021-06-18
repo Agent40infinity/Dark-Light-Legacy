@@ -35,6 +35,8 @@ public class Menu : MonoBehaviour
 
     public LastMenuState lastMenuState;
     public GameObject pauseMenu;
+
+    public Settings optionsMenu;
     #endregion
 
     #region General
@@ -137,32 +139,7 @@ public class Menu : MonoBehaviour
 
     public void OptionsCall(bool toggle)
     {
-        ToggleOptions(toggle, LastMenuState.MainMenu);
-    }
-
-
-    public void ToggleOptions(bool toggle, LastMenuState lastState) //Trigger for Settings - sets active layer/pannel
-    {
-        if (toggle == true)
-        {
-            lastMenuState = lastState;
-            main.SetActive(false);
-            pauseMenu.SetActive(false);
-            options.SetActive(true);
-        }
-        else if (toggle == false)
-        {
-            switch (lastMenuState)
-            {
-                case LastMenuState.MainMenu:
-                    main.SetActive(true);
-                    break;
-                case LastMenuState.PauseMenu:
-                    pauseMenu.SetActive(true);
-                    break;
-            }
-            options.SetActive(false);
-        }
+        optionsMenu.ToggleOptions(toggle, LastMenuState.MainMenu);
     }
     #endregion
 
@@ -255,10 +232,4 @@ public class Menu : MonoBehaviour
         currentKey = clicked;
     }
     #endregion
-}
-
-public enum LastMenuState
-{ 
-    MainMenu,
-    PauseMenu
 }

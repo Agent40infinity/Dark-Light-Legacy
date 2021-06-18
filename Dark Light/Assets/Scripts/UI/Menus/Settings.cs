@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    public GameObject main, options, general, video, audio, controls;
+    public GameObject mainMenu, options, general, video, audio, controls;
     public AudioMixer masterMixer;
 
     Resolution[] resolutions; //Creates reference for all resolutions within Unity
@@ -50,18 +50,12 @@ public class Settings : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void OptionsCall(bool toggle)
-    {
-        ToggleOptions(toggle, LastMenuState.MainMenu);
-    }
-
-
     public void ToggleOptions(bool toggle, LastMenuState lastState) //Trigger for Settings - sets active layer/pannel
     {
         if (toggle == true)
         {
             lastMenuState = lastState;
-            main.SetActive(false);
+            mainMenu.SetActive(false);
             pauseMenu.SetActive(false);
             options.SetActive(true);
         }
@@ -70,7 +64,7 @@ public class Settings : MonoBehaviour
             switch (lastMenuState)
             {
                 case LastMenuState.MainMenu:
-                    main.SetActive(true);
+                    mainMenu.SetActive(true);
                     break;
                 case LastMenuState.PauseMenu:
                     pauseMenu.SetActive(true);
