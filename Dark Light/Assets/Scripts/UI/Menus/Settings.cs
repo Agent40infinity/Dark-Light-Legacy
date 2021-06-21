@@ -50,6 +50,11 @@ public class Settings : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
+    public void OptionsCall(bool toggle)
+    {
+        ToggleOptions(toggle, LastMenuState.MainMenu);
+    }
+
     public void ToggleOptions(bool toggle, LastMenuState lastState) //Trigger for Settings - sets active layer/pannel
     {
         if (toggle == true)

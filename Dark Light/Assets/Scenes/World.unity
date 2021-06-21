@@ -543,7 +543,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: EffectsVolume
         m_Mode: 0
         m_Arguments:
@@ -2022,7 +2022,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: changeControls
         m_Mode: 2
         m_Arguments:
@@ -4840,7 +4840,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: changeControls
         m_Mode: 2
         m_Arguments:
@@ -6541,7 +6541,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ToggleFullscreen
         m_Mode: 0
         m_Arguments:
@@ -24323,7 +24323,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: changeControls
         m_Mode: 2
         m_Arguments:
@@ -26136,7 +26136,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ChangeBetween
         m_Mode: 3
         m_Arguments:
@@ -26308,7 +26308,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ChangeBetween
         m_Mode: 3
         m_Arguments:
@@ -27395,7 +27395,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ChangeBetween
         m_Mode: 3
         m_Arguments:
@@ -29892,7 +29892,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ChangeBetween
         m_Mode: 3
         m_Arguments:
@@ -31613,7 +31613,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: MasterVolume
         m_Mode: 0
         m_Arguments:
@@ -31951,7 +31951,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: changeControls
         m_Mode: 2
         m_Arguments:
@@ -33616,7 +33616,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: OptionsCall
         m_Mode: 6
         m_Arguments:
@@ -34115,7 +34115,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ChangeQuality
         m_Mode: 0
         m_Arguments:
@@ -108363,7 +108363,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: MusicVolume
         m_Mode: 0
         m_Arguments:
@@ -108899,7 +108899,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ChangeBetween
         m_Mode: 3
         m_Arguments:
@@ -109511,7 +109511,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: AmbienceVolume
         m_Mode: 0
         m_Arguments:
@@ -109654,7 +109654,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: changeControls
         m_Mode: 2
         m_Arguments:
@@ -110542,7 +110542,18 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1906339251}
+        m_MethodName: ChangeResolution
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!224 &1900458108
 RectTransform:
@@ -110875,19 +110886,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 1602054381}
   options: {fileID: 2058848803}
-  general: {fileID: 0}
-  video: {fileID: 0}
-  audio: {fileID: 0}
-  controls: {fileID: 0}
-  masterMixer: {fileID: 0}
-  resolutionDropdown: {fileID: 0}
-  up: {fileID: 0}
-  down: {fileID: 0}
-  left: {fileID: 0}
-  right: {fileID: 0}
-  jump: {fileID: 0}
-  attack: {fileID: 0}
-  dash: {fileID: 0}
+  general: {fileID: 861030804}
+  video: {fileID: 2028184363}
+  audio: {fileID: 1050723612}
+  controls: {fileID: 1273155129}
+  masterMixer: {fileID: 24100000, guid: 7680df674b4acee468cb4a0071db5dc8, type: 2}
+  resolutionDropdown: {fileID: 1900458107}
+  up: {fileID: 1899930682}
+  down: {fileID: 1352569043}
+  left: {fileID: 1113383827}
+  right: {fileID: 1783322541}
+  jump: {fileID: 17936466}
+  attack: {fileID: 1869654859}
+  dash: {fileID: 1896737820}
   lastMenuState: 0
   pauseMenu: {fileID: 1758546086}
 --- !u!1 &1917056116
@@ -112221,7 +112232,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: changeControls
         m_Mode: 2
         m_Arguments:
@@ -113709,7 +113720,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: ChangeBetween
         m_Mode: 3
         m_Arguments:
@@ -113850,7 +113861,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1906339248}
+      - m_Target: {fileID: 1906339251}
         m_MethodName: changeControls
         m_Mode: 2
         m_Arguments:
