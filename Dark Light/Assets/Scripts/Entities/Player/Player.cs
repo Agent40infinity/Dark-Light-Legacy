@@ -52,7 +52,11 @@ public class Player : MonoBehaviour
 
     [Header("Move Later")]
     public int damage = 2; //temp, may be moved to child class (sword/weapon).
-    public bool dashUnlocked = true;
+    public static Dictionary<string, bool> abilitiesUnlocked = new Dictionary<string, bool>
+    {
+        { "Dash", false },
+        { "WallJump", false },
+    };
 
     int GetNumberFromString(string word) //Allows for the trasnlation of strings into integers.
     {

@@ -12,11 +12,10 @@ public class PlayerData
     public bool dashUnlocked;
     public int lampIndex;
     public bool[] lampsLit;
+    public static Dictionary<string, bool> abilitiesUnlocked = new Dictionary<string, bool>();
 
     public PlayerData(Player player) //Creates a reference for the Player and is used as the baseline for all data being saved into "save.dat".
     {
-        dashUnlocked = player.dashUnlocked;
-
         lampIndex = Lamp.lastSaved;
         lampsLit = new bool[Lamp.lLight.Length];
         for (int i = 0; i < Lamp.lLight.Length; i++)
@@ -27,7 +26,6 @@ public class PlayerData
 
     public void LoadData(Player player)
     {
-        player.dashUnlocked = dashUnlocked;
         GameObject[] lampControllers = GameObject.FindGameObjectsWithTag("Save");
         for (int i = 0; i < lampsLit.Length; i++)
         {
