@@ -9,10 +9,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public bool dashUnlocked;
     public int lampIndex;
     public bool[] lampsLit;
-    public static Dictionary<string, bool> abilitiesUnlocked = new Dictionary<string, bool>();
+    public Dictionary<string, bool> abilitiesUnlocked = new Dictionary<string, bool>();
 
     public PlayerData(Player player) //Creates a reference for the Player and is used as the baseline for all data being saved into "save.dat".
     {
@@ -22,6 +21,8 @@ public class PlayerData
         {
             lampsLit[i] = Lamp.lLight[i];
         }
+
+        abilitiesUnlocked = Player.abilitiesUnlocked;
     }
 
     public void LoadData(Player player)
@@ -35,6 +36,9 @@ public class PlayerData
             }
         }
         Lamp.lastSaved = lampIndex;
+
+        Player.abilitiesUnlocked = abilitiesUnlocked;
+
         Vector3 playerPos = new Vector3(Lamp.lPos[Lamp.lastSaved].position.x, Lamp.lPos[Lamp.lastSaved].position.y, 0);
         player.transform.position = playerPos;
     }

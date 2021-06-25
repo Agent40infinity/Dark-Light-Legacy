@@ -54,8 +54,8 @@ public class Player : MonoBehaviour
     public int damage = 2; //temp, may be moved to child class (sword/weapon).
     public static Dictionary<string, bool> abilitiesUnlocked = new Dictionary<string, bool>
     {
-        { "Dash", false },
-        { "WallJump", false },
+        { "Dash", true },
+        { "WallJump", true },
     };
 
     int GetNumberFromString(string word) //Allows for the trasnlation of strings into integers.
@@ -163,7 +163,7 @@ public class Player : MonoBehaviour
 
     public void Attack() //deals with attack activation sequence.
     {
-        if (Input.GetButtonDown("Attack") && attack == false) //Checks if the player is attempting to attack via keypress.
+        if (Input.GetKeyDown(GameManager.keybind["Attack"]) && attack == false) //Checks if the player is attempting to attack via keypress.
         {
             anim.SetBool("Attack_Down", true);
             attack = true;

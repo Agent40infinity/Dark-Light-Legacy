@@ -9,21 +9,22 @@ public class GameManager : MonoBehaviour
 {
     public static string loadedSave; //Variable that stores the loaded save.
     public static bool gameActive = false; //Is the game paused.
-    public static Dictionary<string, KeyCode> keybind = new Dictionary<string, KeyCode>(); //Dictionary to store the keybinds.
     public static AudioMixer masterMixer; //Creates reference for the menu music
+    public static Dictionary<string, KeyCode> keybind = new Dictionary<string, KeyCode> //Dictionary to store the keybinds.
+    {
+        { "Up", KeyCode.W },
+        { "Down", KeyCode.S },
+        { "Left", KeyCode.A },
+        { "Right", KeyCode.D },
+        { "Jump", KeyCode.Space },
+        { "Attack", KeyCode.E },
+        { "Dash", KeyCode.LeftShift },
+        { "Interact", KeyCode.F },
+    };
 
     public void Start()
     {
         masterMixer = Resources.Load("Music/Mixers/Master") as AudioMixer; //Loads the MasterMixer for renference.
-
-        keybind.Add("Up", KeyCode.W);
-        keybind.Add("Down", KeyCode.S);
-        keybind.Add("Left", KeyCode.A);
-        keybind.Add("Right", KeyCode.D);
-        keybind.Add("Jump", KeyCode.Space);
-        keybind.Add("Attack", KeyCode.E);
-        keybind.Add("Dash", KeyCode.LeftShift);
-        keybind.Add("Interact", KeyCode.F);
 
         if (File.Exists(Application.persistentDataPath + "/settings.json")) //Checks if the file already exists and loads the file if it does.
         {

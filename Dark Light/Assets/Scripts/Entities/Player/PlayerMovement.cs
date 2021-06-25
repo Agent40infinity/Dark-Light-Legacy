@@ -56,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public Rigidbody2D rigid; //References the RigidBody2D for player.
     public Transform feetPos; //Used to reference the ground check for player.
+    public Transform wallPos;
     public LayerMask isWalkable; //Used to create reference to walkable objects.
     public GameObject player; //References the player itself.
     public static Transform enemyPos;
@@ -99,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
         {
             MovementHandler();
             Jump();
+            WallJump();
         }
 
         if (dash == true && lockAbilities == false)
@@ -161,7 +163,7 @@ public class PlayerMovement : MonoBehaviour
             canDash = true;
             dashReset = false;
         }
-        if (Input.GetKeyDown(GameManager.keybind["Dash"])) //Checks whether or not the player is attempting to dash.
+        if (Input.GetKeyDown(GameManager.keybind["Dash"]) && Player.abilitiesUnlocked["Dash"]) //Checks whether or not the player is attempting to dash.
         {
             if (canDash == true)
             {
@@ -249,6 +251,13 @@ public class PlayerMovement : MonoBehaviour
                 isJumping = false;
             }
         }
+    }
+    #endregion
+
+    #region Wall Jump
+    public void WallJump()
+    { 
+       
     }
     #endregion
 
