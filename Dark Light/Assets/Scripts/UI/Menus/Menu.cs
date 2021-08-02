@@ -14,7 +14,7 @@ public class Menu : MonoBehaviour
 {
     #region Variables
     //General: 
-    public GameObject main, mainBackground, fade, options, general, video, audio, controls, overlay, saveload; //Allows for reference to GameObjects Meny and Options
+    public GameObject main, mainBackground, fade, overlay, saveload; //Allows for reference to GameObjects Meny and Options
     public AudioMixer masterMixer;                                                                             //public bool toggle = false; //Toggle for switching between settings and main
                                                                                                                //public int option = 0; //Changes between the 4 main screens in options.
     public bool quitTimer = false; //Check whether or not the exit button has been pressed
@@ -22,55 +22,16 @@ public class Menu : MonoBehaviour
     public bool startTimer = false; //Checks whether or not the play button has been pressed
     public int sTimer = 0; //Timer for transition - load game
 
-    //Settings:
-    Resolution[] resolutions; //Creates reference   for all resolutions within Unity
-    public Dropdown resolutionDropdown; //Creates reference for the resolution dropdown 
-
-    //Controls:
-    public Text up, down, left, right, jump, attack, dash;
-    private GameObject currentKey;
-
     //Music:
     public AudioSource music;
-
-    public LastMenuState lastMenuState;
     public GameObject pauseMenu;
-
     public Settings optionsMenu;
     #endregion
 
     public void Start() //Used to load resolutions and create list for the dropdown, collects both Width and Height seperately
     {
-        resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
-
-        int currentResolutionIndex = 0;
-        List<string> options = new List<string>();
-        for (int i = 0; i < resolutions.Length; i++) //Load possible resolutions into list
-        {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
-
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height) //Makes sure the resolution is correctly applied
-            {
-                currentResolutionIndex = i;
-            }
-        }
-
         music = GameObject.FindGameObjectWithTag("MenuMusic").GetComponent<AudioSource>();
         music.Play();
-
-        up.text = GameManager.keybind["Up"].ToString();
-        down.text = GameManager.keybind["Down"].ToString();
-        left.text = GameManager.keybind["Left"].ToString();
-        right.text = GameManager.keybind["Right"].ToString();
-        jump.text = GameManager.keybind["Jump"].ToString();
-        attack.text = GameManager.keybind["Attack"].ToString();
-        dash.text = GameManager.keybind["Dash"].ToString();
-
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
-        resolutionDropdown.RefreshShownValue();
     }
 
     public void Update()

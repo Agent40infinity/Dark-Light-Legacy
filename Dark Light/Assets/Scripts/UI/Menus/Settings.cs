@@ -137,9 +137,20 @@ public class Settings : MonoBehaviour
         QualitySettings.SetQualityLevel(qualityIndex);
     }
 
-    public void ToggleFullscreen(bool isFullscreen) //Trigger for applying fullscreen
+    public void ToggleFullscreen(int option) //Trigger for applying fullscreen
     {
-        Screen.fullScreen = isFullscreen;
+        switch (option)
+        {
+            case 0:
+                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+                break;
+            case 1:
+                Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+                break;
+            case 2:
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+                break;
+        }
     }
 
     public void ChangeResolution(int resIndex) //Trigger for changing and applying resolution based on list
@@ -158,6 +169,12 @@ public class Settings : MonoBehaviour
                 GameManager.keybind[currentKey.name] = keypress.keyCode; //Saves the keycode from the event as the keycode attached to the keybind dictionary
                 currentKey.transform.GetChild(0).GetComponent<Text>().text = keypress.keyCode.ToString(); //Changes the text to match that of the keycode replacing the previous one
                 currentKey = null; //resets the currentKey putting it back to null
+            }
+            else if (keypress.shift)
+            {
+                GameManager.keybind[currentKey.name] = KeyCode.LeftShift;
+                currentKey.transform.GetChild(0).GetComponent<Text>().text = GameManager.keybind[currentKey.name].ToString();
+                currentKey = null;
             }
         }
     }

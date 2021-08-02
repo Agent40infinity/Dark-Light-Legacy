@@ -19,6 +19,7 @@ namespace PauseMenu
         public bool menuTimer = false; //Checks whether or not the menu button has been pressed
         public int mTimer = 0; //Timer for transition - menu
         public Settings optionsMenu;
+        public Menu menu;
         #endregion
 
         #region General
@@ -52,6 +53,7 @@ namespace PauseMenu
                     SystemSave.SavePlayer(player, GameManager.loadedSave);
 
                     fade.GetComponent<FadeController>().FadeIn();
+                    menu.music.Play();
                     GameManager.gameActive = false;
                 }
             }
@@ -61,6 +63,8 @@ namespace PauseMenu
         #region Pause
         public void ResumeG() //Trigger for resuming game and resume button
         {
+            optionsMenu.ChangeBetween(0);
+            OptionsCall(false);
             pauseMenu.SetActive(false);
             background.SetActive(false);
             Time.timeScale = 1f;
