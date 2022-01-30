@@ -12,7 +12,7 @@ namespace HealthManagement
     public class HealthManager : MonoBehaviour
     {
         #region Variables
-        private float imagesPerHeart; //Defines how many Images there are per heart slot.
+        public float imagesPerHeart; //Defines how many Images there are per heart slot.
         public bool checkHealth = true;
 
         public Animator[] anim = new Animator[5];
@@ -21,7 +21,7 @@ namespace HealthManagement
         #region General
         public void Start()
         {
-            anim = GetComponentsInChildren<Animator>();
+            //anim = GetComponentsInChildren<Animator>();
 
             if (checkHealth == true)
             {
